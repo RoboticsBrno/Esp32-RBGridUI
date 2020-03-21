@@ -124,26 +124,18 @@ Animation.prototype.update = function() {
     requestAnimationFrame(this.update.bind(this));
 }
 
-function Arm(uuid, x, y, w, h, info) {
+function Arm(uuid, x, y, w, h) {
     var el = document.createElement("canvas");
 
-    Widget.call(this, uuid, el, x, y, w, h, info);
+    Widget.call(this, uuid, el, x, y, w, h);
 
-    this.BODY_HEIGHT = info.height;
-    this.BODY_RADIUS = info.radius;
-    this.ARM_BASE_HEIGHT = info.off_y;
+    this.BODY_HEIGHT = 0;
+    this.BODY_RADIUS = 0;
+    this.ARM_BASE_HEIGHT = 0;
     this.TOUCH_TARGET_SIZE = 4;
     this.ARM_TOTAL_LEN = 0;
-    this.BUTTON_TEXTS = [ "RETRACT", "EXTEND", "GRAB" ];
 
     this.bones = [];
-    var colors = [ "blue", "orange", "green", "red", "brown" ];
-    var prev = null;
-    for(var i = 0; i < info.bones.length; ++i) {
-        this.ARM_TOTAL_LEN += info.bones[i].len;
-        prev = new Bone(info.bones[i], colors[i%colors.length], prev)
-        this.bones.push(prev);
-    }
 
     this.buttons = [];
     for(var i = 0; i < this.BUTTON_TEXTS.length; ++i) {
@@ -206,6 +198,28 @@ Object.defineProperty(Arm.prototype, 'constructor', {
     value: Arm, 
     enumerable: false,
     writable: true });
+
+Arm.prototype.applyState = function(state) {
+    Widget.prototype.applyState.call(this, state);
+
+    this.BODY_HEIGHT = state.height;
+    this.BODY_RADIUS = state.radius;
+    this.ARM_BASE_HEIGHT = state.off_y;
+    this.TOUCH_TARGET_SIZE = 4;
+    this.ARM_TOTAL_LEN = 0;
+
+    this.bones = [];
+    var colors = [ "blue", "orange", "green", "red", "brown" ];
+    var prev = null;
+    for(var i = 0; i < state.bones.length; ++i) {
+        this.ARM_TOTAL_LEN += state.bones[i].len;
+        prev = new Bone(state.bones[i], colors[i%colors.length], prev)
+        this.bones.push(prev);
+    }
+
+    this.resize();
+    this.updateAngles(true);
+}
 
 Arm.prototype.shouldSend = function() {
     return this.bones !== null && this.animation === null;

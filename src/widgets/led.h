@@ -10,17 +10,17 @@ namespace builder {
 
 class Led : public Widget {
     friend class gridui::builder::Led;
+    using Widget::Widget;
 public:
-    Led() : Widget(0), m_on(false) {}
+    void setOn(bool on) {
+        m_state->set("on", new rbjson::Bool(on));
+    }
 
-    void setOn(bool on);
+    bool isOn() const { return data().getBool("on", false); }
 
-    bool isOn() const { return m_on; }
-
-private:
-    Led(uint16_t uuid, bool on) : Widget(uuid), m_on(on) {}
-
-    bool m_on;
+    void setColor(const char *color) {
+        m_state->set("color", new rbjson::String(color));
+    }
 };
 
 };

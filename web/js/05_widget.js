@@ -1,5 +1,5 @@
 
-function Widget(uuid, element, x, y, w, h, extra) {
+function Widget(uuid, element, x, y, w, h) {
     this.uuid = uuid;
     this.el = element;
     this.x = x;
@@ -9,29 +9,31 @@ function Widget(uuid, element, x, y, w, h, extra) {
     this.eventListener = null;
 
     this.el.style.position = "absolute";
+}
 
+Widget.prototype.applyState = function(state) {
     var styles = [ "color", "background", "background-color", "font-size" ];
     for(var i = 0; i < styles.length; ++i) {
         var k = styles[i];
-        if(k in extra) {
-            this.el.style[k] = extra[k];
+        if(k in state) {
+            this.el.style[k] = state[k];
         }
     }
 
-    if("text" in extra) {
-        this.el.innerText = extra["text"];
+    if("text" in state) {
+        this.el.innerText = state["text"];
     }
 
-    if("html" in extra) {
-        this.el.innerHtml = extra["html"];
+    if("html" in state) {
+        this.el.innerHtml = state["html"];
     }
 
-    if("disabled" in extra) {
-        this.el.disabled = !!extra["disabled"]
+    if("disabled" in state) {
+        this.el.disabled = !!state["disabled"]
     }
 
-    if("style" in extra) {
-        var s = extra.style;
+    if("style" in state) {
+        var s = state.style;
         for(var k in s) {
             if(s.hasOwnProperty(k)) {
                 this.el.style[k] = s[k];
@@ -52,10 +54,6 @@ Widget.prototype.updatePosition = function(x, y, scaleX, scaleY) {
 }
 
 Widget.prototype.update = function(diffMs) {
-
-}
-
-Widget.prototype.onMessage = function(state) {
 
 }
 

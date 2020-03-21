@@ -1,87 +1,5 @@
 
-
-var GRID_DATA = {
-    "cols": 12,
-    "rows": 18,
-    "enableSplitting": true,
-    "widgets": [
-        {
-            "uuid": 1,
-            "type": "Button",
-            "x": 0,
-            "y": 17,
-            "w": 4,
-            "h": 1,
-            "extra": {
-                text: "Hello world!",
-                "background-color": "red",
-                style: {
-                    "border": "3px solid green",
-                }
-            },
-        },
-        {
-            "uuid": 2,
-            "type": "Joystick",
-            "x": 6,
-            "y": 12,
-            "w": 5,
-            "h": 5,
-            "extra":{
-                color: "green",
-                text: "Fire!",
-            },
-        },
-        {
-            "uuid": 3,
-            "type": "Arm",
-            "x": 0,
-            "y": 0,
-            "w": 12,
-            "h": 9,
-            "extra":{
-                "height":51,"bones":[{"bmax":3.14159,"amax":3.14159,"bmin":-3.14159,"amin":-3.14159,"len":110,"rmin":-1.65806,"angle":-1.5708,"rmax":0},{"bmax":2.79253,"amax":3.14159,"bmin":0.698132,"amin":-0.349066,"len":130,"rmin":0.523599,"angle":0.0872664,"rmax":2.96706}],"radius":130,"off_x":0,"off_y":20}
-        },
-        {
-            "uuid": 4,
-            "type": "Led",
-            "x": 0,
-            "y": 12,
-            "w": 1,
-            "h": 1,
-            "extra": {
-                color: "blue",
-            },
-        },
-        {
-            "uuid": 5,
-            "type": "Led",
-            "x": 1,
-            "y": 12,
-            "w": 1,
-            "h": 1,
-            "extra": {
-                color: "orange",
-                on: false,
-            },
-        },
-        {
-            "uuid": 6,
-            "type": "Led",
-            "x": 2,
-            "y": 12,
-            "w": 1,
-            "h": 1,
-            "extra": {
-                color: "orange",
-                on: true,
-            },
-        },
-    ],
-}
-
 function Grid(manager, elementId, data) {
-    //data = GRID_DATA;
     this.manager = manager;
     this.COLS = data.cols;
     this.ROWS = data.rows;
@@ -99,7 +17,7 @@ function Grid(manager, elementId, data) {
 
     for(var i = 0; i < data.widgets.length; ++i) {
         var w = data.widgets[i];
-        this.addWidget(w.uuid, w.type, w.x, w.y, w.w, w.h, w["extra"]);
+        this.addWidget(w.uuid, w.type, w.x, w.y, w.w, w.h, JSON.parse(w["state"]));
     }
 
     this.onResize();
@@ -192,7 +110,8 @@ Grid.prototype.drawGrid = function(cols, rows) {
 }
 
 Grid.prototype.addWidget = function(uuid, typeName, x, y, w, h, extra) {
-    var w = new window[typeName](uuid, x, y, w, h, extra);
+    var w = new window[typeName](uuid, x, y, w, h);
+    w.applyState(extra);
     w.updatePosition(this.offsetX, this.offsetY, this.scaleX, this.scaleY);
     w.setEventListener(this.onWidgetEvent.bind(this));
 
@@ -221,9 +140,9 @@ Grid.prototype.onWidgetEvent = function(w, name, extra, mustArrive, callback) {
     }
 
     if(mustArrive !== false) {
-        this.manager.sendMustArrive("gev", data, false, callback)
+        this.manager.sendMustArrive("_gev", data, false, callback)
     } else {
-        this.manager.send("gev", data);
+        this.manager.send("_gev", data);
     }
 }
 
@@ -236,12 +155,16 @@ Grid.prototype.update = function(diffMs) {
 }
 
 Grid.prototype.onMessage = function(data) {
+    console.log(data)
     var len = this.widgets.length;
     for(var i = 0; i < len; ++i) {
         var w = this.widgets[i];
-        if(w.uuid == data["id"]) {
-            w.onMessage(data)
-            break;
-        }
+        if(w.uuid != data["id"])
+            continue;
+
+        var state = {};
+        state[data.key] = JSON.parse(data.val);
+        w.applyState(state);
+        break;
     }
 }

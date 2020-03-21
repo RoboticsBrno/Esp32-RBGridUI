@@ -48,13 +48,16 @@ void _GridUi::commit() {
 }
 
 bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object *pkt) {
-    if(cmd != "gev")
-        return false;
+    if(cmd == "_gev") {
+        auto src = pkt->getString("src");
+        const auto cb = m_callbacks.find(src);
+        if(cb != m_callbacks.end()) {
+            cb->second();
+        }
+    } else if(cmd == "_gui") {
 
-    auto src = pkt->getString("src");
-    const auto cb = m_callbacks.find(src);
-    if(cb != m_callbacks.end()) {
-        cb->second();
+    } else {
+        return false;
     }
     return true;
 }

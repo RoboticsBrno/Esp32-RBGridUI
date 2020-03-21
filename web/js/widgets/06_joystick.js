@@ -1,21 +1,11 @@
-function Joystick(uuid, x, y, w, h, extra) {
+function Joystick(uuid, x, y, w, h) {
     var el = document.createElement("div");
 
     this.color = "red";
-    if("color" in extra) {
-        this.color = extra.color;
-        delete extra.color;
-    }
-
     this.buttonText = null;
-    if("text" in extra) {
-        this.buttonText = extra.text;
-        delete extra.text;
-    }
+    this.keys = null;
 
-    this.keys = "keys" in extra ? extra.keys : null;;
-
-    Widget.call(this, uuid, el, x, y, w, h, extra);
+    Widget.call(this, uuid, el, x, y, w, h);
 
     this.radius = 0;
     this.valX = 0;
@@ -25,10 +15,8 @@ function Joystick(uuid, x, y, w, h, extra) {
     this.pressedKeys = {};
     this.manager = null;
 
-    if(this.keys !== null && this.keys.length != 0) {
-        document.addEventListener("keydown", this.onKeyDown.bind(this));
-        document.addEventListener("keyup", this.onKeyUp.bind(this));
-    }
+    document.addEventListener("keydown", this.onKeyDown.bind(this));
+    document.addEventListener("keyup", this.onKeyUp.bind(this));
 }
 
 Joystick.prototype = Object.create(Widget.prototype);
@@ -36,6 +24,27 @@ Object.defineProperty(Joystick.prototype, 'constructor', {
     value: Joystick, 
     enumerable: false,
     writable: true });
+
+Joystick.prototype.applyState = function(state) {
+    if("color" in state) {
+        this.color = state.color;
+        delete state.color;
+    }
+
+    if("text" in state) {
+        this.buttonText = state.text;
+        delete state.text;
+    }
+
+    if("keys" in state) {
+        this.keys = state.keys;
+    }
+
+    Widget.prototype.applyState.call(this, state);
+
+    if(this.manager !== null)
+        this.createNippleJs();
+}
 
 Joystick.prototype.updatePosition = function(x, y, scaleX, scaleY) {
     Widget.prototype.updatePosition.call(this, x, y, scaleX, scaleY);

@@ -1,6 +1,6 @@
-function Button(uuid, x, y, w, h, extra) {
+function Button(uuid, x, y, w, h) {
     var el = document.createElement("button");
-    Widget.call(this, uuid, el, x, y, w, h, extra);
+    Widget.call(this, uuid, el, x, y, w, h);
 
     this.pressed = false;
 

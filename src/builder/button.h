@@ -1,13 +1,20 @@
 #pragma once
 
 #include "widget.h"
+#include "../widgets/button.h"
 
 namespace gridui {
 namespace builder {
 
-class Button : public Widget {
+class Button : public Widget, public BuilderMixin<Button> {
     friend class gridui::_GridUi;
+    using Widget::Widget;
 public:
+    Button& text(const char *text) {
+        extra().set("text", text);
+        return *this;
+    }
+
     Button& color(const char *color) {
         extra().set("color", color);
         return *this;
@@ -15,11 +22,6 @@ public:
 
     Button& background(const char *color) {
         extra().set("background", color);
-        return *this;
-    }
-
-    Button& css(const char *name, const char *value) {
-        Widget::css(name, value);
         return *this;
     }
 
@@ -33,14 +35,12 @@ public:
         return *this;
     }
 
-    void finish() { /* nop */ }
+    gridui::Button finish() {
+        return gridui::Button(&m_state);
+    }
 
 private:
-    Button(uint16_t uuid, float x, float y, float w, float h, const char *text) :
-        Widget("Button", uuid, x, y, w, h) {
-
-        extra().set("text", text);
-    }
+    static const char *name() { return "Button"; }
 };
 
 };

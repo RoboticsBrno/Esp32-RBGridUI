@@ -102,7 +102,7 @@ Manager.prototype.onMessage = function(event) {
     case "log":
         this.log.write(data["msg"]);
         break;
-    case "gev":
+    case "_gui":
         if(this.grid) {
             this.grid.onMessage(data)
         }
