@@ -132,11 +132,12 @@ Grid.prototype.onWidgetEvent = function(w, name, extra, mustArrive, callback) {
     //console.log("Event from " + w.uuid + ": " + name + " " + JSON.stringify(extra));
 
     var data = {
-        "src": "" + w.uuid + name,
+        "id": w.uuid,
+        "ev": name,
     }
 
     if(extra !== undefined && extra !== null) {
-        data["ex"] = extra;
+        data["st"] = extra;
     }
 
     if(mustArrive !== false) {

@@ -6,7 +6,7 @@
 
 namespace gridui {
 
-WidgetState Widget::emptyState(0);
+WidgetState Widget::emptyState(0, [](void *cb, WidgetState *state) {});
 
 bool WidgetState::set(const char *key, rbjson::Value *value, bool mustarrive) {
     const auto *old = m_data.get(key);

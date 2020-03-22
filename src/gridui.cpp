@@ -34,7 +34,6 @@ void _GridUi::commit() {
     m_layout->set("widgets", widgets);
 
     for(auto& w : m_widgets) {
-        m_callbacks.insert(w->callbacks().begin(), w->callbacks().end());
         widgets->push_back(w->serializeAndDestroy());
         delete w.release();
     }
@@ -49,11 +48,16 @@ void _GridUi::commit() {
 
 bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object *pkt) {
     if(cmd == "_gev") {
-        auto src = pkt->getString("src");
-        const auto cb = m_callbacks.find(src);
-        if(cb != m_callbacks.end()) {
-            cb->second();
+        auto itr = m_states.find(pkt->getInt("id"));
+        if(itr == m_states.end())
+            return true;
+
+        auto *st = pkt->getObject("st");
+        if(st != nullptr) {
+            itr->second->update(st);
         }
+
+        itr->second->call(pkt->getString("ev"));
     } else if(cmd == "_gui") {
 
     } else {

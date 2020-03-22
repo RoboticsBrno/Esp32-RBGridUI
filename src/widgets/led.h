@@ -4,12 +4,11 @@
 
 namespace gridui {
 
-namespace builder {
-    class Led;
-};
 
 class Led : public Widget {
-    friend class gridui::builder::Led;
+    template<typename Self, typename Finished>
+    friend class builder::BuilderMixin;
+
     using Widget::Widget;
 public:
     void setOn(bool on) {

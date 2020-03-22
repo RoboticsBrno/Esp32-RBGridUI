@@ -43,13 +43,6 @@ rbjson::Object *Widget::serializeAndDestroy() {
     return root.release();
 }
 
-void Widget::addCallback(const char *name, std::function<void()> cb) {
-    char full_name[64];
-    if(snprintf(full_name, sizeof(full_name), "%x%s", m_state.uuid(), name) >= sizeof(full_name)) {
-        ESP_LOGE(TAG, "the callback event name '%s' is too long, max 60 chars", name);
-    }
-    m_callbacks[full_name] = cb;
-}
-
 };
+
 };

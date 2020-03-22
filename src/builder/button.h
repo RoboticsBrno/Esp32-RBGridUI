@@ -6,10 +6,11 @@
 namespace gridui {
 namespace builder {
 
-class Button : public Widget, public BuilderMixin<Button> {
+class Button : public Widget, public BuilderMixin<Button, gridui::Button> {
     friend class gridui::_GridUi;
     using Widget::Widget;
 public:
+
     Button& text(const char *text) {
         extra().set("text", text);
         return *this;
@@ -25,18 +26,14 @@ public:
         return *this;
     }
 
-    Button& onPress(std::function<void()> cb) {
+    Button& onPress(callback_t cb) {
         addCallback("press", cb);
         return *this;
     }
 
-    Button& onRelease(std::function<void()> cb) {
+    Button& onRelease(callback_t cb) {
         addCallback("release", cb);
         return *this;
-    }
-
-    gridui::Button finish() {
-        return gridui::Button(&m_state);
     }
 
 private:

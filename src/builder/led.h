@@ -6,7 +6,7 @@
 namespace gridui {
 namespace builder {
 
-class Led : public Widget, public BuilderMixin<Led> {
+class Led : public Widget, public BuilderMixin<Led, gridui::Led> {
     friend class gridui::_GridUi;
     using Widget::Widget;
 public:
@@ -18,10 +18,6 @@ public:
     Led& on(bool on) {
         extra().set("on", on);
         return *this;
-    }
-
-    gridui::Led finish() {
-        return gridui::Led(&m_state);
     }
 
 private:
