@@ -156,7 +156,6 @@ Grid.prototype.update = function(diffMs) {
 }
 
 Grid.prototype.onMessage = function(data) {
-    console.log(data)
     var len = this.widgets.length;
     for(var i = 0; i < len; ++i) {
         var w = this.widgets[i];

@@ -48,7 +48,7 @@ protected:
         }
 
         auto *cbHeap = new callback_t(cb);
-        all[name] = static_cast<void*>(cbHeap);
+        all[name] = static_cast<void*>(cbHeap); // fuj
     }
 
 private:

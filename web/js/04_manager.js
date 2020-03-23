@@ -8,7 +8,8 @@ function Manager(logElementId, gridElementId) {
     this.mustArriveCommands = {};
     this.MUST_ARRIVE_TIMER_FULL = 100;
     this.MUST_ARRIVE_RETRIES = 15;
-    this.mustArriveTimer = this.MUST_ARRIVE_TIMER_FULL;
+
+    this.mustArriveTimerId = null;
 
     this.log = new Log(logElementId);
     this.grid = null;
@@ -26,6 +27,10 @@ Manager.prototype.start = function(address) {
 
     this.socket = new ReconnectingWebSocket(address);
     this.socket.addEventListener('open', function (event) {
+        if(this.mustArriveTimerId === null) {
+            this.mustArriveTimerId = setInterval(this.mustArriveTask.bind(this), this.MUST_ARRIVE_TIMER_FULL);
+        }
+
         this.log.write("connected!")
         this.log.write("Attempting to possess the robot...")
         this.sendMustArrive("possess", {}, true);
@@ -33,6 +38,10 @@ Manager.prototype.start = function(address) {
 
     this.socket.addEventListener('error', function(event) {
         this.log.write("Connection FAILED!")
+        if(this.mustArriveTimerId !== null) {
+            clearInterval(this.mustArriveTimerId);
+            this.mustArriveTimerId = null;
+        }
     }.bind(this));
 
     this.socket.addEventListener('message', this.onMessage.bind(this));
@@ -57,23 +66,20 @@ Manager.prototype.update = function() {
         this.grid.update(diff);
     }
 
-    if(diff >= this.mustArriveTimer) {
-        for (var id in this.mustArriveCommands) {
-            if (!this.mustArriveCommands.hasOwnProperty(id))
-                continue
-
-            var info = this.mustArriveCommands[id];
-            this.socket.send(info.payload);
-            if(info.attempts !== null && ++info.attempts >= this.MUST_ARRIVE_RETRIES) {
-                delete this.mustArriveCommands[id];
-            }
-        }
-        this.mustArriveTimer = this.MUST_ARRIVE_TIMER_FULL;
-    } else {
-        this.mustArriveTimer -= diff;
-    }
-
     requestAnimationFrame(this.update.bind(this))
+}
+
+Manager.prototype.mustArriveTask = function() {
+    for (var id in this.mustArriveCommands) {
+        if (!this.mustArriveCommands.hasOwnProperty(id))
+            continue
+
+        var info = this.mustArriveCommands[id];
+        this.socket.send(info.payload);
+        if(info.attempts !== null && ++info.attempts >= this.MUST_ARRIVE_RETRIES) {
+            delete this.mustArriveCommands[id];
+        }
+    }
 }
 
 Manager.prototype.onMessage = function(event) {

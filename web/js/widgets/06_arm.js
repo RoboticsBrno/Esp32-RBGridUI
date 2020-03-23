@@ -137,6 +137,7 @@ function Arm(uuid, x, y, w, h) {
 
     this.bones = [];
 
+    this.BUTTON_TEXTS = [ "RETRACT", "EXTEND", "GRAB" ];
     this.buttons = [];
     for(var i = 0; i < this.BUTTON_TEXTS.length; ++i) {
         this.buttons.push({
@@ -202,19 +203,24 @@ Object.defineProperty(Arm.prototype, 'constructor', {
 Arm.prototype.applyState = function(state) {
     Widget.prototype.applyState.call(this, state);
 
-    this.BODY_HEIGHT = state.height;
-    this.BODY_RADIUS = state.radius;
-    this.ARM_BASE_HEIGHT = state.off_y;
-    this.TOUCH_TARGET_SIZE = 4;
-    this.ARM_TOTAL_LEN = 0;
+    if("height" in state)
+        this.BODY_HEIGHT = state.height;
+    if("radius" in state)
+        this.BODY_RADIUS = state.radius;
+    if("off_y" in state)
+        this.ARM_BASE_HEIGHT = state.off_y;
 
-    this.bones = [];
-    var colors = [ "blue", "orange", "green", "red", "brown" ];
-    var prev = null;
-    for(var i = 0; i < state.bones.length; ++i) {
-        this.ARM_TOTAL_LEN += state.bones[i].len;
-        prev = new Bone(state.bones[i], colors[i%colors.length], prev)
-        this.bones.push(prev);
+    if("bones" in state) {
+        this.ARM_TOTAL_LEN = 0;
+
+        this.bones = [];
+        var colors = [ "blue", "orange", "green", "red", "brown" ];
+        var prev = null;
+        for(var i = 0; i < state.bones.length; ++i) {
+            this.ARM_TOTAL_LEN += state.bones[i].len;
+            prev = new Bone(state.bones[i], colors[i%colors.length], prev)
+            this.bones.push(prev);
+        }
     }
 
     this.resize();
@@ -374,7 +380,7 @@ Arm.prototype.run = function() {
 }
 
 Arm.prototype.getTargetPos = function() {
-    if(this.bones === null)
+    if(this.bones === null || this.bones.length === 0)
         return null;
 
     var end = this.bones[this.bones.length-1];
@@ -398,8 +404,10 @@ Arm.prototype.draw = function() {
     ctx.fillText(dy.toFixed(1), 20, 24);
 
     var tgt = this.getTargetPos();
-    ctx.fillText(tgt.x.toFixed(1), 80, 12);
-    ctx.fillText(tgt.y.toFixed(1), 80, 24);
+    if(tgt !== null) {
+        ctx.fillText(tgt.x.toFixed(1), 80, 12);
+        ctx.fillText(tgt.y.toFixed(1), 80, 24);
+    }
 
     ctx.save();
     ctx.translate(this.origin.x, this.origin.y);
@@ -498,6 +506,9 @@ Arm.prototype.isInBody = function(x, y) {
 
 
 Arm.prototype.solve = function(targetX, targetY) {
+    if(this.bones === null || this.bones.length === 0)
+        return;
+
     var prev = null;
     for(var i = 0; i < this.bones.length; ++i) {
         this.bones[i].updatePos(prev, this.unit);
@@ -659,5 +670,6 @@ Arm.prototype.update = function(diffMs) {
     if(!this.shouldSend())
         return;
     var pos = this.getTargetPos();
-    this.sendEvent("pos", pos, false);
+    if(pos !== null)
+        this.sendEvent("pos", pos, false);
 }

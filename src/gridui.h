@@ -4,9 +4,10 @@
 #include <memory>
 #include <atomic>
 
+#include "builder/arm.h"
 #include "builder/button.h"
-#include "builder/led.h"
 #include "builder/joystick.h"
+#include "builder/led.h"
 
 namespace rb {
 class Protocol;
@@ -26,20 +27,26 @@ public:
 
     rb::Protocol *protocol() const { return m_protocol.load(); }
 
+    builder::Arm& arm(float x, float y, float w, float h, std::unique_ptr<rbjson::Object> armInfo) {
+        auto *widget = newWidget<builder::Arm>(x, y, w, h);
+        widget->info(std::move(armInfo));
+        return *widget;
+    }
+
     builder::Button& button(float x, float y, float w, float h, const char *text) {
         auto *widget = newWidget<builder::Button>(x, y, w, h);
         widget->text(text);
         return *widget;
     }
 
-    builder::Led& led(float x, float y, float w, float h, const char *color) {
-        auto *widget = newWidget<builder::Led>(x, y, w, h);
+    builder::Joystick& joystick(float x, float y, float w, float h, const char *color) {
+        auto *widget = newWidget<builder::Joystick>(x, y, w, h);
         widget->color(color);
         return *widget;
     }
 
-    builder::Joystick& joystick(float x, float y, float w, float h, const char *color) {
-        auto *widget = newWidget<builder::Joystick>(x, y, w, h);
+    builder::Led& led(float x, float y, float w, float h, const char *color) {
+        auto *widget = newWidget<builder::Led>(x, y, w, h);
         widget->color(color);
         return *widget;
     }
