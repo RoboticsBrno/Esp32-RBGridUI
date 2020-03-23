@@ -24,6 +24,11 @@ public:
         return *this;
     }
 
+    Arm& onGrab(callback_t cb) {
+        addCallback("grab", cb);
+        return *this;
+    }
+
 private:
     static const char *name() { return "Arm"; }
 };

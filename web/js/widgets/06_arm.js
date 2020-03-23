@@ -88,7 +88,7 @@ Animation.prototype.nextFrame = function() {
 
     this.cmdSent = false;
 
-    this.arm.sendEvent("position", { x: f.x, y: f.y }, true, function() {
+    this.arm.sendEvent("pos", { x: f.x, y: f.y }, true, function() {
         this.cmdSent = true;
         requestAnimationFrame(this.update.bind(this));
     }.bind(this));
