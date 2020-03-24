@@ -7,6 +7,8 @@ namespace gridui {
 namespace builder {
 
 class Led : public Widget, public BuilderMixin<Led, gridui::Led> {
+    static const char *name() { return "Led"; }
+
     friend class gridui::_GridUi;
     using Widget::Widget;
 public:
@@ -19,9 +21,6 @@ public:
         extra().set("on", on);
         return *this;
     }
-
-private:
-    static const char *name() { return "Led"; }
 };
 
 };

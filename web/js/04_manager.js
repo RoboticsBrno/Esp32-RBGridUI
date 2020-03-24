@@ -144,6 +144,9 @@ Manager.prototype.flashBody = function() {
 }
 
 Manager.prototype.loadLayout = function(gridElementId) {
+    //this.grid = new Grid(this, gridElementId, GRID_DATA);
+    //return;
+
     var req = new XMLHttpRequest();
     req.open("GET", "/layout.json");
     req.timeout = 15000;

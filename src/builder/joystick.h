@@ -7,6 +7,8 @@ namespace gridui {
 namespace builder {
 
 class Joystick : public Widget, public BuilderMixin<Joystick, gridui::Joystick> {
+    static const char *name() { return "Joystick"; }
+
     friend class gridui::_GridUi;
     using Widget::Widget;
 public:
@@ -35,9 +37,6 @@ public:
         addCallback("pos", cb);
         return *this;
     }
-
-private:
-    static const char *name() { return "Joystick"; }
 };
 
 };

@@ -6,6 +6,7 @@
 
 #include "builder/arm.h"
 #include "builder/button.h"
+#include "builder/checkbox.h"
 #include "builder/joystick.h"
 #include "builder/led.h"
 
@@ -36,6 +37,12 @@ public:
     builder::Button& button(float x, float y, float w, float h, const char *text) {
         auto *widget = newWidget<builder::Button>(x, y, w, h);
         widget->text(text);
+        return *widget;
+    }
+
+    builder::Checkbox& checkbox(float x, float y, float w, float h, const char *color) {
+        auto *widget = newWidget<builder::Checkbox>(x, y, w, h);
+        widget->color(color);
         return *widget;
     }
 

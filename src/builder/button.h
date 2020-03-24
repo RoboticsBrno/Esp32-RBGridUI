@@ -7,6 +7,8 @@ namespace gridui {
 namespace builder {
 
 class Button : public Widget, public BuilderMixin<Button, gridui::Button> {
+    static const char *name() { return "Button"; }
+
     friend class gridui::_GridUi;
     using Widget::Widget;
 public:
@@ -35,9 +37,6 @@ public:
         addCallback("release", cb);
         return *this;
     }
-
-private:
-    static const char *name() { return "Button"; }
 };
 
 };

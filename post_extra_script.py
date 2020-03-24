@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import functools
 import os
 import hashlib
@@ -118,7 +120,7 @@ elif __name__ == "__main__":
     }
 
     if args.cmd == "generate":
-        generate_amalgamations()
+        generate_amalgamations(env=env)
     else:
         parser.print_help()
         sys.exit(1)
