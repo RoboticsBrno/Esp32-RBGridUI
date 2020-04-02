@@ -1,3 +1,5 @@
+// prettier-ignore
+
 var GRID_DATA = {
     "cols": 12,
     "rows": 18,
@@ -6,13 +8,13 @@ var GRID_DATA = {
         {
             "uuid": 1,
             "type": "Button",
-            "x": 0,
-            "y": 17,
-            "w": 4,
-            "h": 1,
-            "state": JSON.stringify({
+        "state": JSON.stringify({
+          "x": 0,
+          "y": 17,
+          "w": 4,
+          "h": 1,
                 text: "Hello world!",
-                "background-color": "red",
+                "backgroundColor": "red",
                 style: {
                     "border": "3px solid green",
                 }
@@ -21,45 +23,50 @@ var GRID_DATA = {
         {
             "uuid": 2,
             "type": "Joystick",
-            "x": 6,
-            "y": 12,
-            "w": 5,
-            "h": 5,
+           
             "state": JSON.stringify({
                 color: "green",
-                text: "Fire!",
+              text: "Fire!",
+              "x": 6,
+              "y": 12,
+              "w": 5,
+              "h": 5,
             }),
         },
         {
             "uuid": 3,
             "type": "Arm",
+          
+          "state": JSON.stringify({
             "x": 0,
             "y": 0,
             "w": 12,
             "h": 9,
-            "state": JSON.stringify({
-                "height":51,"bones":[{"bmax":3.14159,"amax":3.14159,"bmin":-3.14159,"amin":-3.14159,"len":110,"rmin":-1.65806,"angle":-1.5708,"rmax":0},{"bmax":2.79253,"amax":3.14159,"bmin":0.698132,"amin":-0.349066,"len":130,"rmin":0.523599,"angle":0.0872664,"rmax":2.96706}],"radius":130,"off_x":0,"off_y":20
-            })
+            "info": {
+              "height": 51, "bones": [{ "bmax": 3.14159, "amax": 3.14159, "bmin": -3.14159, "amin": -3.14159, "len": 110, "rmin": -1.65806, "angle": -1.5708, "rmax": 0 }, { "bmax": 2.79253, "amax": 3.14159, "bmin": 0.698132, "amin": -0.349066, "len": 130, "rmin": 0.523599, "angle": 0.0872664, "rmax": 2.96706 }], "radius": 130, "off_x": 0, "off_y": 20
+            }})
         },
         {
             "uuid": 4,
             "type": "Led",
+           
+          "state": JSON.stringify({
             "x": 0,
             "y": 12,
             "w": 1,
             "h": 1,
-            "state": JSON.stringify({
                 color: "blue",
             }),
         },
         {
             "uuid": 5,
             "type": "Led",
+           
+          "state": JSON.stringify({
             "x": 1,
             "y": 12,
             "w": 1,
             "h": 1,
-            "state": JSON.stringify({
                 color: "orange",
                 on: false,
             }),
@@ -67,11 +74,11 @@ var GRID_DATA = {
         {
             "uuid": 6,
             "type": "Led",
+          "state": JSON.stringify({
             "x": 2,
             "y": 12,
             "w": 1,
             "h": 1,
-            "state": JSON.stringify({
                 color: "orange",
                 on: true,
             }),
@@ -79,11 +86,11 @@ var GRID_DATA = {
         {
             "uuid": 7,
             "type": "Checkbox",
+          "state": JSON.stringify({
             "x": 4,
             "y": 11,
             "w": 1,
             "h": 4,
-            "state": JSON.stringify({
                 color: "orange",
                 checked: true,
                 text: "Awesomeness"
@@ -92,11 +99,11 @@ var GRID_DATA = {
         {
             "uuid": 8,
             "type": "Checkbox",
+          "state": JSON.stringify({
             "x": 5,
             "y": 11,
             "w": 4,
             "h": 1,
-            "state": JSON.stringify({
                 color: "green",
                 checked: false,
                 text: "Awesomeness"
@@ -105,11 +112,11 @@ var GRID_DATA = {
         {
             "uuid": 7,
             "type": "Checkbox",
+          "state": JSON.stringify({
             "x": 4,
             "y": 10,
             "w": 1,
             "h": 1,
-            "state": JSON.stringify({
                 color: "red",
                 checked: true,
             }),
@@ -118,171 +125,244 @@ var GRID_DATA = {
 }
 
 function Grid(manager, elementId, data) {
-    this.manager = manager;
-    this.COLS = data.cols;
-    this.ROWS = data.rows;
-    this.enableSplitting = data.enableSplitting;
+  this.manager = manager
+  this.COLS = data.cols
+  this.ROWS = data.rows
+  this.enableSplitting = data.enableSplitting
 
-    this.el = document.getElementById(elementId);
-    this.widgets = [];
+  this.el = document.getElementById(elementId)
+  this.widgets = []
 
-    this.canvas = document.createElement("canvas");
-    this.canvas.style.position = "absolute";
-    this.canvas.style.zIndex = -1;
-    this.el.appendChild(this.canvas);
+  this.canvas = document.createElement('canvas')
+  this.canvas.style.position = 'absolute'
+  this.el.appendChild(this.canvas)
 
-    window.addEventListener("resize", this.onResize.bind(this));
+  window.addEventListener('resize', this.onResize.bind(this))
 
-    for(var i = 0; i < data.widgets.length; ++i) {
-        var w = data.widgets[i];
-        this.addWidget(w.uuid, w.type, w.x, w.y, w.w, w.h, JSON.parse(w["state"]));
-    }
+  this.isSplit = 0
+  this.offsetX = 0
+  this.offsetY = 0
+  this.scaleX = 1
+  this.scaleY = 1
 
-    this.onResize();
+  for (var i = 0; i < data.widgets.length; ++i) {
+    var w = data.widgets[i]
+    this.addWidget(w.uuid, w.type, JSON.parse(w['state']))
+  }
+
+  this.onResize()
 }
 
 Grid.prototype.onResize = function() {
-    var w = this.el.clientWidth;
-    var h = this.el.clientHeight;
+  var w = this.el.clientWidth
+  var h = this.el.clientHeight
 
-    this.offsetX = 0;
-    this.offsetY = 0;
+  this.offsetX = 0
+  this.offsetY = 0
 
-    if(!this.shouldSplitGrid(w, h)) {
-        if(w > h) {
-            this.offsetX = (w - h) / 2;
-            w = h;
-        }
-
-        this.scaleX = w / this.COLS;
-        this.scaleY = h / this.ROWS;
-
-        this.canvas.style.width = "" + this.el.clientWidth + "px";
-        this.canvas.style.height = "" + this.el.clientHeight + "px";
-        this.canvas.width = this.el.clientWidth + 2;
-        this.canvas.height = this.el.clientHeight + 2;
-
-        this.drawGrid(this.COLS, this.ROWS);
-
-        var len = this.widgets.length;
-        for(var i = 0; i < len; ++i) {
-            var w = this.widgets[i];
-            w.updatePosition(this.offsetX + w.x*this.scaleX, this.offsetY + w.y*this.scaleY, this.scaleX, this.scaleY);
-        }
-    } else {
-        this.scaleX = w / (this.COLS*2);
-        this.scaleY = h / Math.round(this.ROWS/2);
-
-        this.canvas.style.width = "" + this.el.clientWidth + "px";
-        this.canvas.style.height = "" + this.el.clientHeight + "px";
-        this.canvas.width = this.el.clientWidth + 2;
-        this.canvas.height = this.el.clientHeight + 2;
-
-        this.drawGrid(this.COLS*2, this.ROWS/2);
-
-        var centerY = Math.round(this.ROWS/2);
-
-        var len = this.widgets.length;
-        for(var i = 0; i < len; ++i) {
-            var w = this.widgets[i];
-
-            var x = w.x;
-            var y = w.y;
-            if(w.y >= centerY) {
-                x += this.COLS;
-                y = w.y - centerY;
-            }
-            w.updatePosition(x*this.scaleX, y*this.scaleY, this.scaleX, this.scaleY);
-        }
+  this.isSplit = this.shouldSplitGrid(w, h)
+  if (!this.isSplit) {
+    if (w > h) {
+      this.offsetX = (w - h) / 2
+      w = h
     }
+
+    this.scaleX = w / this.COLS
+    this.scaleY = h / this.ROWS
+
+    this.canvas.style.width = '' + this.el.clientWidth + 'px'
+    this.canvas.style.height = '' + this.el.clientHeight + 'px'
+    this.canvas.width = this.el.clientWidth + 2
+    this.canvas.height = this.el.clientHeight + 2
+
+    this.drawGrid(this.COLS, this.ROWS)
+  } else {
+    this.scaleX = w / (this.COLS * 2)
+    this.scaleY = h / Math.round(this.ROWS / 2)
+
+    this.canvas.style.width = '' + this.el.clientWidth + 'px'
+    this.canvas.style.height = '' + this.el.clientHeight + 'px'
+    this.canvas.width = this.el.clientWidth + 2
+    this.canvas.height = this.el.clientHeight + 2
+
+    this.drawGrid(this.COLS * 2, this.ROWS / 2)
+  }
+
+  var len = this.widgets.length
+  for (var i = 0; i < len; ++i) {
+    this.widgets[i].updatePosition()
+  }
+}
+
+Grid.prototype.calculatePxPos = function(w) {
+  var res = {
+    w: w.w * this.scaleX,
+    h: w.h * this.scaleY
+  }
+
+  if (!this.isSplit) {
+    res.x = this.offsetX + w.x * this.scaleX
+    res.y = this.offsetY + w.y * this.scaleY
+  } else {
+    var centerY = Math.round(this.ROWS / 2)
+    if (w.y >= centerY) {
+      res.x = w.x + this.COLS
+      res.y = w.y - centerY
+    } else {
+      res.x = w.x
+      res.y = w.y
+    }
+    res.x *= this.scaleX
+    res.y *= this.scaleY
+  }
+
+  return res
 }
 
 Grid.prototype.shouldSplitGrid = function(w, h) {
-    if(this.enableSplitting !== true || w <= h)
-        return false;
+  if (this.enableSplitting !== true || w <= h) return false
 
-    var centerY = this.ROWS/2;
+  var centerY = this.ROWS / 2
 
-    var len = this.widgets.length;
-    for(var i = 0; i < len; ++i) {
-        var w = this.widgets[i];
-        if(w.y < centerY && w.y+w.h > centerY)
-            return false; 
-    }
-    return true;
+  var len = this.widgets.length
+  for (var i = 0; i < len; ++i) {
+    var w = this.widgets[i]
+    if (w.y < centerY && w.y + w.h > centerY) return false
+  }
+  return true
 }
 
 Grid.prototype.drawGrid = function(cols, rows) {
-    var ctx = this.canvas.getContext("2d");
+  var ctx = this.canvas.getContext('2d')
 
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    ctx.fillStyle = "#DDD";
+  ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+  ctx.fillStyle = '#BBB'
 
-    for(var x = 0; x <= cols; ++x) {
-        for(var y = 0; y <= rows; ++y) {
-            ctx.beginPath();
-            ctx.arc(this.offsetX + x*this.scaleX + 1, this.offsetY + y*this.scaleY + 1, 1, 0, Math.PI*2, false);
-            ctx.fill();
-        }
+  for (var x = 0; x <= cols; ++x) {
+    for (var y = 0; y <= rows; ++y) {
+      ctx.beginPath()
+      ctx.arc(
+        this.offsetX + x * this.scaleX + 1,
+        this.offsetY + y * this.scaleY + 1,
+        1,
+        0,
+        Math.PI * 2,
+        false
+      )
+      ctx.fill()
     }
+  }
 }
 
-Grid.prototype.addWidget = function(uuid, typeName, x, y, w, h, extra) {
-    var w = new window[typeName](uuid, x, y, w, h);
-    w.applyState(extra);
-    w.updatePosition(this.offsetX, this.offsetY, this.scaleX, this.scaleY);
-    w.setEventListener(this.onWidgetEvent.bind(this));
+Grid.prototype.addWidget = function(uuid, typeName, extra) {
+  var w = new window[typeName](this, uuid)
+  w.applyState(extra)
+  w.updatePosition(this.offsetX, this.offsetY, this.scaleX, this.scaleY)
+  w.setEventListener(this.onWidgetEvent.bind(this))
 
-    this.el.appendChild(w.el);
-    this.widgets.push(w);
+  this.el.appendChild(w.el)
+  this.widgets.push(w)
 }
 
 Grid.prototype.clear = function() {
-    var len = this.widgets.length;
-    for(var i = 0; i < len; ++i) {
-        var w = this.widgets[i];
-        this.el.removeChild(w.el);
-    }
-    this.widgets = [];
+  var len = this.widgets.length
+  for (var i = 0; i < len; ++i) {
+    var w = this.widgets[i]
+    this.el.removeChild(w.el)
+  }
+  this.widgets = []
 }
 
 Grid.prototype.onWidgetEvent = function(w, name, extra, mustArrive, callback) {
-    //console.log("Event from " + w.uuid + ": " + name + " " + JSON.stringify(extra));
+  //console.log("Event from " + w.uuid + ": " + name + " " + JSON.stringify(extra));
 
-    var data = {
-        "id": w.uuid,
-        "ev": name,
-    }
+  if (this.manager === null) return
 
-    if(extra !== undefined && extra !== null) {
-        data["st"] = extra;
-    }
+  var data = {
+    id: w.uuid,
+    ev: name
+  }
 
-    if(mustArrive !== false) {
-        this.manager.sendMustArrive("_gev", data, false, callback)
-    } else {
-        this.manager.send("_gev", data);
-    }
+  if (extra !== undefined && extra !== null) {
+    data['st'] = extra
+  }
+
+  if (mustArrive !== false) {
+    this.manager.sendMustArrive('_gev', data, false, callback)
+  } else {
+    this.manager.send('_gev', data)
+  }
 }
 
 Grid.prototype.update = function(diffMs) {
-    var len = this.widgets.length;
-    for(var i = 0; i < len; ++i) {
-        var w = this.widgets[i];
-        w.update(diffMs);
-    }
+  var len = this.widgets.length
+  for (var i = 0; i < len; ++i) {
+    var w = this.widgets[i]
+    w.update(diffMs)
+  }
 }
 
 Grid.prototype.onMessage = function(data) {
-    var len = this.widgets.length;
-    for(var i = 0; i < len; ++i) {
-        var w = this.widgets[i];
-        if(w.uuid != data["id"])
-            continue;
+  var len = this.widgets.length
+  for (var i = 0; i < len; ++i) {
+    var w = this.widgets[i]
+    if (w.uuid != data['id']) continue
 
-        var state = {};
-        state[data.key] = JSON.parse(data.val);
-        w.applyState(state);
-        break;
+    var state = {}
+    state[data.key] = JSON.parse(data.val)
+    w.applyState(state)
+    break
+  }
+}
+
+Grid.prototype.getWidgetAtPos = function(x, y) {
+  var len = this.widgets.length
+  for (var i = 0; i < len; ++i) {
+    var w = this.widgets[i]
+    var r = w.el.getBoundingClientRect()
+    if (r.left <= x && r.right >= x && r.top <= y && r.bottom >= y) {
+      return w
     }
+  }
+  return null
+}
+
+Grid.prototype.roundToPrecision = function(x, precision) {
+  var y = +x + (precision === undefined ? 0.5 : precision / 2)
+  return y - (y % (precision === undefined ? 1 : +precision))
+}
+
+Grid.prototype.tryMoveWidget = function(w, x, y) {
+  var rect = this.el.getBoundingClientRect()
+  x -= rect.left
+  y -= rect.top
+
+  x = this.roundToPrecision(x / this.scaleX, 0.5)
+  y = this.roundToPrecision(y / this.scaleY, 0.5)
+
+  if (x == w.x && y == w.y) return false
+
+  w.x = Math.min(this.COLS - 1, Math.max(-w.w + 1, x))
+  w.y = Math.min(this.ROWS - 1, Math.max(-w.h + 1, y))
+  w.updatePosition()
+  return true
+}
+
+Grid.prototype.tryScaleWidget = function(widget, r, b) {
+  var rect = this.el.getBoundingClientRect()
+  r -= rect.left
+  b -= rect.top
+
+  r = this.roundToPrecision(r / this.scaleX, 0.5)
+  b = this.roundToPrecision(b / this.scaleY, 0.5)
+
+  var w = r - widget.x
+  var h = b - widget.y
+
+  if (w == widget.w && h == widget.h) return false
+
+  widget.w = Math.min(this.COLS, Math.max(0.5, w))
+  widget.h = Math.min(this.ROWS, Math.max(0.5, h))
+  widget.updatePosition()
+  return true
 }

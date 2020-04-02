@@ -1,64 +1,181 @@
+function Prop(types, getFunc, setFunc) {
+  if (!Array.isArray(types)) {
+    this.types = [types]
+  } else {
+    this.types = types
+  }
 
-function Widget(uuid, element, x, y, w, h) {
-    this.uuid = uuid;
-    this.el = element;
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-    this.eventListener = null;
+  this.get = getFunc
+  this.set = setFunc
+}
 
-    this.el.style.position = "absolute";
+function Widget(grid, uuid, element) {
+  this.x = 0
+  this.y = 0
+  this.w = 0
+  this.h = 0
+
+  this.grid = grid
+  this.uuid = uuid
+  this.el = element
+  this.eventListener = null
+
+  this.el.style.position = 'absolute'
+  this.el.classList.add('grid-widget')
+}
+
+Widget.SUBCLASSES = []
+
+Widget.prototype.PROPERTIES = {
+  x: new Prop(Number),
+  y: new Prop(Number),
+  w: new Prop(Number),
+  h: new Prop(Number),
+  backgroundColor: new Prop(
+    String,
+    function() {
+      return this.el.style.backgroundColor
+    },
+    function(val) {
+      this.el.style.backgroundColor = val
+    }
+  ),
+  color: new Prop(
+    String,
+    function() {
+      return this.el.style.color
+    },
+    function(val) {
+      this.el.style.color = val
+    }
+  ),
+  fontSize: new Prop(
+    [String, Number],
+    function() {
+      return this.el.style.fontSize
+    },
+    function(val) {
+      if (typeof val === 'string') {
+        this.el.style.fontSize = val
+      } else {
+        this.el.style.fontSize = val + 'px'
+      }
+    }
+  ),
+  html: new Prop(
+    String,
+    function() {
+      return this.el.innerHtml
+    },
+    function(val) {
+      this.el.innerHtml = val
+    }
+  ),
+  style: new Prop(
+    [String, Object],
+    function() {
+      return this.el.style.cssText
+    },
+    function(val) {
+      if (typeof val === 'string') {
+        this.el.style.cssText = val
+      } else {
+        for (var k in val) {
+          if (val.hasOwnProperty(k)) {
+            this.el.style[k] = val[k]
+          }
+        }
+      }
+    }
+  ),
+  text: new Prop(
+    String,
+    function() {
+      return this.innerText
+    },
+    function(val) {
+      this.el.innerText = val
+    }
+  )
+}
+
+Widget.createSubclass = function(cls, properties) {
+  cls.prototype = Object.create(Widget.prototype)
+  Object.defineProperty(cls.prototype, 'constructor', {
+    value: cls,
+    enumerable: false,
+    writable: true
+  })
+
+  Widget.SUBCLASSES.push(cls)
+
+  cls.prototype.PROPERTIES = {}
+  Object.assign(cls.prototype.PROPERTIES, Widget.prototype.PROPERTIES)
+  if (properties) {
+    Object.assign(cls.prototype.PROPERTIES, properties)
+  }
+}
+
+Widget.wrapCanvas = function(canvas) {
+  var wrapper = document.createElement('div')
+  canvas.style.width = '100%'
+  canvas.style.height = '100%'
+  wrapper.appendChild(canvas)
+  return wrapper
 }
 
 Widget.prototype.applyState = function(state) {
-    var styles = [ "color", "background", "background-color", "font-size" ];
-    for(var i = 0; i < styles.length; ++i) {
-        var k = styles[i];
-        if(k in state) {
-            this.el.style[k] = state[k];
-        }
+  var proto = Object.getPrototypeOf(this)
+  var pos = false
+  for (var k in state) {
+    if (!state.hasOwnProperty(k) || !proto.PROPERTIES.hasOwnProperty(k)) {
+      continue
     }
 
-    if("text" in state) {
-        this.el.innerText = state["text"];
+    var prop = proto.PROPERTIES[k]
+    if (prop.set === undefined) {
+      if (prop.types.length === 1) {
+        this[k] = prop.types[0](state[k])
+      } else {
+        this[k] = state[k]
+      }
+    } else {
+      prop.set.call(this, state[k])
     }
 
-    if("html" in state) {
-        this.el.innerHtml = state["html"];
+    if (k.length === 1 && 'xywh'.indexOf(k) !== -1) {
+      pos = true
     }
+  }
 
-    if("disabled" in state) {
-        this.el.disabled = !!state["disabled"]
-    }
-
-    if("style" in state) {
-        var s = state.style;
-        for(var k in s) {
-            if(s.hasOwnProperty(k)) {
-                this.el.style[k] = s[k];
-            }
-        }
-    }
+  if (pos) {
+    this.updatePosition()
+  }
 }
 
 Widget.prototype.setEventListener = function(listener) {
-    this.eventListener = listener;
+  this.eventListener = listener
 }
 
-Widget.prototype.updatePosition = function(x, y, scaleX, scaleY) {
-    this.el.style.left = "" + x + "px";
-    this.el.style.top = "" + y + "px";
-    this.el.style.width = "" + (this.w*scaleX) + "px";
-    this.el.style.height = "" + (this.h*scaleY) + "px";
+Widget.prototype.updatePosition = function() {
+  var pos = this.grid.calculatePxPos(this)
+  this.el.style.left = '' + pos.x + 'px'
+  this.el.style.top = '' + pos.y + 'px'
+  this.el.style.width = '' + pos.w + 'px'
+  this.el.style.height = '' + pos.h + 'px'
 }
 
-Widget.prototype.update = function(diffMs) {
-
-}
+Widget.prototype.update = function(diffMs) {}
 
 Widget.prototype.sendEvent = function(name, extra, mustArrive, callback) {
-    if(this.eventListener === null)
-        return;
-    this.eventListener(this, name, extra ? extra : {}, mustArrive !== false, callback);
+  if (this.eventListener === null) return
+  this.eventListener(
+    this,
+    name,
+    extra ? extra : {},
+    mustArrive !== false,
+    callback
+  )
 }
+
+Widget.prototype.doDragMove = function(dx, dy) {}
