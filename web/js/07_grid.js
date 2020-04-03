@@ -257,11 +257,24 @@ Grid.prototype.drawGrid = function(cols, rows) {
 Grid.prototype.addWidget = function(uuid, typeName, extra) {
   var w = new window[typeName](this, uuid)
   w.applyState(extra)
-  w.updatePosition(this.offsetX, this.offsetY, this.scaleX, this.scaleY)
-  w.setEventListener(this.onWidgetEvent.bind(this))
+  this.addWidgetConstructed(w)
+}
 
-  this.el.appendChild(w.el)
-  this.widgets.push(w)
+Grid.prototype.addWidgetConstructed = function(widget) {
+  widget.updatePosition()
+  widget.setEventListener(this.onWidgetEvent.bind(this))
+
+  this.el.appendChild(widget.el)
+  this.widgets.push(widget)
+}
+
+Grid.prototype.removeWidget = function(widget) {
+  var idx = this.widgets.indexOf(widget)
+  if (idx === -1) return false
+
+  this.el.removeChild(widget.el)
+  this.widgets.splice(idx, 1)
+  return true
 }
 
 Grid.prototype.clear = function() {
@@ -332,14 +345,23 @@ Grid.prototype.roundToPrecision = function(x, precision) {
   return y - (y % (precision === undefined ? 1 : +precision))
 }
 
-Grid.prototype.tryMoveWidget = function(w, x, y) {
+Grid.prototype.pxPosToCoordinates = function(x, y) {
   var rect = this.el.getBoundingClientRect()
   x -= rect.left
   y -= rect.top
 
   x = this.roundToPrecision(x / this.scaleX, 0.5)
   y = this.roundToPrecision(y / this.scaleY, 0.5)
+  return {
+    x: x,
+    y: y
+  }
+}
 
+Grid.prototype.tryMoveWidget = function(w, x, y) {
+  var coords = this.pxPosToCoordinates(x, y)
+  x = coords.x
+  y = coords.y
   if (x == w.x && y == w.y) return false
 
   w.x = Math.min(this.COLS - 1, Math.max(-w.w + 1, x))
@@ -349,15 +371,10 @@ Grid.prototype.tryMoveWidget = function(w, x, y) {
 }
 
 Grid.prototype.tryScaleWidget = function(widget, r, b) {
-  var rect = this.el.getBoundingClientRect()
-  r -= rect.left
-  b -= rect.top
+  var coords = this.pxPosToCoordinates(r, b)
 
-  r = this.roundToPrecision(r / this.scaleX, 0.5)
-  b = this.roundToPrecision(b / this.scaleY, 0.5)
-
-  var w = r - widget.x
-  var h = b - widget.y
+  var w = coords.x - widget.x
+  var h = coords.y - widget.y
 
   if (w == widget.w && h == widget.h) return false
 

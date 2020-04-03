@@ -5,6 +5,9 @@ function Led(grid, uuid) {
 
   Widget.call(this, grid, uuid, Widget.wrapCanvas(el))
 
+  this.w = 1
+  this.h = 1
+
   this.canvas = ge1doot.canvas(el)
   this.canvas.resize = this.draw.bind(this)
 

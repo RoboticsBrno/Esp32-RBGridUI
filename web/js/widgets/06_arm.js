@@ -139,6 +139,9 @@ function Arm(grid, uuid) {
   var el = document.createElement('canvas')
   Widget.call(this, grid, uuid, Widget.wrapCanvas(el))
 
+  this.w = 12
+  this.h = 9
+
   this.BODY_HEIGHT = 0
   this.BODY_RADIUS = 0
   this.ARM_BASE_HEIGHT = 0

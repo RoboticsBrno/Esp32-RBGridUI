@@ -7,6 +7,9 @@ function Joystick(grid, uuid) {
 
   Widget.call(this, grid, uuid, el)
 
+  this.w = 4
+  this.h = 4
+
   this.radius = 0
   this.valX = 0
   this.valY = 0
@@ -107,6 +110,7 @@ Joystick.prototype.createNippleJs = function() {
 }
 
 Joystick.prototype.onKeyDown = function(ev) {
+  if (this.keys === null) return
   var idx = this.keys.indexOf(ev.key)
   if (idx === -1) return
   if (idx === 4) {
@@ -117,6 +121,7 @@ Joystick.prototype.onKeyDown = function(ev) {
 }
 
 Joystick.prototype.onKeyUp = function(ev) {
+  if (this.keys === null) return
   var idx = this.keys.indexOf(ev.key)
   if (idx === -1) return
   this.pressedKeys[idx] = false

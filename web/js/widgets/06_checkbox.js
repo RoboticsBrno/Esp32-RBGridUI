@@ -1,11 +1,14 @@
 function Checkbox(grid, uuid) {
   this.color = 'black'
   this.checked = false
-  this.text = ''
+  this.text = 'CheckBox'
   this.fontSize = 14
 
   var el = document.createElement('canvas')
   Widget.call(this, grid, uuid, Widget.wrapCanvas(el))
+
+  this.w = 4
+  this.h = 1
 
   this.canvas = ge1doot.canvas(el)
   this.canvas.resize = this.draw.bind(this)

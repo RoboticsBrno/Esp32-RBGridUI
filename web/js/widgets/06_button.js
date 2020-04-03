@@ -1,6 +1,11 @@
 function Button(grid, uuid) {
   var el = document.createElement('button')
+  el.innerText = 'Button'
+
   Widget.call(this, grid, uuid, el)
+
+  this.w = 3
+  this.h = 1
 
   this.pressed = false
 

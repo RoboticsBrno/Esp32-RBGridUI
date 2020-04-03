@@ -9,11 +9,22 @@ function Prop(types, getFunc, setFunc) {
   this.set = setFunc
 }
 
+function Position(x, y, w, h) {
+  this.x = x
+  this.y = y
+  this.w = w
+  this.h = h
+}
+
+Position.prototype.equals = function(o) {
+  return this.x === o.x && this.y === o.y && this.w === o.w && this.h === o.h
+}
+
 function Widget(grid, uuid, element) {
   this.x = 0
   this.y = 0
-  this.w = 0
-  this.h = 0
+  this.w = 2
+  this.h = 2
 
   this.grid = grid
   this.uuid = uuid
@@ -178,4 +189,6 @@ Widget.prototype.sendEvent = function(name, extra, mustArrive, callback) {
   )
 }
 
-Widget.prototype.doDragMove = function(dx, dy) {}
+Widget.prototype.pos = function() {
+  return new Position(this.x, this.y, this.w, this.h)
+}
