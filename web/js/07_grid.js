@@ -330,7 +330,7 @@ Grid.prototype.onMessage = function(data) {
 
 Grid.prototype.getWidgetAtPos = function(x, y) {
   var len = this.widgets.length
-  for (var i = 0; i < len; ++i) {
+  for (var i = len - 1; i >= 0; --i) {
     var w = this.widgets[i]
     var r = w.el.getBoundingClientRect()
     if (r.left <= x && r.right >= x && r.top <= y && r.bottom >= y) {
