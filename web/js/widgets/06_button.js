@@ -46,4 +46,14 @@ function Button(grid, uuid) {
   }
 }
 
-Widget.createSubclass(Button)
+Widget.createSubclass(Button, {
+  text: new Prop(
+    String,
+    function() {
+      return this.el.innerText
+    },
+    function(val) {
+      this.el.innerText = val
+    }
+  )
+})

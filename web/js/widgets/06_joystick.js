@@ -2,8 +2,8 @@ function Joystick(grid, uuid) {
   var el = document.createElement('div')
 
   this.color = 'red'
-  this.text = null
-  this.keys = null
+  this.text = ''
+  this.keys = ''
 
   Widget.call(this, grid, uuid, el)
 
@@ -62,7 +62,7 @@ Joystick.prototype.createNippleJs = function() {
 
   this.joy = this.manager.get(this.manager.ids[0])
 
-  if (this.text) {
+  if (this.text !== '') {
     var nipple = this.joy.ui.front
     nipple.innerHTML = this.text
     nipple.style.fontWeight = 'bold'
@@ -110,7 +110,7 @@ Joystick.prototype.createNippleJs = function() {
 }
 
 Joystick.prototype.onKeyDown = function(ev) {
-  if (this.keys === null) return
+  if (this.keys === '') return
   var idx = this.keys.indexOf(ev.key)
   if (idx === -1) return
   if (idx === 4) {
@@ -121,7 +121,7 @@ Joystick.prototype.onKeyDown = function(ev) {
 }
 
 Joystick.prototype.onKeyUp = function(ev) {
-  if (this.keys === null) return
+  if (this.keys === '') return
   var idx = this.keys.indexOf(ev.key)
   if (idx === -1) return
   this.pressedKeys[idx] = false

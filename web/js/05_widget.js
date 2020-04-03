@@ -31,8 +31,6 @@ function Widget(grid, uuid, element) {
   this.el = element
   this.eventListener = null
   this.extraCss = {}
-  this.innerHTML = ""
-  this.innerText = ""
 
   this.el.style.position = 'absolute'
   this.el.classList.add('grid-widget')
@@ -45,36 +43,17 @@ Widget.prototype.PROPERTIES = {
   y: new Prop(Number),
   w: new Prop(Number),
   h: new Prop(Number),
-  css: new Prop(Object,
+  css: new Prop(
+    Object,
     function() {
       return this.extraCss
     },
     function(val) {
-      for(var k in val) {
-        if(!val.hasOwnProperty(k)) continue
-        this.el.style.setProperty(k, val[k], "important")
+      for (var k in val) {
+        if (!val.hasOwnProperty(k)) continue
+        this.el.style.setProperty(k, val[k], 'important')
         this.extraCss[k] = val[k]
       }
-    }
-  ),
-  html: new Prop(
-    String,
-    function() {
-      return this.innerHTML
-    },
-    function(val) {
-      this.el.innerHTML = val
-      this.innerHTML = val
-    }
-  ),
-  text: new Prop(
-    String,
-    function() {
-      return this.innerText
-    },
-    function(val) {
-      this.el.innerText = val
-      this.innerText = val
     }
   )
 }
