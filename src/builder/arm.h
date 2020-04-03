@@ -15,9 +15,7 @@ class Arm : public Widget, public BuilderMixin<Arm, gridui::Arm> {
     using Widget::Widget;
 public:
     Arm& info(std::unique_ptr<rbjson::Object> armInfo) {
-        for(auto itr : armInfo->members()) {
-            extra().set(itr.first.c_str(), itr.second->copy());
-        }
+        extra().set("info", armInfo.release());
         return *this;
     }
 

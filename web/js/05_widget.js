@@ -30,6 +30,9 @@ function Widget(grid, uuid, element) {
   this.uuid = uuid
   this.el = element
   this.eventListener = null
+  this.extraCss = {}
+  this.innerHTML = ""
+  this.innerText = ""
 
   this.el.style.position = 'absolute'
   this.el.classList.add('grid-widget')
@@ -42,61 +45,26 @@ Widget.prototype.PROPERTIES = {
   y: new Prop(Number),
   w: new Prop(Number),
   h: new Prop(Number),
-  backgroundColor: new Prop(
-    String,
+  css: new Prop(Object,
     function() {
-      return this.el.style.backgroundColor
+      return this.extraCss
     },
     function(val) {
-      this.el.style.backgroundColor = val
-    }
-  ),
-  color: new Prop(
-    String,
-    function() {
-      return this.el.style.color
-    },
-    function(val) {
-      this.el.style.color = val
-    }
-  ),
-  fontSize: new Prop(
-    [String, Number],
-    function() {
-      return this.el.style.fontSize
-    },
-    function(val) {
-      if (typeof val === 'string') {
-        this.el.style.fontSize = val
-      } else {
-        this.el.style.fontSize = val + 'px'
+      for(var k in val) {
+        if(!val.hasOwnProperty(k)) continue
+        this.el.style.setProperty(k, val[k], "important")
+        this.extraCss[k] = val[k]
       }
     }
   ),
   html: new Prop(
     String,
     function() {
-      return this.el.innerHtml
+      return this.innerHTML
     },
     function(val) {
-      this.el.innerHtml = val
-    }
-  ),
-  style: new Prop(
-    [String, Object],
-    function() {
-      return this.el.style.cssText
-    },
-    function(val) {
-      if (typeof val === 'string') {
-        this.el.style.cssText = val
-      } else {
-        for (var k in val) {
-          if (val.hasOwnProperty(k)) {
-            this.el.style[k] = val[k]
-          }
-        }
-      }
+      this.el.innerHTML = val
+      this.innerHTML = val
     }
   ),
   text: new Prop(
@@ -106,6 +74,7 @@ Widget.prototype.PROPERTIES = {
     },
     function(val) {
       this.el.innerText = val
+      this.innerText = val
     }
   )
 }
@@ -191,4 +160,24 @@ Widget.prototype.sendEvent = function(name, extra, mustArrive, callback) {
 
 Widget.prototype.pos = function() {
   return new Position(this.x, this.y, this.w, this.h)
+}
+
+Widget.prototype.getState = function() {
+  var res = {}
+  var proto = Object.getPrototypeOf(this)
+  for (var key in proto.PROPERTIES) {
+    if (!proto.PROPERTIES.hasOwnProperty(key)) continue
+
+    var prop = proto.PROPERTIES[key]
+    if (prop.get === undefined) {
+      if (prop.types.length === 1) {
+        res[key] = prop.types[0](this[key])
+      } else {
+        res[key] = this[key]
+      }
+    } else {
+      res[key] = prop.get.call(this)
+    }
+  }
+  return res
 }

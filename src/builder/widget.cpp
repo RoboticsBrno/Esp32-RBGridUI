@@ -23,23 +23,24 @@ rbjson::Object& Widget::extra() {
 }
 
 rbjson::Object& Widget::style() {
-    auto *res = extra().getObject("style");
+    auto *res = extra().getObject("css");
     if(res == nullptr) {
         res = new rbjson::Object;
-        extra().set("style", res);
+        extra().set("css", res);
     }
     return *res;
 }
 
 rbjson::Object *Widget::serializeAndDestroy() {
+    extra().set("x", m_x);
+    extra().set("y", m_y);
+    extra().set("w", m_w);
+    extra().set("h", m_h);
+
     std::unique_ptr<rbjson::Object> root(new rbjson::Object);
     root->set("uuid", m_state.uuid());
     root->set("type", m_type);
-    root->set("x", m_x);
-    root->set("y", m_y);
-    root->set("w", m_w);
-    root->set("h", m_h);
-    root->set("state", extra().str());
+    root->set("state", extra().copy());
     return root.release();
 }
 

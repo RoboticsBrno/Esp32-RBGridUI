@@ -29,6 +29,10 @@ public:
     const rbjson::Object& data() const { return m_data; }
 
     bool set(const char *key, rbjson::Value *value, bool mustarrive = true);
+    bool setInnerObjectProp(const char *objectName, const char *propertyName,
+        rbjson::Value *value, bool mustarrive = true);
+
+    void sendValue(const char *key, const rbjson::Value *value, bool mustarrive = true);
 
 private:
     WidgetState(const WidgetState&) = delete;
@@ -69,10 +73,8 @@ public:
         return *this;
     }
 
-    void css(const char *name, const char *value) {
-        auto *style = new rbjson::Object;
-        style->set(name, value);
-        m_state->set("style", style);
+    void css(const char *propertyName, const char *value) {
+       m_state->setInnerObjectProp("css", propertyName, new rbjson::String(value))
     }
 
 protected:

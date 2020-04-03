@@ -8,85 +8,89 @@ var GRID_DATA = {
         {
             "uuid": 1,
             "type": "Button",
-        "state": JSON.stringify({
+        "state": {
           "x": 0,
           "y": 17,
           "w": 4,
           "h": 1,
                 text: "Hello world!",
                 "backgroundColor": "red",
-                style: {
-                    "border": "3px solid green",
+                css: {
+                  "color": "green",
+                  "border": "1px solid green",
+                  "cursor": "grab",
                 }
-            }),
+            
+            },
         },
         {
             "uuid": 2,
             "type": "Joystick",
            
-            "state": JSON.stringify({
+            "state": {
                 color: "green",
               text: "Fire!",
               "x": 6,
               "y": 12,
               "w": 5,
               "h": 5,
-            }),
+            },
         },
         {
             "uuid": 3,
             "type": "Arm",
           
-          "state": JSON.stringify({
+          "state": {
             "x": 0,
             "y": 0,
             "w": 12,
             "h": 9,
             "info": {
               "height": 51, "bones": [{ "bmax": 3.14159, "amax": 3.14159, "bmin": -3.14159, "amin": -3.14159, "len": 110, "rmin": -1.65806, "angle": -1.5708, "rmax": 0 }, { "bmax": 2.79253, "amax": 3.14159, "bmin": 0.698132, "amin": -0.349066, "len": 130, "rmin": 0.523599, "angle": 0.0872664, "rmax": 2.96706 }], "radius": 130, "off_x": 0, "off_y": 20
-            }})
+            }
+          }
         },
         {
             "uuid": 4,
             "type": "Led",
            
-          "state": JSON.stringify({
+          "state": {
             "x": 0,
             "y": 12,
             "w": 1,
             "h": 1,
                 color: "blue",
-            }),
+            },
         },
         {
             "uuid": 5,
             "type": "Led",
            
-          "state": JSON.stringify({
+          "state": {
             "x": 1,
             "y": 12,
             "w": 1,
             "h": 1,
                 color: "orange",
                 on: false,
-            }),
+            },
         },
         {
             "uuid": 6,
             "type": "Led",
-          "state": JSON.stringify({
+          "state": {
             "x": 2,
             "y": 12,
             "w": 1,
             "h": 1,
                 color: "orange",
                 on: true,
-            }),
+            },
         },
         {
             "uuid": 7,
             "type": "Checkbox",
-          "state": JSON.stringify({
+          "state": {
             "x": 4,
             "y": 11,
             "w": 1,
@@ -94,12 +98,12 @@ var GRID_DATA = {
                 color: "orange",
                 checked: true,
                 text: "Awesomeness"
-            }),
+            },
         },
         {
             "uuid": 8,
             "type": "Checkbox",
-          "state": JSON.stringify({
+          "state": {
             "x": 5,
             "y": 11,
             "w": 4,
@@ -107,19 +111,19 @@ var GRID_DATA = {
                 color: "green",
                 checked: false,
                 text: "Awesomeness"
-            }),
+            },
         },
         {
             "uuid": 7,
             "type": "Checkbox",
-          "state": JSON.stringify({
+          "state": {
             "x": 4,
             "y": 10,
             "w": 1,
             "h": 1,
                 color: "red",
                 checked: true,
-            }),
+            },
         },
     ],
 }
@@ -147,7 +151,7 @@ function Grid(manager, elementId, data) {
 
   for (var i = 0; i < data.widgets.length; ++i) {
     var w = data.widgets[i]
-    this.addWidget(w.uuid, w.type, JSON.parse(w['state']))
+    this.addWidget(w.uuid, w.type, w['state'])
   }
 
   this.onResize()
