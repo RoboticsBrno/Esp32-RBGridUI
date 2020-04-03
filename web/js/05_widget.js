@@ -7,6 +7,12 @@ function Prop(types, getFunc, setFunc) {
 
   this.get = getFunc
   this.set = setFunc
+  this.editable = true
+}
+
+Prop.prototype.disableEdit = function() {
+  this.editable = false
+  return this
 }
 
 function Position(x, y, w, h) {
@@ -49,6 +55,11 @@ Widget.prototype.PROPERTIES = {
       return this.extraCss
     },
     function(val) {
+      for (var k in this.extraCss) {
+        if (!this.extraCss.hasOwnProperty(k)) continue
+        this.el.style.removeProperty(k)
+      }
+      this.extraCss = {}
       for (var k in val) {
         if (!val.hasOwnProperty(k)) continue
         this.el.style.setProperty(k, val[k], 'important')

@@ -240,7 +240,7 @@ Widget.createSubclass(Arm, {
         this.bones.push(prev)
       }
     }
-  )
+  ).disableEdit()
 })
 
 Arm.prototype.applyState = function(state) {
