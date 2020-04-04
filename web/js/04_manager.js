@@ -10,6 +10,7 @@ function Manager(logElementId, gridElementId) {
     this.MUST_ARRIVE_RETRIES = 15;
 
     this.mustArriveTimerId = null;
+    this.possessed = false;
 
     this.log = new Log(logElementId);
     this.grid = null;
@@ -33,7 +34,12 @@ Manager.prototype.start = function(address) {
 
         this.log.write("connected!")
         this.log.write("Attempting to possess the robot...")
-        this.sendMustArrive("possess", {}, true);
+        this.sendMustArrive("possess", {}, true, function() {
+            this.possessed = true;
+            if(this.grid) {
+                this.sendMustArrive("_gall", {})
+            }
+        }.bind(this));
     }.bind(this));
 
     this.socket.addEventListener('error', function(event) {
@@ -109,9 +115,9 @@ Manager.prototype.onMessage = function(event) {
         this.log.write(data["msg"]);
         break;
     case "_gui":
-        if(this.grid) {
+    case "_gall":
+        if(this.grid)
             this.grid.onMessage(data)
-        }
         break;
     }
 }
@@ -161,6 +167,9 @@ Manager.prototype.loadLayout = function(gridElementId) {
         }
 
         this.grid = new Grid(this, gridElementId, req.response);
+        if(this.possessed) {
+            this.sendMustArrive("_gall", {})
+        }
     }.bind(this);
     req.send();
 }

@@ -39,6 +39,8 @@ bool WidgetState::setInnerObjectProp(const char *objectName, const char *propert
 }
 
 void WidgetState::sendValue(const char *key, const rbjson::Value *value, bool mustarrive) {
+    m_changed = true;
+
     auto *prot = UI.protocol();
     if(value == nullptr || prot == nullptr)
         return;
@@ -53,6 +55,17 @@ void WidgetState::sendValue(const char *key, const rbjson::Value *value, bool mu
     } else {
         prot->send("_gui", pkt.get());
     }
+}
+
+void WidgetState::sendAll() {
+    auto *prot = UI.protocol();
+    if(prot == nullptr)
+        return;
+
+    std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
+    pkt->set("id", m_uuid);
+    pkt->set("state", m_data.str());
+    prot->send_mustarrive("_gall", pkt.release());
 }
 
 };

@@ -23,7 +23,7 @@ class WidgetState {
     friend class builder::BuilderMixin;
 public:
     WidgetState(uint16_t uuid, std::function<void(void *, WidgetState *)> cb_trampoline) :
-        m_uuid(uuid), m_cb_trampoline(cb_trampoline) {}
+       m_cb_trampoline(cb_trampoline), m_uuid(uuid), m_changed(false) {}
 
     uint16_t uuid() const { return m_uuid; }
     const rbjson::Object& data() const { return m_data; }
@@ -32,13 +32,16 @@ public:
     bool setInnerObjectProp(const char *objectName, const char *propertyName,
         rbjson::Value *value, bool mustarrive = true);
 
-    void sendValue(const char *key, const rbjson::Value *value, bool mustarrive = true);
-
 private:
     WidgetState(const WidgetState&) = delete;
     WidgetState& operator=(const WidgetState&) = delete;
 
+    bool wasChanged() const { return m_changed; }
+
     rbjson::Object& data() { return m_data; }
+
+    void sendValue(const char *key, const rbjson::Value *value, bool mustarrive = true);
+    void sendAll();
 
     void update(rbjson::Object *other) {
         for(auto itr : other->members()) {
@@ -55,10 +58,11 @@ private:
         }
     }
 
-    rbjson::Object m_data;
-    uint16_t m_uuid;
     std::function<void(void *, WidgetState *)> m_cb_trampoline;
     std::unordered_map<std::string, void*> m_callbacks;
+    rbjson::Object m_data;
+    uint16_t m_uuid;
+    bool m_changed;
 };
 
 

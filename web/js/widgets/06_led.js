@@ -1,5 +1,6 @@
 function Led(grid, uuid) {
   this.color = 'red'
+  this.on = false
 
   var el = document.createElement('canvas')
 
@@ -10,8 +11,6 @@ function Led(grid, uuid) {
 
   this.canvas = ge1doot.canvas(el)
   this.canvas.resize = this.draw.bind(this)
-
-  this.on = true
 }
 
 Widget.createSubclass(Led, {

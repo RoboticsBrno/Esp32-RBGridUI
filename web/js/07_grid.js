@@ -325,9 +325,13 @@ Grid.prototype.onMessage = function(data) {
     var w = this.widgets[i]
     if (w.uuid != data['id']) continue
 
-    var state = {}
-    state[data.key] = JSON.parse(data.val)
-    w.applyState(state)
+    if("state" in data) {
+      w.applyState(JSON.parse(data.state))
+    } else {
+      var state = {}
+      state[data.key] = JSON.parse(data.val)
+      w.applyState(state)
+    }
     break
   }
 }

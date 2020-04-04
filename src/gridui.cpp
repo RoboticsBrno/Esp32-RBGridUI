@@ -71,8 +71,12 @@ bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object *pkt) {
         }
 
         itr->second->call(pkt->getString("ev"));
-    } else if(cmd == "_gui") {
-
+    } else if(cmd == "_gall") {
+        for(auto itr = m_states.begin(); itr != m_states.end(); ++itr) {
+            if(itr->second->wasChanged())
+                itr->second->sendAll();
+        }
+        return false;
     } else {
         return false;
     }
