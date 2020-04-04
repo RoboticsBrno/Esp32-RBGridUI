@@ -30,20 +30,33 @@ void _GridUi::commit() {
         return;
     }
 
-    auto *widgets = new rbjson::Array;
-    m_layout->set("widgets", widgets);
+    std::vector<char> layout_json;
+    {
+        std::stringstream ss;
+        m_layout->serialize(ss);
+        m_layout.reset();
 
-    for(auto& w : m_widgets) {
-        widgets->push_back(w->serializeAndDestroy());
-        delete w.release();
+        ss.seekp(-1, std::stringstream::cur);
+
+        ss << ",\"widgets\": [";
+        for(size_t i = 0; i < m_widgets.size(); ++i) {
+            if(i != 0) {
+                ss << ",";
+            }
+            auto& w = m_widgets[i];
+            w->serializeAndDestroy(ss);
+            delete w.release();
+        }
+        m_widgets.clear();
+        m_widgets.shrink_to_fit();
+
+        ss << "]}";
+
+        layout_json.resize(((size_t)ss.tellp()) + 1);
+        ss.get(layout_json.data(), layout_json.size());
     }
-    m_widgets.clear();
-    m_widgets.shrink_to_fit();
 
-    const auto layout_json = m_layout->str();
-    m_layout.reset(nullptr);
-
-    rb_web_add_file("layout.json", layout_json.c_str(), layout_json.size());
+    rb_web_add_file("layout.json", layout_json.data(), layout_json.size()-1);
 }
 
 bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object *pkt) {

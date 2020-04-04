@@ -21,12 +21,12 @@ bool WidgetState::set(const char *key, rbjson::Value *value, bool mustarrive) {
 }
 
 bool WidgetState::setInnerObjectProp(const char *objectName, const char *propertyName, rbjson::Value *value, bool mustarrive) {
-    auto *obj = m_data.get(objectName);
+    auto *obj = m_data.getObject(objectName);
     if(obj == nullptr) {
         obj = new rbjson::Object;
         m_data.set(objectName, obj);
     } else {
-        const auto *old = obj.get(propertyName);
+        const auto *old = obj->get(propertyName);
         if(old != nullptr && old->equals(*value)) {
             delete value;
             return false;

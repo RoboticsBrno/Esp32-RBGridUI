@@ -23,6 +23,11 @@ public:
         return *this;
     }
 
+    Joystick& keys(const char *keys) {
+        extra().set("keys", keys);
+        return *this;
+    }
+
     Joystick& color(const char *color) {
         extra().set("color", color);
         return *this;

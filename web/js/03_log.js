@@ -47,7 +47,11 @@ Log.prototype.write = function(msg, noNewLine) {
     if(noNewLine !== true && !msg.endsWith("\n")) {
         msg += "\n";
     }
-    this.el.textContent += msg;
+    var content = this.el.textContent
+    if(content.length > 8192) {
+        content = content.substring(4096)
+    }
+    this.el.textContent = content + msg;
     if(!this.isTouched) {
         this.scrollToBottom();
     }

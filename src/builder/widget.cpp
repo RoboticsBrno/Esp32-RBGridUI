@@ -31,17 +31,21 @@ rbjson::Object& Widget::style() {
     return *res;
 }
 
-rbjson::Object *Widget::serializeAndDestroy() {
-    extra().set("x", m_x);
-    extra().set("y", m_y);
-    extra().set("w", m_w);
-    extra().set("h", m_h);
+void Widget::serializeAndDestroy(std::stringstream& ss) {
+    ss << "{";
+    {
+        ss << "\"uuid\":" << m_state.uuid() << ",";
+        ss << "\"type\":\"" << m_type << "\",";
+        ss << "\"state\":";
 
-    std::unique_ptr<rbjson::Object> root(new rbjson::Object);
-    root->set("uuid", m_state.uuid());
-    root->set("type", m_type);
-    root->set("state", extra().copy());
-    return root.release();
+        auto& ex = extra();
+        ex.set("x", m_x);
+        ex.set("y", m_y);
+        ex.set("w", m_w);
+        ex.set("h", m_h);
+        ex.serialize(ss);
+    }
+    ss << "}";
 }
 
 };

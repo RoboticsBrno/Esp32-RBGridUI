@@ -74,7 +74,7 @@ public:
     }
 
     void css(const char *propertyName, const char *value) {
-       m_state->setInnerObjectProp("css", propertyName, new rbjson::String(value))
+       m_state->setInnerObjectProp("css", propertyName, new rbjson::String(value));
     }
 
 protected:

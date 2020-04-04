@@ -82,7 +82,7 @@ private:
     Widget(const Widget&) = delete;
     Widget& operator=(const Widget&) = delete;
 
-    rbjson::Object *serializeAndDestroy();
+    void serializeAndDestroy(std::stringstream& ss);
 
     const char *m_type;
     float m_x, m_y;
