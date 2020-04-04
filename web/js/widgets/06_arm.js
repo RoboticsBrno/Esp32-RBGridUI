@@ -32,7 +32,7 @@ function Bone(info, color, prev) {
 
 Bone.prototype.toInfo = function() {
   return {
-    length: this.len,
+    len: this.length,
     angle: this.angle,
     rmin: this.relMin,
     rmax: this.relMax,

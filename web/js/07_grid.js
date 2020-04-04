@@ -129,6 +129,7 @@ var GRID_DATA = {
 }
 
 function Grid(manager, elementId, data) {
+  console.log('Create grid ', data)
   this.manager = manager
   this.COLS = data.cols
   this.ROWS = data.rows

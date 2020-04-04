@@ -1,7 +1,7 @@
 function Checkbox(grid, uuid) {
   this.color = 'black'
   this.checked = false
-  this.text = ''
+  this.text = 'CheckBox'
   this.fontSize = 14
 
   var el = document.createElement('canvas')
