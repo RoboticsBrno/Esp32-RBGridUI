@@ -55,5 +55,5 @@ Widget.createSubclass(Button, {
     function(val) {
       this.el.innerText = val
     }
-  )
+  ).setMain()
 })

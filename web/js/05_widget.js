@@ -8,10 +8,16 @@ function Prop(types, getFunc, setFunc) {
   this.get = getFunc
   this.set = setFunc
   this.editable = true
+  this.main = false
 }
 
 Prop.prototype.disableEdit = function() {
   this.editable = false
+  return this
+}
+
+Prop.prototype.setMain = function() {
+  this.main = true
   return this
 }
 

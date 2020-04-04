@@ -23,7 +23,7 @@ function Joystick(grid, uuid) {
 }
 
 Widget.createSubclass(Joystick, {
-  color: new Prop(String),
+  color: new Prop(String).setMain(),
   keys: new Prop(String),
   text: new Prop(String)
 })

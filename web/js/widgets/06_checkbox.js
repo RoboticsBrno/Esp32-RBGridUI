@@ -1,7 +1,7 @@
 function Checkbox(grid, uuid) {
   this.color = 'black'
   this.checked = false
-  this.text = 'CheckBox'
+  this.text = ''
   this.fontSize = 14
 
   var el = document.createElement('canvas')
@@ -22,7 +22,7 @@ function Checkbox(grid, uuid) {
 Widget.createSubclass(Checkbox, {
   fontSize: new Prop(Number),
   checked: new Prop(Boolean),
-  color: new Prop(String),
+  color: new Prop(String).setMain(),
   text: new Prop(String)
 })
 
