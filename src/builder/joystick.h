@@ -1,18 +1,19 @@
 #pragma once
 
-#include "widget.h"
 #include "../widgets/joystick.h"
+#include "widget.h"
 
 namespace gridui {
 namespace builder {
 
 class Joystick : public Widget, public BuilderMixin<Joystick, gridui::Joystick> {
-    static const char *name() { return "Joystick"; }
+    static const char* name() { return "Joystick"; }
 
     friend class gridui::_GridUi;
     using Widget::Widget;
+
 public:
-    Joystick& text(const char *text) {
+    Joystick& text(const char* text) {
         extra().set("text", text);
         return *this;
     }
@@ -23,12 +24,12 @@ public:
         return *this;
     }
 
-    Joystick& keys(const char *keys) {
+    Joystick& keys(const char* keys) {
         extra().set("keys", keys);
         return *this;
     }
 
-    Joystick& color(const char *color) {
+    Joystick& color(const char* color) {
         extra().set("color", color);
         return *this;
     }

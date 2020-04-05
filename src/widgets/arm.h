@@ -5,10 +5,11 @@
 namespace gridui {
 
 class Arm : public Widget {
-    template<typename Self, typename Finished>
+    template <typename Self, typename Finished>
     friend class builder::BuilderMixin;
 
     using Widget::Widget;
+
 public:
     double getX() const {
         return data().getDouble("armX");

@@ -1,16 +1,16 @@
 #include <memory>
 
-#include "rbprotocol.h"
 #include "../gridui.h"
+#include "rbprotocol.h"
 #include "widget.h"
 
 namespace gridui {
 
-WidgetState Widget::emptyState(0, [](void *cb, WidgetState *state) {});
+WidgetState Widget::emptyState(0, [](void* cb, WidgetState* state) {});
 
-bool WidgetState::set(const char *key, rbjson::Value *value, bool mustarrive) {
-    const auto *old = m_data.get(key);
-    if(old != nullptr && old->equals(*value)) {
+bool WidgetState::set(const char* key, rbjson::Value* value, bool mustarrive) {
+    const auto* old = m_data.get(key);
+    if (old != nullptr && old->equals(*value)) {
         delete value;
         return false;
     }
@@ -20,14 +20,14 @@ bool WidgetState::set(const char *key, rbjson::Value *value, bool mustarrive) {
     return true;
 }
 
-bool WidgetState::setInnerObjectProp(const char *objectName, const char *propertyName, rbjson::Value *value, bool mustarrive) {
-    auto *obj = m_data.getObject(objectName);
-    if(obj == nullptr) {
+bool WidgetState::setInnerObjectProp(const char* objectName, const char* propertyName, rbjson::Value* value, bool mustarrive) {
+    auto* obj = m_data.getObject(objectName);
+    if (obj == nullptr) {
         obj = new rbjson::Object;
         m_data.set(objectName, obj);
     } else {
-        const auto *old = obj->get(propertyName);
-        if(old != nullptr && old->equals(*value)) {
+        const auto* old = obj->get(propertyName);
+        if (old != nullptr && old->equals(*value)) {
             delete value;
             return false;
         }
@@ -38,11 +38,11 @@ bool WidgetState::setInnerObjectProp(const char *objectName, const char *propert
     return true;
 }
 
-void WidgetState::sendValue(const char *key, const rbjson::Value *value, bool mustarrive) {
+void WidgetState::sendValue(const char* key, const rbjson::Value* value, bool mustarrive) {
     m_changed = true;
 
-    auto *prot = UI.protocol();
-    if(value == nullptr || prot == nullptr)
+    auto* prot = UI.protocol();
+    if (value == nullptr || prot == nullptr)
         return;
 
     std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
@@ -50,7 +50,7 @@ void WidgetState::sendValue(const char *key, const rbjson::Value *value, bool mu
     pkt->set("key", key);
     pkt->set("val", value->str());
 
-    if(mustarrive) {
+    if (mustarrive) {
         prot->send_mustarrive("_gui", pkt.release());
     } else {
         prot->send("_gui", pkt.get());
@@ -58,8 +58,8 @@ void WidgetState::sendValue(const char *key, const rbjson::Value *value, bool mu
 }
 
 void WidgetState::sendAll() {
-    auto *prot = UI.protocol();
-    if(prot == nullptr)
+    auto* prot = UI.protocol();
+    if (prot == nullptr)
         return;
 
     std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);

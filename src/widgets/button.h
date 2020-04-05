@@ -5,20 +5,21 @@
 namespace gridui {
 
 class Button : public Widget {
-    template<typename Self, typename Finished>
+    template <typename Self, typename Finished>
     friend class builder::BuilderMixin;
 
     using Widget::Widget;
+
 public:
-    void setColor(const char *color) {
+    void setColor(const char* color) {
         m_state->set("color", new rbjson::String(color));
     }
 
-    void setBackground(const char *bgcolor) {
+    void setBackground(const char* bgcolor) {
         m_state->set("background", new rbjson::String(bgcolor));
     }
 
-    void setText(const char *text) {
+    void setText(const char* text) {
         m_state->set("text", new rbjson::String(text));
     }
 

@@ -2,17 +2,18 @@
 
 #include <stdio.h>
 
-#include "widget.h"
 #include "../widgets/arm.h"
+#include "widget.h"
 
 namespace gridui {
 namespace builder {
 
 class Arm : public Widget, public BuilderMixin<Arm, gridui::Arm> {
-    static const char *name() { return "Arm"; }
+    static const char* name() { return "Arm"; }
 
     friend class gridui::_GridUi;
     using Widget::Widget;
+
 public:
     Arm& info(std::unique_ptr<rbjson::Object> armInfo) {
         extra().set("info", armInfo.release());

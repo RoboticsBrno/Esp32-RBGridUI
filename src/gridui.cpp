@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <esp_log.h>
+#include <stdio.h>
 
 #include "gridui.h"
 #include "rbwebserver.h"
@@ -8,14 +8,14 @@ namespace gridui {
 
 _GridUi UI;
 
-_GridUi::_GridUi() : m_protocol(nullptr) {
-
+_GridUi::_GridUi()
+    : m_protocol(nullptr) {
 }
 
 _GridUi::~_GridUi() {
 }
 
-void _GridUi::begin(rb::Protocol *protocol, int cols, int rows, bool enableSplitting) {
+void _GridUi::begin(rb::Protocol* protocol, int cols, int rows, bool enableSplitting) {
     m_protocol = protocol;
 
     m_layout.reset(new rbjson::Object);
@@ -25,11 +25,11 @@ void _GridUi::begin(rb::Protocol *protocol, int cols, int rows, bool enableSplit
 }
 
 uint16_t _GridUi::generateUuid() const {
-    while(1) {
+    while (1) {
         const uint32_t rnd = esp_random();
-        if(checkUuidFree(rnd & 0xFFFF))
+        if (checkUuidFree(rnd & 0xFFFF))
             return rnd & 0xFFFF;
-        if(checkUuidFree(rnd >> 16))
+        if (checkUuidFree(rnd >> 16))
             return rnd >> 16;
     }
 }
@@ -39,7 +39,7 @@ bool _GridUi::checkUuidFree(uint16_t uuid) const {
 }
 
 void _GridUi::commit() {
-    if(!m_layout) {
+    if (!m_layout) {
         ESP_LOGE("GridUI", "commit() called with no layout prepared!");
         return;
     }
@@ -53,8 +53,8 @@ void _GridUi::commit() {
         ss.seekp(-1, std::stringstream::cur);
 
         ss << ",\"widgets\": [";
-        for(size_t i = 0; i < m_widgets.size(); ++i) {
-            if(i != 0) {
+        for (size_t i = 0; i < m_widgets.size(); ++i) {
+            if (i != 0) {
                 ss << ",";
             }
             auto& w = m_widgets[i];
@@ -70,24 +70,24 @@ void _GridUi::commit() {
         ss.get(layout_json.data(), layout_json.size());
     }
 
-    rb_web_add_file("layout.json", layout_json.data(), layout_json.size()-1);
+    rb_web_add_file("layout.json", layout_json.data(), layout_json.size() - 1);
 }
 
-bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object *pkt) {
-    if(cmd == "_gev") {
+bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
+    if (cmd == "_gev") {
         auto itr = m_states.find(pkt->getInt("id"));
-        if(itr == m_states.end())
+        if (itr == m_states.end())
             return true;
 
-        auto *st = pkt->getObject("st");
-        if(st != nullptr) {
+        auto* st = pkt->getObject("st");
+        if (st != nullptr) {
             itr->second->update(st);
         }
 
         itr->second->call(pkt->getString("ev"));
-    } else if(cmd == "_gall") {
-        for(auto itr = m_states.begin(); itr != m_states.end(); ++itr) {
-            if(itr->second->wasChanged())
+    } else if (cmd == "_gall") {
+        for (auto itr = m_states.begin(); itr != m_states.end(); ++itr) {
+            if (itr->second->wasChanged())
                 itr->second->sendAll();
         }
         return false;

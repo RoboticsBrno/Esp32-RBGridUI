@@ -1,24 +1,24 @@
 #pragma once
 
-#include "widget.h"
 #include "../widgets/checkbox.h"
+#include "widget.h"
 
 namespace gridui {
 namespace builder {
 
 class Checkbox : public Widget, public BuilderMixin<Checkbox, gridui::Checkbox> {
-    static const char *name() { return "Checkbox"; }
+    static const char* name() { return "Checkbox"; }
 
     friend class gridui::_GridUi;
     using Widget::Widget;
-public:
 
-    Checkbox& text(const char *text) {
+public:
+    Checkbox& text(const char* text) {
         extra().set("text", text);
         return *this;
     }
 
-    Checkbox& color(const char *color) {
+    Checkbox& color(const char* color) {
         extra().set("color", color);
         return *this;
     }

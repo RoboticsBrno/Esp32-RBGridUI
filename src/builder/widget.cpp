@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <esp_log.h>
+#include <stdio.h>
 
 #include "widget.h"
 
@@ -8,14 +8,17 @@
 namespace gridui {
 namespace builder {
 
-Widget::Widget(const char *type, WidgetState& state, float x, float y, float w, float h) :
-    m_state(state), m_type(type), m_x(x), m_y(y), m_w(w), m_h(h), m_style(nullptr)
-{
-    
+Widget::Widget(const char* type, WidgetState& state, float x, float y, float w, float h)
+    : m_state(state)
+    , m_type(type)
+    , m_x(x)
+    , m_y(y)
+    , m_w(w)
+    , m_h(h)
+    , m_style(nullptr) {
 }
 
 Widget::~Widget() {
-
 }
 
 rbjson::Object& Widget::extra() {
@@ -23,8 +26,8 @@ rbjson::Object& Widget::extra() {
 }
 
 rbjson::Object& Widget::style() {
-    auto *res = extra().getObject("css");
-    if(res == nullptr) {
+    auto* res = extra().getObject("css");
+    if (res == nullptr) {
         res = new rbjson::Object;
         extra().set("css", res);
     }
