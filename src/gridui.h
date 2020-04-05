@@ -63,7 +63,7 @@ private:
     T* newWidget(float x, float y, float w, float h) {
         static_assert(std::is_base_of<builder::Widget, T>::value, "T must inherit from builder::Widget.");
 
-        const auto uuid = m_uuid_counter++;
+        const auto uuid = generateUuid();
         auto *state = new WidgetState(uuid, T::callbackTrampoline);
         m_states[uuid] = std::unique_ptr<WidgetState>(state);
 
@@ -72,10 +72,11 @@ private:
         return widget;
     }
 
-    std::unique_ptr<rbjson::Object> m_layout;
-    uint16_t m_uuid_counter;
-    std::vector<std::unique_ptr<builder::Widget> > m_widgets;
+    uint16_t generateUuid() const;
+    inline bool checkUuidFree(uint16_t uuid) const;
 
+    std::unique_ptr<rbjson::Object> m_layout;
+    std::vector<std::unique_ptr<builder::Widget> > m_widgets;
 
     std::unordered_map<uint16_t, std::unique_ptr<WidgetState> > m_states;
     std::atomic<rb::Protocol*> m_protocol;

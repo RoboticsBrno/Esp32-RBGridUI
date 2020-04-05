@@ -8,7 +8,7 @@ namespace gridui {
 
 _GridUi UI;
 
-_GridUi::_GridUi() : m_uuid_counter(1), m_protocol(nullptr) {
+_GridUi::_GridUi() : m_protocol(nullptr) {
 
 }
 
@@ -22,6 +22,20 @@ void _GridUi::begin(rb::Protocol *protocol, int cols, int rows, bool enableSplit
     m_layout->set("cols", cols);
     m_layout->set("rows", rows);
     m_layout->set("enableSplitting", new rbjson::Bool(enableSplitting));
+}
+
+uint16_t _GridUi::generateUuid() const {
+    while(1) {
+        const uint32_t rnd = esp_random();
+        if(checkUuidFree(rnd & 0xFFFF))
+            return rnd & 0xFFFF;
+        if(checkUuidFree(rnd >> 16))
+            return rnd >> 16;
+    }
+}
+
+bool _GridUi::checkUuidFree(uint16_t uuid) const {
+    return uuid != 0 && m_states.find(uuid) == m_states.end();
 }
 
 void _GridUi::commit() {
@@ -45,7 +59,7 @@ void _GridUi::commit() {
             }
             auto& w = m_widgets[i];
             w->serializeAndDestroy(ss);
-            delete w.release();
+            w.reset();
         }
         m_widgets.clear();
         m_widgets.shrink_to_fit();
