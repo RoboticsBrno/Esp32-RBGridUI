@@ -8,8 +8,9 @@ import json
 import re
 import shutil
 import sys
+import gzip
 
-VERSION = 3 # increase to force spiffs flash
+VERSION = 4 # increase to force spiffs flash
 
 def generate_amalgamations(source=None, target=None, env=None, base="."):
     web_dir = os.path.join(base, "web")
@@ -45,6 +46,14 @@ def generate_amalgamations(source=None, target=None, env=None, base="."):
                  with open(path, "rb") as src:
                      shutil.copyfileobj(src, dst)
                      dst.write(b"\n")
+
+    for root, _, files in os.walk(data_dir):
+        for fn in files:
+            if fn.endswith(".gz"):
+                continue
+            path = os.path.join(root, fn)
+            with open(path, "rb") as src, gzip.open(path + ".gz", "wb", 9) as dst:
+                shutil.copyfileobj(src, dst)
 
 def after_upload(source, target, env, base="."):
     web_dir = os.path.join(base, "web")
