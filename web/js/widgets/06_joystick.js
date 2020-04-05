@@ -149,8 +149,8 @@ Joystick.prototype.update = function() {
   this.sendEvent(
     'pos',
     {
-      x: this.valX,
-      y: this.valY
+      jx: this.valX,
+      jy: this.valY
     },
     false
   )

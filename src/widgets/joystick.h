@@ -24,11 +24,11 @@ public:
     }
 
     int32_t getX() const {
-        return data().getInt("x");
+        return data().getInt("jx");
     }
 
     int32_t getY() const {
-        return data().getInt("y");
+        return data().getInt("jy");
     }
 };
 
