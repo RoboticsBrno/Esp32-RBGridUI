@@ -29,6 +29,12 @@ public:
         addCallback("grab", cb);
         return *this;
     }
+
+protected:
+    virtual void serializeAndDestroy(std::stringstream& ss) {
+        Widget::serializeAndDestroy(ss);
+        extra().remove("info");
+    }
 };
 
 };
