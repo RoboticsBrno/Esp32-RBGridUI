@@ -130,9 +130,6 @@ var GRID_DATA = {
 
 function Grid(manager, elementId, data) {
   this.manager = manager
-  this.COLS = data.cols
-  this.ROWS = data.rows
-  this.enableSplitting = data.enableSplitting
 
   this.el = document.getElementById(elementId)
   this.widgets = []
@@ -148,6 +145,16 @@ function Grid(manager, elementId, data) {
   this.offsetY = 0
   this.scaleX = 1
   this.scaleY = 1
+
+  this.reset(data)
+}
+
+Grid.prototype.reset = function(data) {
+  this.COLS = data.cols
+  this.ROWS = data.rows
+  this.enableSplitting = data.enableSplitting
+
+  this.clear()
 
   for (var i = 0; i < data.widgets.length; ++i) {
     var w = data.widgets[i]
@@ -325,7 +332,7 @@ Grid.prototype.onMessage = function(data) {
     var w = this.widgets[i]
     if (w.uuid != data['id']) continue
 
-    if("state" in data) {
+    if ('state' in data) {
       w.applyState(JSON.parse(data.state))
     } else {
       var state = {}
@@ -334,6 +341,17 @@ Grid.prototype.onMessage = function(data) {
     }
     break
   }
+}
+
+Grid.prototype.getWidgetByUuid = function(uuid) {
+  var len = this.widgets.length
+  for (var i = 0; i < len; ++i) {
+    var w = this.widgets[i]
+    if (w.uuid === uuid) {
+      return w
+    }
+  }
+  return null
 }
 
 Grid.prototype.getWidgetAtPos = function(x, y) {
