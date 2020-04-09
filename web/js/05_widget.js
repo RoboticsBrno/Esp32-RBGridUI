@@ -9,6 +9,7 @@ function Prop(types, getFunc, setFunc) {
   this.set = setFunc
   this.editable = true
   this.main = false
+  this.ignoreInBuilder = false
 }
 
 Prop.prototype.disableEdit = function() {
@@ -18,6 +19,11 @@ Prop.prototype.disableEdit = function() {
 
 Prop.prototype.setMain = function() {
   this.main = true
+  return this
+}
+
+Prop.prototype.setIgnoreInBuilder = function() {
+  this.ignoreInBuilder = true
   return this
 }
 
@@ -51,10 +57,11 @@ function Widget(grid, uuid, element) {
 Widget.SUBCLASSES = []
 
 Widget.prototype.PROPERTIES = {
-  x: new Prop(Number),
-  y: new Prop(Number),
-  w: new Prop(Number),
-  h: new Prop(Number),
+  id: new Prop(String).setIgnoreInBuilder(),
+  x: new Prop(Number).setIgnoreInBuilder(),
+  y: new Prop(Number).setIgnoreInBuilder(),
+  w: new Prop(Number).setIgnoreInBuilder(),
+  h: new Prop(Number).setIgnoreInBuilder(),
   css: new Prop(
     Object,
     function() {
