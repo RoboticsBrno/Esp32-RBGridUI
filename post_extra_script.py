@@ -12,6 +12,29 @@ import gzip
 
 VERSION = 4 # increase to force spiffs flash
 
+def autodisable_old_lib(base, env):
+    web_dir = os.path.join(base, "web")
+    if not os.path.isdir(web_dir):
+        return False
+
+    saved_mtime = 0
+    our_mtime = 1
+    for root, dirs, files in os.walk(web_dir):
+        for name in files:
+            our_mtime = max(os.path.getmtime(os.path.join(root, name)), our_mtime)
+    our_mtime = int(our_mtime)
+
+    mtime_path = os.path.join(env.get("PROJECT_DIR"), ".gridui_mtime")
+    if os.path.exists(mtime_path):
+        with open(mtime_path, "r") as f:
+            saved_mtime = int(f.read())
+
+    if our_mtime > saved_mtime:
+        with open(mtime_path, "w") as f:
+            f.write("%d" % our_mtime)
+        return False
+    return our_mtime != saved_mtime
+
 def generate_amalgamations(source=None, target=None, env=None, base="."):
     web_dir = os.path.join(base, "web")
     if not os.path.isdir(web_dir):
@@ -52,8 +75,12 @@ def generate_amalgamations(source=None, target=None, env=None, base="."):
             if fn.endswith(".gz"):
                 continue
             path = os.path.join(root, fn)
-            with open(path, "rb") as src, gzip.open(path + ".gz", "wb", 9) as dst:
-                shutil.copyfileobj(src, dst)
+            with open(path, "rb") as src:
+                dst = gzip.GzipFile(path + ".gz", "wb", 9, mtime=0)
+                try:
+                    shutil.copyfileobj(src, dst)
+                finally:
+                    dst.close()
 
 def after_upload(source, target, env, base="."):
     web_dir = os.path.join(base, "web")
@@ -111,8 +138,12 @@ if "Import" in locals():
         cfg.set("env:" + env["PIOENV"], "extra_scripts", extra_scripts)
     else:
         base = os.path.abspath(".")
-        env.AddPreAction("$BUILD_DIR/spiffs.bin", functools.partial(generate_amalgamations, base=base))
-        env.AddPostAction("upload", functools.partial(after_upload, base=base))
+        if autodisable_old_lib(base, env):
+            print("Autodisabling %s" % base)
+        else:
+            print("Using %s" % base)
+            env.AddPreAction("$BUILD_DIR/spiffs.bin", functools.partial(generate_amalgamations, base=base))
+            env.AddPostAction("upload", functools.partial(after_upload, base=base))
 
 elif __name__ == "__main__":
     import argparse
