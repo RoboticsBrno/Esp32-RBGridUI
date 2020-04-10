@@ -18,16 +18,6 @@ public:
         return *this;
     }
 
-    Button& color(const char* color) {
-        extra().set("color", color);
-        return *this;
-    }
-
-    Button& background(const char* color) {
-        extra().set("background", color);
-        return *this;
-    }
-
     Button& onPress(callback_t cb) {
         addCallback("press", cb);
         return *this;
