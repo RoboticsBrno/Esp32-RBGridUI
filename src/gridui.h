@@ -64,12 +64,21 @@ private:
         static_assert(std::is_base_of<builder::Widget, T>::value, "T must inherit from builder::Widget.");
 
         const auto uuid = generateUuid();
-        auto* state = new WidgetState(uuid, T::callbackTrampoline);
-        m_states[uuid] = std::unique_ptr<WidgetState>(state);
+        auto* state = new WidgetState(uuid, &T::callbackTrampoline);
+        m_states.push_back(std::unique_ptr<WidgetState>(state));
 
         auto* widget = new T(T::name(), *state, x, y, w, h);
         m_widgets.push_back(std::unique_ptr<T>(widget));
         return widget;
+    }
+
+    inline WidgetState* stateByUuid(uint16_t uuid) const {
+        for (auto& itr : m_states) {
+            if (itr->uuid() == uuid) {
+                return itr.get();
+            }
+        }
+        return nullptr;
     }
 
     uint16_t generateUuid() const;
@@ -78,7 +87,7 @@ private:
     std::unique_ptr<rbjson::Object> m_layout;
     std::vector<std::unique_ptr<builder::Widget>> m_widgets;
 
-    std::unordered_map<uint16_t, std::unique_ptr<WidgetState>> m_states;
+    std::vector<std::unique_ptr<WidgetState>> m_states;
     std::atomic<rb::Protocol*> m_protocol;
 };
 

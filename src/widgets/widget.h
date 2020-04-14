@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+#include <map>
 #include <stdint.h>
 
 #include "rbjson.h"
@@ -22,8 +24,10 @@ class WidgetState {
     template <typename Self, typename Finished>
     friend class builder::BuilderMixin;
 
+    typedef void (*cb_trampoline_t)(void*, WidgetState*);
+
 public:
-    WidgetState(uint16_t uuid, std::function<void(void*, WidgetState*)> cb_trampoline)
+    WidgetState(uint16_t uuid, cb_trampoline_t cb_trampoline)
         : m_cb_trampoline(cb_trampoline)
         , m_uuid(uuid)
         , m_changed(false) {
@@ -53,19 +57,26 @@ private:
         }
     }
 
-    std::unordered_map<std::string, void*>& callbacks() { return m_callbacks; }
+    std::map<std::string, void*>& callbacks() {
+        if (!m_callbacks) {
+            m_callbacks.reset(new std::map<std::string, void*>);
+        }
+        return *m_callbacks.get();
+    }
 
     void call(const std::string& event) {
-        auto itr = m_callbacks.find(event);
-        if (itr != m_callbacks.end()) {
-            m_cb_trampoline(itr->second, this);
+        if (!m_callbacks)
+            return;
+        auto itr = m_callbacks->find(event);
+        if (itr != m_callbacks->end()) {
+            (*m_cb_trampoline)(itr->second, this);
         }
     }
 
-    std::function<void(void*, WidgetState*)> m_cb_trampoline;
-    std::unordered_map<std::string, void*> m_callbacks;
     rbjson::Object m_data;
-    uint16_t m_uuid;
+    const cb_trampoline_t m_cb_trampoline;
+    std::unique_ptr<std::map<std::string, void*>> m_callbacks;
+    const uint16_t m_uuid;
     bool m_changed;
 };
 

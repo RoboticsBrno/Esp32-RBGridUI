@@ -35,7 +35,7 @@ uint16_t _GridUi::generateUuid() const {
 }
 
 bool _GridUi::checkUuidFree(uint16_t uuid) const {
-    return uuid != 0 && m_states.find(uuid) == m_states.end();
+    return uuid != 0 && stateByUuid(uuid) == nullptr;
 }
 
 void _GridUi::commit() {
@@ -63,6 +63,7 @@ void _GridUi::commit() {
         }
         m_widgets.clear();
         m_widgets.shrink_to_fit();
+        m_states.shrink_to_fit();
 
         ss << "]}";
 
@@ -75,20 +76,20 @@ void _GridUi::commit() {
 
 bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
     if (cmd == "_gev") {
-        auto itr = m_states.find(pkt->getInt("id"));
-        if (itr == m_states.end())
+        auto *state = stateByUuid(pkt->getInt("id"));
+        if (state == nullptr)
             return true;
 
         auto* st = pkt->getObject("st");
         if (st != nullptr) {
-            itr->second->update(st);
+            state->update(st);
         }
 
-        itr->second->call(pkt->getString("ev"));
+        state->call(pkt->getString("ev"));
     } else if (cmd == "_gall") {
-        for (auto itr = m_states.begin(); itr != m_states.end(); ++itr) {
-            if (itr->second->wasChanged())
-                itr->second->sendAll();
+        for (auto& itr : m_states) {
+            if (itr->wasChanged())
+                itr->sendAll();
         }
         return false;
     } else {
