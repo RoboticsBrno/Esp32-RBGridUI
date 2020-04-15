@@ -1,10 +1,5 @@
-function Prop(types, getFunc, setFunc) {
-  if (!Array.isArray(types)) {
-    this.types = [types]
-  } else {
-    this.types = types
-  }
-
+function Prop(type, getFunc, setFunc) {
+  this.type = type
   this.get = getFunc
   this.set = setFunc
   this.editable = true
@@ -117,11 +112,7 @@ Widget.prototype.applyState = function(state) {
 
     var prop = proto.PROPERTIES[k]
     if (prop.set === undefined) {
-      if (prop.types.length === 1) {
-        this[k] = prop.types[0](state[k])
-      } else {
-        this[k] = state[k]
-      }
+      this[k] = prop.type(state[k])
     } else {
       prop.set.call(this, state[k])
     }
@@ -173,11 +164,7 @@ Widget.prototype.getState = function() {
 
     var prop = proto.PROPERTIES[key]
     if (prop.get === undefined) {
-      if (prop.types.length === 1) {
-        res[key] = prop.types[0](this[key])
-      } else {
-        res[key] = this[key]
-      }
+      res[key] = prop.type(this[key])
     } else {
       res[key] = prop.get.call(this)
     }
