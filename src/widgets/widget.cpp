@@ -9,6 +9,9 @@ namespace gridui {
 WidgetState Widget::emptyState(0, [](void* cb, WidgetState* state) {});
 
 bool WidgetState::set(const char* key, rbjson::Value* value, bool mustarrive) {
+    if(m_uuid == 0)
+        return false;
+
     const auto* old = m_data.get(key);
     if (old != nullptr && old->equals(*value)) {
         delete value;
@@ -21,6 +24,9 @@ bool WidgetState::set(const char* key, rbjson::Value* value, bool mustarrive) {
 }
 
 bool WidgetState::setInnerObjectProp(const char* objectName, const char* propertyName, rbjson::Value* value, bool mustarrive) {
+    if(m_uuid == 0)
+        return false;
+
     auto* obj = m_data.getObject(objectName);
     if (obj == nullptr) {
         obj = new rbjson::Object;
