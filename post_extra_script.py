@@ -109,7 +109,7 @@ def after_upload(source, target, env, base="."):
         hasher.update(d.get("hwid", "").encode("utf-8"))
 
     current_sha1 = hasher.hexdigest()
-    state_path = os.path.join(env.get("PROJECT_DIR"), ".last_uploadfs_sha1")
+    state_path = os.path.join(env.get("PROJECT_DIR"), ".gridui_uploadfs_sha1")
     if os.path.exists(state_path):
         with open(state_path, "r") as f:
             if f.read() == current_sha1:
