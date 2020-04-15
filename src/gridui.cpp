@@ -118,8 +118,8 @@ void _GridUi::stateChangeTask(TimerHandle_t timer) {
     if (prot == nullptr)
         return;
 
-    auto pkt = std::make_unique<rbjson::Object>();
-    auto state = std::make_unique<rbjson::Object>();
+    std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
+    std::unique_ptr<rbjson::Object> state(new rbjson::Object);
     for (auto& itr : self->m_states) {
         if (itr->popChanges(*state.get())) {
             snprintf(buf, sizeof(buf), "%d", (int)itr->uuid());
