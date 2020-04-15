@@ -22,7 +22,7 @@ function Checkbox(grid, uuid) {
 Widget.createSubclass(Checkbox, {
   fontSize: new Prop(Number),
   checked: new Prop(Boolean),
-  color: new Prop(String).setMain(),
+  color: new Prop(String),
   text: new Prop(String)
 })
 
