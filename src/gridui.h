@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "builder/arm.h"
+#include "builder/bar.h"
 #include "builder/button.h"
 #include "builder/checkbox.h"
 #include "builder/joystick.h"
@@ -30,6 +31,10 @@ public:
 
     builder::Arm& arm(float x, float y, float w, float h) {
         return *newWidget<builder::Arm>(x, y, w, h);
+    }
+
+    builder::Bar& bar(float x, float y, float w, float h) {
+        return *newWidget<builder::Bar>(x, y, w, h);
     }
 
     builder::Button& button(float x, float y, float w, float h) {
