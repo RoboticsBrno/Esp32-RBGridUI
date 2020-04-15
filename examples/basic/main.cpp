@@ -34,21 +34,25 @@ void setup() {
     UI.begin(gProt);
 
     // Build the UI widgets
-    gLedRed = UI.led(1, 1, 1, 1, "red")
+    gLedRed = UI.led(1, 1, 1, 1)
+                  .color("red")
                   .on(true)
                   .finish();
 
     // The return values from finish() represent the constructed Widget in the UI.
     // They can be freely copied by value.
-    auto boxBlack = UI.checkbox(4.5, 2.5, 4, 1, "black")
+    auto boxBlack = UI.checkbox(4.5, 2.5, 4, 1)
+                        .color("black")
                         .checked(true)
                         .text("ChkBox")
                         .finish();
 
-    auto ledBlue = UI.led(3, 1, 1, 1, "blue")
+    auto ledBlue = UI.led(3, 1, 1, 1)
+                       .color("blue")
                        .finish();
 
-    auto boxGreen = UI.checkbox(9.5, 2, 1.5, 3.5, "green")
+    auto boxGreen = UI.checkbox(9.5, 2, 1.5, 3.5)
+                        .color("green")
                         .fontSize(17.5)
                         .text("TestBox")
                         .onChanged([](Checkbox& b) {
@@ -56,7 +60,8 @@ void setup() {
                         })
                         .finish();
 
-    UI.joystick(5.5, 11.5, 5.5, 5, "red")
+    UI.joystick(5.5, 11.5, 5.5, 5)
+        .color("red")
         .keys("wasd ")
         .text("Fire!")
         .onPositionChanged([](Joystick& joy) {
@@ -71,7 +76,8 @@ void setup() {
         })
         .finish();
 
-    UI.button(0, 11.5, 4.5, 1.5, "BUTTON")
+    UI.button(0, 11.5, 4.5, 1.5)
+        .text("BUTTON")
         .css("border", "3px solid black")
         .css("text-transform", "uppercase")
         .onPress([](Button&) {
