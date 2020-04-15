@@ -8,9 +8,11 @@ namespace gridui {
 
 WidgetState Widget::emptyState(0, [](void* cb, WidgetState* state) {});
 
-bool WidgetState::set(const char* key, rbjson::Value* value, bool mustarrive) {
-    if(m_uuid == 0)
+bool WidgetState::set(const std::string& key, rbjson::Value* value) {
+    if (m_uuid == 0)
         return false;
+
+    std::lock_guard<std::mutex> lock(m_mutex);
 
     const auto* old = m_data.get(key);
     if (old != nullptr && old->equals(*value)) {
@@ -19,13 +21,15 @@ bool WidgetState::set(const char* key, rbjson::Value* value, bool mustarrive) {
     }
 
     m_data.set(key, value);
-    sendValue(key, value, mustarrive);
+    markChangedLocked(key);
     return true;
 }
 
-bool WidgetState::setInnerObjectProp(const char* objectName, const char* propertyName, rbjson::Value* value, bool mustarrive) {
-    if(m_uuid == 0)
+bool WidgetState::setInnerObjectProp(const std::string& objectName, const std::string& propertyName, rbjson::Value* value) {
+    if (m_uuid == 0)
         return false;
+
+    std::lock_guard<std::mutex> lock(m_mutex);
 
     auto* obj = m_data.getObject(objectName);
     if (obj == nullptr) {
@@ -40,38 +44,89 @@ bool WidgetState::setInnerObjectProp(const char* objectName, const char* propert
     }
 
     obj->set(propertyName, value);
-    sendValue(objectName, obj, mustarrive);
+    markChangedLocked(objectName);
     return true;
 }
 
-void WidgetState::sendValue(const char* key, const rbjson::Value* value, bool mustarrive) {
-    m_changed = true;
+bool WidgetState::popChanges(rbjson::Object& state) {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if (m_bloom_tick == 0)
+        return false;
 
-    auto* prot = UI.protocol();
-    if (value == nullptr || prot == nullptr)
-        return;
-
-    std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
-    pkt->set("id", m_uuid);
-    pkt->set("key", key);
-    pkt->set("val", value->str());
-
-    if (mustarrive) {
-        prot->send_mustarrive("_gui", pkt.release());
-    } else {
-        prot->send("_gui", pkt.get());
+    const auto& m = m_data.members();
+    for (auto itr = m.begin(); itr != m.end(); ++itr) {
+        if (wasChangedInTickLocked(itr->first)) {
+            state.set(itr->first, itr->second->copy());
+        }
     }
+    m_bloom_tick = 0;
+    return true;
 }
 
-void WidgetState::sendAll() {
-    auto* prot = UI.protocol();
-    if (prot == nullptr)
-        return;
-
-    std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
-    pkt->set("id", m_uuid);
-    pkt->set("state", m_data.str());
-    prot->send_mustarrive("_gall", pkt.release());
+static uint32_t murmur3_32(const uint8_t* key, size_t len, uint32_t seed) {
+    uint32_t h = seed;
+    if (len > 3) {
+        const uint32_t* key_x4 = (const uint32_t*)key;
+        size_t i = len >> 2;
+        do {
+            uint32_t k = *key_x4++;
+            k *= 0xcc9e2d51;
+            k = (k << 15) | (k >> 17);
+            k *= 0x1b873593;
+            h ^= k;
+            h = (h << 13) | (h >> 19);
+            h = (h * 5) + 0xe6546b64;
+        } while (--i);
+        key = (const uint8_t*)key_x4;
+    }
+    if (len & 3) {
+        size_t i = len & 3;
+        uint32_t k = 0;
+        key = &key[i - 1];
+        do {
+            k <<= 8;
+            k |= *key--;
+        } while (--i);
+        k *= 0xcc9e2d51;
+        k = (k << 15) | (k >> 17);
+        k *= 0x1b873593;
+        h ^= k;
+    }
+    h ^= len;
+    h ^= h >> 16;
+    h *= 0x85ebca6b;
+    h ^= h >> 13;
+    h *= 0xc2b2ae35;
+    h ^= h >> 16;
+    return h;
 }
 
+static constexpr int hash_count = 3;
+
+void WidgetState::markChangedLocked(const std::string& key) {
+    for (int i = 0; i < hash_count; ++i) {
+        const auto bit = murmur3_32((uint8_t*)key.c_str(), key.size(), i) % 16;
+        m_bloom_global |= (1 << bit);
+        m_bloom_tick |= (1 << bit);
+    }
+
+    UI.notifyStateChange();
+}
+
+bool WidgetState::wasChangedInTickLocked(const std::string& key) const {
+    for (int i = 0; i < hash_count; ++i) {
+        const auto bit = murmur3_32((uint8_t*)key.c_str(), key.size(), i) % 16;
+        if ((m_bloom_tick & (1 << bit)) == 0)
+            return false;
+    }
+    return true;
+}
+
+bool WidgetState::remarkAllChanges() {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if (m_bloom_global == 0)
+        return false;
+    m_bloom_tick = m_bloom_global;
+    return true;
+}
 };

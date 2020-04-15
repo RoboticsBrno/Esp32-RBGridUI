@@ -127,9 +127,8 @@ Manager.prototype.onMessage = function (event) {
     case "log":
       this.log.write(data["msg"]);
       break;
-    case "_gui":
-    case "_gall":
-      if (this.grid) this.grid.onMessage(data);
+    case "_gst":
+      if (this.grid) this.grid.onMessageState(data);
       break;
   }
 };

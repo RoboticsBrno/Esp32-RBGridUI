@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "gridui.h"
+#include "rbprotocol.h"
 #include "rbwebserver.h"
 
 namespace gridui {
@@ -72,11 +73,14 @@ void _GridUi::commit() {
     }
 
     rb_web_add_file("layout.json", layout_json.data(), layout_json.size() - 1);
+
+    auto timer = xTimerCreate("gridui_state", pdMS_TO_TICKS(100), pdTRUE, this, stateChangeTask);
+    xTimerStart(timer, portMAX_DELAY);
 }
 
 bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
     if (cmd == "_gev") {
-        auto *state = stateByUuid(pkt->getInt("id"));
+        auto* state = stateByUuid(pkt->getInt("id"));
         if (state == nullptr)
             return true;
 
@@ -87,9 +91,13 @@ bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
 
         state->call(pkt->getString("ev"));
     } else if (cmd == "_gall") {
+        bool changed = false;
         for (auto& itr : m_states) {
-            if (itr->wasChanged())
-                itr->sendAll();
+            if (itr->remarkAllChanges())
+                changed = true;
+        }
+        if (changed) {
+            notifyStateChange();
         }
         return false;
     } else {
@@ -98,4 +106,28 @@ bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
     return true;
 }
 
+void _GridUi::stateChangeTask(TimerHandle_t timer) {
+    auto* self = (_GridUi*)pvTimerGetTimerID(timer);
+    char buf[6];
+
+    bool expected = true;
+    if (!self->m_states_modified.compare_exchange_strong(expected, false))
+        return;
+
+    auto* prot = self->protocol();
+    if (prot == nullptr)
+        return;
+
+    auto pkt = std::make_unique<rbjson::Object>();
+    auto state = std::make_unique<rbjson::Object>();
+    for (auto& itr : self->m_states) {
+        if (itr->popChanges(*state.get())) {
+            snprintf(buf, sizeof(buf), "%d", (int)itr->uuid());
+            pkt->set(buf, state.release());
+            state.reset(new rbjson::Object);
+        }
+    }
+
+    prot->send_mustarrive("_gst", pkt.release());
+}
 };

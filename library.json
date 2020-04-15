@@ -20,7 +20,7 @@
   "dependencies": [
     {
       "name": "RB3201-RBProtocol",
-      "version": "https://github.com/RoboticsBrno/RB3201-RBProtocol-library/archive/v9.0.1.zip"
+      "version": "https://github.com/RoboticsBrno/RB3201-RBProtocol-library/archive/v10.0.0.zip"
     }
   ],
   "build": {

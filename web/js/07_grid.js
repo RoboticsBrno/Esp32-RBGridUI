@@ -198,20 +198,14 @@ Grid.prototype.update = function (diffMs) {
   }
 };
 
-Grid.prototype.onMessage = function (data) {
+Grid.prototype.onMessageState = function (data) {
   var len = this.widgets.length;
   for (var i = 0; i < len; ++i) {
     var w = this.widgets[i];
-    if (w.uuid != data["id"]) continue;
-
-    if ("state" in data) {
-      w.applyState(JSON.parse(data.state));
-    } else {
-      var state = {};
-      state[data.key] = JSON.parse(data.val);
+    var state = data[w.uuid.toString()];
+    if (state !== undefined) {
       w.applyState(state);
     }
-    break;
   }
 };
 

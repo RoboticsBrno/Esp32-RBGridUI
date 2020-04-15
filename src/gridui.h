@@ -4,6 +4,9 @@
 #include <memory>
 #include <vector>
 
+#include <FreeRTOS.h>
+#include <freertos/timers.h>
+
 #include "builder/arm.h"
 #include "builder/bar.h"
 #include "builder/button.h"
@@ -17,7 +20,11 @@ class Protocol;
 
 namespace gridui {
 
+class WidgetState;
+
 class _GridUi {
+    friend class WidgetState;
+
 public:
     _GridUi();
     ~_GridUi();
@@ -76,6 +83,12 @@ private:
         return nullptr;
     }
 
+    static void stateChangeTask(TimerHandle_t timer);
+
+    void notifyStateChange() {
+        m_states_modified.store(true);
+    }
+
     uint16_t generateUuid() const;
     inline bool checkUuidFree(uint16_t uuid) const;
 
@@ -84,6 +97,8 @@ private:
 
     std::vector<std::unique_ptr<WidgetState>> m_states;
     std::atomic<rb::Protocol*> m_protocol;
+
+    std::atomic<bool> m_states_modified;
 };
 
 extern _GridUi UI;

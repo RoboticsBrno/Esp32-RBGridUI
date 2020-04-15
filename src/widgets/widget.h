@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <map>
+#include <mutex>
 #include <stdint.h>
 
 #include "rbjson.h"
@@ -30,31 +31,29 @@ public:
     WidgetState(uint16_t uuid, cb_trampoline_t cb_trampoline)
         : m_cb_trampoline(cb_trampoline)
         , m_uuid(uuid)
-        , m_changed(false) {
+        , m_bloom_global(0)
+        , m_bloom_tick(0) {
     }
 
     uint16_t uuid() const { return m_uuid; }
     const rbjson::Object& data() const { return m_data; }
 
-    bool set(const char* key, rbjson::Value* value, bool mustarrive = true);
-    bool setInnerObjectProp(const char* objectName, const char* propertyName,
-        rbjson::Value* value, bool mustarrive = true);
+    bool set(const std::string& key, rbjson::Value* value);
+    bool setInnerObjectProp(const std::string& objectName, const std::string& propertyName,
+        rbjson::Value* value);
 
 private:
     WidgetState(const WidgetState&) = delete;
     WidgetState& operator=(const WidgetState&) = delete;
 
-    bool wasChanged() const { return m_changed; }
-
     rbjson::Object& data() { return m_data; }
 
-    void sendValue(const char* key, const rbjson::Value* value, bool mustarrive = true);
-    void sendAll();
-
     void update(rbjson::Object* other) {
+        m_mutex.lock();
         for (auto itr : other->members()) {
             m_data.set(itr.first.c_str(), itr.second->copy());
         }
+        m_mutex.unlock();
     }
 
     std::map<std::string, void*>& callbacks() {
@@ -73,11 +72,22 @@ private:
         }
     }
 
+    void markChangedLocked(const std::string& key);
+    inline bool wasChangedInTickLocked(const std::string& key) const;
+
+    bool popChanges(rbjson::Object& state);
+    bool remarkAllChanges();
+
     rbjson::Object m_data;
     const cb_trampoline_t m_cb_trampoline;
     std::unique_ptr<std::map<std::string, void*>> m_callbacks;
+
+    mutable std::mutex m_mutex;
+
     const uint16_t m_uuid;
-    bool m_changed;
+
+    uint16_t m_bloom_global;
+    uint16_t m_bloom_tick;
 };
 
 class Widget {
