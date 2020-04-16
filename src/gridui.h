@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include <FreeRTOS.h>
+#include <freertos/FreeRTOS.h>
 #include <freertos/timers.h>
 
 #include "builder/arm.h"
