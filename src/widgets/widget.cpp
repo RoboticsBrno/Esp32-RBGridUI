@@ -63,7 +63,7 @@ bool WidgetState::popChanges(rbjson::Object& state) {
     return true;
 }
 
-static uint32_t murmur3_32(const uint8_t* key, size_t len, uint32_t seed) {
+static inline uint32_t murmur3_32(const uint8_t* key, size_t len, uint32_t seed) {
     uint32_t h = seed;
     if (len > 3) {
         const uint32_t* key_x4 = (const uint32_t*)key;

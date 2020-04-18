@@ -108,7 +108,6 @@ bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
 
 void _GridUi::stateChangeTask(TimerHandle_t timer) {
     auto* self = (_GridUi*)pvTimerGetTimerID(timer);
-    char buf[6];
 
     bool expected = true;
     if (!self->m_states_modified.compare_exchange_strong(expected, false))
@@ -119,12 +118,17 @@ void _GridUi::stateChangeTask(TimerHandle_t timer) {
         return;
 
     std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
-    std::unique_ptr<rbjson::Object> state(new rbjson::Object);
-    for (auto& itr : self->m_states) {
-        if (itr->popChanges(*state.get())) {
-            snprintf(buf, sizeof(buf), "%d", (int)itr->uuid());
-            pkt->set(buf, state.release());
-            state.reset(new rbjson::Object);
+    {
+        char buf[6];
+        std::unique_ptr<rbjson::Object> state(new rbjson::Object);
+        const size_t size = self->m_states.size();
+        for (size_t i = 0; i < size; ++i) {
+            auto& s = self->m_states[i];
+            if (s->popChanges(*state.get())) {
+                snprintf(buf, sizeof(buf), "%d", (int)s->uuid());
+                pkt->set(buf, state.release());
+                state.reset(new rbjson::Object);
+            }
         }
     }
 

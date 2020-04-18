@@ -105,6 +105,38 @@ public:
         return *this;
     }
 
+    void setWidgetX(float val) {
+        m_state->set("x", new rbjson::Number(val));
+    }
+
+    float getWidgetX() const {
+        return data().getDouble("x");
+    }
+
+    void setWidgetY(float val) {
+        m_state->set("y", new rbjson::Number(val));
+    }
+
+    float getWidgetY() const {
+        return data().getDouble("y");
+    }
+
+    void setWidgetW(float val) {
+        m_state->set("w", new rbjson::Number(val));
+    }
+
+    float getWidgetW() const {
+        return data().getDouble("w");
+    }
+
+    void setWidgetH(float val) {
+        m_state->set("h", new rbjson::Number(val));
+    }
+
+    float getWidgetH() const {
+        return data().getDouble("h");
+    }
+
     void setCss(const std::string& propertyName, const std::string& value) {
         m_state->setInnerObjectProp("css", propertyName, new rbjson::String(value));
     }
