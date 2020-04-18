@@ -13,13 +13,13 @@ class Led : public Widget, public BuilderMixin<Led, gridui::Led> {
     using Widget::Widget;
 
 public:
-    Led& color(const char* color) {
+    Led& color(const std::string& color) {
         extra().set("color", color);
         return *this;
     }
 
     Led& on(bool on) {
-        extra().set("on", on);
+        extra().set("on", new rbjson::Bool(on));
         return *this;
     }
 };

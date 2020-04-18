@@ -11,12 +11,12 @@ class Button : public Widget {
     using Widget::Widget;
 
 public:
-    void setText(const char* text) {
+    void setText(const std::string& text) {
         m_state->set("text", new rbjson::String(text));
     }
 
     std::string getText() const {
-        return data().getString("text", "");
+        return data().getString("text");
     }
 };
 

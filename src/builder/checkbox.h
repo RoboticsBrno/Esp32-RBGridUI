@@ -13,23 +13,23 @@ class Checkbox : public Widget, public BuilderMixin<Checkbox, gridui::Checkbox> 
     using Widget::Widget;
 
 public:
-    Checkbox& text(const char* text) {
-        extra().set("text", text);
-        return *this;
-    }
-
-    Checkbox& color(const char* color) {
-        extra().set("color", color);
-        return *this;
-    }
-
-    Checkbox& fontSize(int size) {
-        extra().set("fontSize", size);
+    Checkbox& fontSize(float fontSize) {
+        extra().set("fontSize", fontSize);
         return *this;
     }
 
     Checkbox& checked(bool checked) {
         extra().set("checked", new rbjson::Bool(checked));
+        return *this;
+    }
+
+    Checkbox& color(const std::string& color) {
+        extra().set("color", color);
+        return *this;
+    }
+
+    Checkbox& text(const std::string& text) {
+        extra().set("text", text);
         return *this;
     }
 

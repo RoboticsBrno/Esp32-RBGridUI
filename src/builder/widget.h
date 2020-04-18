@@ -28,7 +28,7 @@ class BuilderMixin {
 public:
     typedef std::function<void(Constructed&)> callback_t;
 
-    Self& css(const char* key, const char* value) {
+    Self& css(const std::string& key, const std::string& value) {
         auto& s = self();
         s.style().set(key, value);
         return s;
@@ -39,7 +39,7 @@ public:
     }
 
 protected:
-    void addCallback(const char* name, callback_t cb) {
+    void addCallback(const std::string& name, callback_t cb) {
         auto& all = self().m_state.callbacks();
 
         auto old = all.find(name);

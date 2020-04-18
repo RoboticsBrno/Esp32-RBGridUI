@@ -13,7 +13,17 @@ class Joystick : public Widget, public BuilderMixin<Joystick, gridui::Joystick> 
     using Widget::Widget;
 
 public:
-    Joystick& text(const char* text) {
+    Joystick& color(const std::string& color) {
+        extra().set("color", color);
+        return *this;
+    }
+
+    Joystick& keys(const std::string& keys) {
+        extra().set("keys", keys);
+        return *this;
+    }
+
+    Joystick& text(const std::string& text) {
         extra().set("text", text);
         return *this;
     }
@@ -21,16 +31,6 @@ public:
     Joystick& keys(char forward, char left, char backwards, char right, char click = 0) {
         const char keys[6] = { forward, left, backwards, right, click, 0 };
         extra().set("keys", keys);
-        return *this;
-    }
-
-    Joystick& keys(const char* keys) {
-        extra().set("keys", keys);
-        return *this;
-    }
-
-    Joystick& color(const char* color) {
-        extra().set("color", color);
         return *this;
     }
 

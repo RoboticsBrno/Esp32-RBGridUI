@@ -11,12 +11,12 @@ class Checkbox : public Widget {
     using Widget::Widget;
 
 public:
-    void setColor(const char* color) {
-        m_state->set("color", new rbjson::String(color));
+    void setFontSize(float fontSize) {
+        m_state->set("fontSize", new rbjson::Number(fontSize));
     }
 
-    void setText(const char* text) {
-        m_state->set("text", new rbjson::String(text));
+    float getFontSize() const {
+        return data().getDouble("fontSize");
     }
 
     void setChecked(bool checked) {
@@ -27,8 +27,20 @@ public:
         return data().getBool("checked");
     }
 
-    void setFontSize(int size) {
-        m_state->set("fontSize", new rbjson::Number(size));
+    void setColor(const std::string& color) {
+        m_state->set("color", new rbjson::String(color));
+    }
+
+    std::string getColor() const {
+        return data().getString("color");
+    }
+
+    void setText(const std::string& text) {
+        m_state->set("text", new rbjson::String(text));
+    }
+
+    std::string getText() const {
+        return data().getString("text");
     }
 };
 

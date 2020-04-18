@@ -11,16 +11,28 @@ class Joystick : public Widget {
     using Widget::Widget;
 
 public:
-    void setColor(const char* color) {
+    void setColor(const std::string& color) {
         m_state->set("color", new rbjson::String(color));
     }
 
-    void setText(const char* text) {
+    std::string getColor() const {
+        return data().getString("color");
+    }
+
+    void setKeys(const std::string& keys) {
+        m_state->set("keys", new rbjson::String(keys));
+    }
+
+    std::string getKeys() const {
+        return data().getString("keys");
+    }
+
+    void setText(const std::string& text) {
         m_state->set("text", new rbjson::String(text));
     }
 
     std::string getText() const {
-        return data().getString("text", "");
+        return data().getString("text");
     }
 
     int32_t getX() const {

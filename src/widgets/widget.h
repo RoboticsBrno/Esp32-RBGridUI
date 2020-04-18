@@ -105,7 +105,7 @@ public:
         return *this;
     }
 
-    void css(const char* propertyName, const char* value) {
+    void css(const std::string& propertyName, const std::string& value) {
         m_state->setInnerObjectProp("css", propertyName, new rbjson::String(value));
     }
 
