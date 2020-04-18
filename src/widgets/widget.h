@@ -105,8 +105,15 @@ public:
         return *this;
     }
 
-    void css(const std::string& propertyName, const std::string& value) {
+    void setCss(const std::string& propertyName, const std::string& value) {
         m_state->setInnerObjectProp("css", propertyName, new rbjson::String(value));
+    }
+
+    std::string getCss(const std::string& propertyName) const {
+        auto* css = data().getObject("css");
+        if (css == nullptr)
+            return "";
+        return css->getString(propertyName);
     }
 
 protected:
