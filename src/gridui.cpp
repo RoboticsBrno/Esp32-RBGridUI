@@ -1,4 +1,5 @@
 #include <esp_log.h>
+#include <esp_timer.h>
 #include <stdio.h>
 
 #include "gridui.h"
@@ -74,8 +75,15 @@ void _GridUi::commit() {
 
     rb_web_add_file("layout.json", layout_json.data(), layout_json.size() - 1);
 
-    auto timer = xTimerCreate("gridui_state", pdMS_TO_TICKS(100), pdTRUE, this, stateChangeTask);
-    xTimerStart(timer, portMAX_DELAY);
+    esp_timer_create_args_t args = {
+        .callback = stateChangeTask,
+        .arg = this,
+        .dispatch_method = ESP_TIMER_TASK,
+        .name = "gridui_state",
+    };
+    esp_timer_handle_t timer;
+    esp_timer_create(&args, &timer);
+    esp_timer_start_periodic(timer, 100 * 1000);
 }
 
 bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
@@ -106,8 +114,8 @@ bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
     return true;
 }
 
-void _GridUi::stateChangeTask(TimerHandle_t timer) {
-    auto* self = (_GridUi*)pvTimerGetTimerID(timer);
+void _GridUi::stateChangeTask(void* selfVoid) {
+    auto* self = (_GridUi*)selfVoid;
 
     bool expected = true;
     if (!self->m_states_modified.compare_exchange_strong(expected, false))

@@ -83,7 +83,7 @@ private:
         return nullptr;
     }
 
-    static void stateChangeTask(TimerHandle_t timer);
+    static void stateChangeTask(void* self);
 
     void notifyStateChange() {
         m_states_modified.store(true);
