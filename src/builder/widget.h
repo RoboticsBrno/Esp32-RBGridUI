@@ -72,9 +72,9 @@ public:
     virtual ~Widget();
 
 protected:
-    Widget(const char* type, WidgetState& state, float x, float y, float w, float h);
+    Widget(const char* type, WidgetState& state);
 
-    virtual void serializeAndDestroy(std::stringstream& ss);
+    virtual void serialize(std::stringstream& ss);
 
     rbjson::Object& extra();
     rbjson::Object& style();
@@ -86,9 +86,6 @@ private:
     Widget& operator=(const Widget&) = delete;
 
     const char* m_type;
-    float m_x, m_y;
-    float m_w, m_h;
-
     rbjson::Object* m_style;
 };
 

@@ -11,13 +11,21 @@ namespace gridui {
 _GridUi UI;
 
 _GridUi::_GridUi()
-    : m_protocol(nullptr) {
+    : m_protocol(nullptr)
+    , m_state_mustarrive_id(UINT32_MAX)
+    , m_states_modified(false) {
 }
 
 _GridUi::~_GridUi() {
 }
 
 void _GridUi::begin(rb::Protocol* protocol, int cols, int rows, bool enableSplitting) {
+    std::lock_guard<std::mutex> l(m_states_mu);
+    if (m_protocol != nullptr) {
+        ESP_LOGE("GridUI", "begin() called more than once!");
+        return;
+    }
+
     m_protocol = protocol;
 
     m_layout.reset(new rbjson::Object);
@@ -26,21 +34,22 @@ void _GridUi::begin(rb::Protocol* protocol, int cols, int rows, bool enableSplit
     m_layout->set("enableSplitting", new rbjson::Bool(enableSplitting));
 }
 
-uint16_t _GridUi::generateUuid() const {
+uint16_t _GridUi::generateUuidLocked() const {
     while (1) {
         const uint32_t rnd = esp_random();
-        if (checkUuidFree(rnd & 0xFFFF))
+        if (checkUuidFreeLocked(rnd & 0xFFFF))
             return rnd & 0xFFFF;
-        if (checkUuidFree(rnd >> 16))
+        if (checkUuidFreeLocked(rnd >> 16))
             return rnd >> 16;
     }
 }
 
-bool _GridUi::checkUuidFree(uint16_t uuid) const {
-    return uuid != 0 && stateByUuid(uuid) == nullptr;
+bool _GridUi::checkUuidFreeLocked(uint16_t uuid) const {
+    return uuid != 0 && stateByUuidLocked(uuid) == nullptr;
 }
 
 void _GridUi::commit() {
+    std::lock_guard<std::mutex> l(m_states_mu);
     if (!m_layout) {
         ESP_LOGE("GridUI", "commit() called with no layout prepared!");
         return;
@@ -60,7 +69,7 @@ void _GridUi::commit() {
                 ss << ",";
             }
             auto& w = m_widgets[i];
-            w->serializeAndDestroy(ss);
+            w->serialize(ss);
             w.reset();
         }
         m_widgets.clear();
@@ -83,31 +92,35 @@ void _GridUi::commit() {
     };
     esp_timer_handle_t timer;
     esp_timer_create(&args, &timer);
-    esp_timer_start_periodic(timer, 100 * 1000);
+    esp_timer_start_periodic(timer, 50 * 1000);
 }
 
 bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
     if (cmd == "_gev") {
-        auto* state = stateByUuid(pkt->getInt("id"));
-        if (state == nullptr)
+        m_states_mu.lock();
+        auto* state = stateByUuidLocked(pkt->getInt("id"));
+        if (state == nullptr) {
+            m_states_mu.unlock();
             return true;
+        }
 
         auto* st = pkt->getObject("st");
         if (st != nullptr) {
             state->update(st);
         }
+        m_states_mu.unlock();
 
         state->call(pkt->getString("ev"));
     } else if (cmd == "_gall") {
         bool changed = false;
+        std::lock_guard<std::mutex> l(m_states_mu);
         for (auto& itr : m_states) {
             if (itr->remarkAllChanges())
                 changed = true;
         }
         if (changed) {
-            notifyStateChange();
+            m_states_modified = true;
         }
-        return false;
     } else {
         return false;
     }
@@ -117,18 +130,22 @@ bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
 void _GridUi::stateChangeTask(void* selfVoid) {
     auto* self = (_GridUi*)selfVoid;
 
-    bool expected = true;
-    if (!self->m_states_modified.compare_exchange_strong(expected, false))
+    auto* prot = self->protocol();
+    if (prot == nullptr || !prot->is_possessed())
         return;
 
-    auto* prot = self->protocol();
-    if (prot == nullptr)
+    if (!prot->is_mustarrive_complete(self->m_state_mustarrive_id))
+        return;
+
+    if (!self->m_states_modified.exchange(false))
         return;
 
     std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
     {
+        std::lock_guard<std::mutex>(self->m_states_mu);
         char buf[6];
         std::unique_ptr<rbjson::Object> state(new rbjson::Object);
+
         const size_t size = self->m_states.size();
         for (size_t i = 0; i < size; ++i) {
             auto& s = self->m_states[i];
@@ -140,6 +157,6 @@ void _GridUi::stateChangeTask(void* selfVoid) {
         }
     }
 
-    prot->send_mustarrive("_gst", pkt.release());
+    self->m_state_mustarrive_id = prot->send_mustarrive("_gst", pkt.release());
 }
 };

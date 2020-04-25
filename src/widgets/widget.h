@@ -28,12 +28,7 @@ class WidgetState {
     typedef void (*cb_trampoline_t)(void*, WidgetState*);
 
 public:
-    WidgetState(uint16_t uuid, cb_trampoline_t cb_trampoline)
-        : m_cb_trampoline(cb_trampoline)
-        , m_uuid(uuid)
-        , m_bloom_global(0)
-        , m_bloom_tick(0) {
-    }
+    WidgetState(uint16_t uuid, float x, float y, float w, float h, cb_trampoline_t cb_trampoline);
 
     uint16_t uuid() const { return m_uuid; }
     const rbjson::Object& data() const { return m_data; }

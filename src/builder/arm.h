@@ -31,8 +31,8 @@ public:
     }
 
 protected:
-    virtual void serializeAndDestroy(std::stringstream& ss) {
-        Widget::serializeAndDestroy(ss);
+    virtual void serialize(std::stringstream& ss) {
+        Widget::serialize(ss);
         extra().remove("info");
     }
 };

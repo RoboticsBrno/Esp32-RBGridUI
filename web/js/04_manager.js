@@ -3,7 +3,7 @@ function Manager(logElementId, gridElementId) {
 
   this.divider = 0;
 
-  this.mustArriveIdIn = 0;
+  this.mustArriveIdIn = -1;
   this.mustArriveIdOut = 0;
   this.mustArriveCommands = {};
   this.MUST_ARRIVE_TIMER_FULL = 100;

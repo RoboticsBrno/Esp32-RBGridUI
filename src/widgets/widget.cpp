@@ -6,7 +6,19 @@
 
 namespace gridui {
 
-WidgetState Widget::emptyState(0, [](void* cb, WidgetState* state) {});
+WidgetState Widget::emptyState(0, 0, 0, 0, 0, [](void* cb, WidgetState* state) {});
+
+WidgetState::WidgetState(uint16_t uuid, float x, float y, float w, float h, cb_trampoline_t cb_trampoline)
+    : m_cb_trampoline(cb_trampoline)
+    , m_uuid(uuid)
+    , m_bloom_global(0)
+    , m_bloom_tick(0) {
+
+    m_data.set("x", x);
+    m_data.set("y", y);
+    m_data.set("w", w);
+    m_data.set("h", h);
+}
 
 bool WidgetState::set(const std::string& key, rbjson::Value* value) {
     if (m_uuid == 0)

@@ -65,16 +65,18 @@ private:
     T* newWidget(float x, float y, float w, float h) {
         static_assert(std::is_base_of<builder::Widget, T>::value, "T must inherit from builder::Widget.");
 
-        const auto uuid = generateUuid();
-        auto* state = new WidgetState(uuid, &T::callbackTrampoline);
+        std::lock_guard<std::mutex> l(m_states_mu);
+
+        const auto uuid = generateUuidLocked();
+        auto* state = new WidgetState(uuid, x, y, w, h, &T::callbackTrampoline);
         m_states.push_back(std::unique_ptr<WidgetState>(state));
 
-        auto* widget = new T(T::name(), *state, x, y, w, h);
+        auto* widget = new T(T::name(), *state);
         m_widgets.push_back(std::unique_ptr<T>(widget));
         return widget;
     }
 
-    inline WidgetState* stateByUuid(uint16_t uuid) const {
+    inline WidgetState* stateByUuidLocked(uint16_t uuid) const {
         for (auto& itr : m_states) {
             if (itr->uuid() == uuid) {
                 return itr.get();
@@ -86,18 +88,20 @@ private:
     static void stateChangeTask(void* self);
 
     void notifyStateChange() {
-        m_states_modified.store(true);
+        m_states_modified = true;
     }
 
-    uint16_t generateUuid() const;
-    inline bool checkUuidFree(uint16_t uuid) const;
+    uint16_t generateUuidLocked() const;
+    inline bool checkUuidFreeLocked(uint16_t uuid) const;
 
-    std::unique_ptr<rbjson::Object> m_layout;
     std::vector<std::unique_ptr<builder::Widget>> m_widgets;
-
     std::vector<std::unique_ptr<WidgetState>> m_states;
-    std::atomic<rb::Protocol*> m_protocol;
 
+    std::atomic<rb::Protocol*> m_protocol;
+    std::unique_ptr<rbjson::Object> m_layout;
+
+    mutable std::mutex m_states_mu;
+    uint32_t m_state_mustarrive_id;
     std::atomic<bool> m_states_modified;
 };
 
