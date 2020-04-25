@@ -1,29 +1,32 @@
 {
-  "name": "Esp32-RBGridUI",
-  "keywords": "ESP32, RBProtocol, RB3201, Robotarna, RobotikaBrno, RoboticsBrno",
-  "description": "Web-based grid UI library for RBController app by RoboticsBrno.",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/RoboticsBrno/RB3201-RBProtocol-library.git"
-  },
-  "authors": [
-    {
-      "name": "Vojtech Bocek",
-      "email": "vbocek@gmail.com",
-      "maintainer": true
+    "name": "Esp32-RBGridUI",
+    "keywords": "ESP32, RBProtocol, RB3201, Robotarna, RobotikaBrno, RoboticsBrno",
+    "description": "Web-based grid UI library for RBController app by RoboticsBrno.",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RoboticsBrno/RB3201-RBProtocol-library.git"
+    },
+    "authors": [
+        {
+            "name": "Vojtech Bocek",
+            "email": "vbocek@gmail.com",
+            "maintainer": true
+        }
+    ],
+    "version": "2.0.0",
+    "frameworks": [
+        "espidf",
+        "arduino"
+    ],
+    "platforms": "espressif32",
+    "dependencies": [
+        {
+            "name": "RB3201-RBProtocol",
+            "version": "https://github.com/RoboticsBrno/RB3201-RBProtocol-library/archive/v10.1.0.zip"
+        }
+    ],
+    "build": {
+        "extraScript": "post_extra_script.py"
     }
-  ],
-  "version": "1.0.0",
-  "frameworks": ["espidf", "arduino"],
-  "platforms": "espressif32",
-  "dependencies": [
-    {
-      "name": "RB3201-RBProtocol",
-      "version": "https://github.com/RoboticsBrno/RB3201-RBProtocol-library/archive/v10.0.0.zip"
-    }
-  ],
-  "build": {
-    "extraScript": "post_extra_script.py"
-  }
 }
