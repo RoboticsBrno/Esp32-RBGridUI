@@ -36,38 +36,40 @@ public:
 
     rb::Protocol* protocol() const { return m_protocol.load(); }
 
-    builder::Arm& arm(float x, float y, float w, float h) {
-        return *newWidget<builder::Arm>(x, y, w, h);
+    builder::Arm& arm(float x, float y, float w, float h, uint16_t uuid = 0) {
+        return *newWidget<builder::Arm>(x, y, w, h, uuid);
     }
 
-    builder::Bar& bar(float x, float y, float w, float h) {
-        return *newWidget<builder::Bar>(x, y, w, h);
+    builder::Bar& bar(float x, float y, float w, float h, uint16_t uuid = 0) {
+        return *newWidget<builder::Bar>(x, y, w, h, uuid);
     }
 
-    builder::Button& button(float x, float y, float w, float h) {
-        return *newWidget<builder::Button>(x, y, w, h);
+    builder::Button& button(float x, float y, float w, float h, uint16_t uuid = 0) {
+        return *newWidget<builder::Button>(x, y, w, h, uuid);
     }
 
-    builder::Checkbox& checkbox(float x, float y, float w, float h) {
-        return *newWidget<builder::Checkbox>(x, y, w, h);
+    builder::Checkbox& checkbox(float x, float y, float w, float h, uint16_t uuid = 0) {
+        return *newWidget<builder::Checkbox>(x, y, w, h, uuid);
     }
 
-    builder::Joystick& joystick(float x, float y, float w, float h) {
-        return *newWidget<builder::Joystick>(x, y, w, h);
+    builder::Joystick& joystick(float x, float y, float w, float h, uint16_t uuid = 0) {
+        return *newWidget<builder::Joystick>(x, y, w, h, uuid);
     }
 
-    builder::Led& led(float x, float y, float w, float h) {
-        return *newWidget<builder::Led>(x, y, w, h);
+    builder::Led& led(float x, float y, float w, float h, uint16_t uuid = 0) {
+        return *newWidget<builder::Led>(x, y, w, h, uuid);
     }
 
 private:
     template <typename T>
-    T* newWidget(float x, float y, float w, float h) {
+    T* newWidget(float x, float y, float w, float h, uint16_t uuid) {
         static_assert(std::is_base_of<builder::Widget, T>::value, "T must inherit from builder::Widget.");
 
         std::lock_guard<std::mutex> l(m_states_mu);
 
-        const auto uuid = generateUuidLocked();
+        if (!checkUuidFreeLocked(uuid))
+            uuid = generateUuidLocked();
+
         auto* state = new WidgetState(uuid, x, y, w, h, &T::callbackTrampoline);
         m_states.push_back(std::unique_ptr<WidgetState>(state));
 
@@ -92,7 +94,9 @@ private:
     }
 
     uint16_t generateUuidLocked() const;
-    inline bool checkUuidFreeLocked(uint16_t uuid) const;
+    inline bool checkUuidFreeLocked(uint16_t uuid) const {
+        return uuid != 0 && stateByUuidLocked(uuid) == nullptr;
+    }
 
     std::vector<std::unique_ptr<builder::Widget>> m_widgets;
     std::vector<std::unique_ptr<WidgetState>> m_states;

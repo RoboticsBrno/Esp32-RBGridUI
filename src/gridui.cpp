@@ -44,10 +44,6 @@ uint16_t _GridUi::generateUuidLocked() const {
     }
 }
 
-bool _GridUi::checkUuidFreeLocked(uint16_t uuid) const {
-    return uuid != 0 && stateByUuidLocked(uuid) == nullptr;
-}
-
 void _GridUi::commit() {
     std::lock_guard<std::mutex> l(m_states_mu);
     if (!m_layout) {

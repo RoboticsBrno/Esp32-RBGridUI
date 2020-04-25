@@ -100,6 +100,10 @@ public:
         return *this;
     }
 
+    uint16_t getUuid() const {
+        return m_state->uuid();
+    }
+
     void setWidgetX(float val) {
         m_state->set("x", new rbjson::Number(val));
     }
