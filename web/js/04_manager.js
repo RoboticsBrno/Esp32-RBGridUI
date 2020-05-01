@@ -114,10 +114,11 @@ Manager.prototype.onMessage = function (event) {
     return;
   } else if ("e" in data) {
     this.socket.send(JSON.stringify({ c: data["c"], e: data["e"] }));
-    if (data["e"] <= this.mustArriveIdIn) {
+    var e = data["e"];
+    if (e <= this.mustArriveIdIn && e !== 0) {
       return;
     } else {
-      this.mustArriveIdIn = data["e"];
+      this.mustArriveIdIn = e;
     }
   }
 
