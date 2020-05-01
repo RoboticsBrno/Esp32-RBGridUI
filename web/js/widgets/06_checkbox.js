@@ -1,5 +1,5 @@
 function Checkbox(grid, uuid) {
-  this.color = 'black'
+  this.color = '#000000'
   this.checked = false
   this.text = 'CheckBox'
   this.fontSize = 14
@@ -22,7 +22,7 @@ function Checkbox(grid, uuid) {
 Widget.createSubclass(Checkbox, {
   fontSize: new Prop(Number),
   checked: new Prop(Boolean),
-  color: new Prop(String),
+  color: new Prop(String).setIsColor(),
   text: new Prop(String)
 })
 

@@ -1,7 +1,7 @@
 function Joystick(grid, uuid) {
   var el = document.createElement('div')
 
-  this.color = 'red'
+  this.color = '#FF0000'
   this.text = ''
   this.keys = ''
 
@@ -23,7 +23,7 @@ function Joystick(grid, uuid) {
 }
 
 Widget.createSubclass(Joystick, {
-  color: new Prop(String),
+  color: new Prop(String).setIsColor(),
   keys: new Prop(String),
   text: new Prop(String)
 })

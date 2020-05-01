@@ -1,5 +1,5 @@
 function Led(grid, uuid) {
-  this.color = 'red'
+  this.color = '#FF0000'
   this.on = false
 
   var el = document.createElement('canvas')
@@ -14,7 +14,7 @@ function Led(grid, uuid) {
 }
 
 Widget.createSubclass(Led, {
-  color: new Prop(String),
+  color: new Prop(String).setIsColor(),
   on: new Prop(Boolean)
 })
 

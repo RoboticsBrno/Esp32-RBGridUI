@@ -5,6 +5,7 @@ function Prop(type, getFunc, setFunc) {
   this.editable = true
   this.ignoreInBuilder = false
   this.options = null
+  this.isColor = false
 }
 
 Prop.prototype.disableEdit = function() {
@@ -19,6 +20,11 @@ Prop.prototype.setIgnoreInBuilder = function() {
 
 Prop.prototype.setOptions = function(opts) {
   this.options = opts
+  return this
+}
+
+Prop.prototype.setIsColor = function() {
+  this.isColor = true
   return this
 }
 

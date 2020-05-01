@@ -1,5 +1,5 @@
 function Bar(grid, uuid) {
-  this.color = 'green'
+  this.color = '#008000'
   this.fontSize = 16
   this.min = 0
   this.max = 100
@@ -17,7 +17,7 @@ function Bar(grid, uuid) {
 }
 
 Widget.createSubclass(Bar, {
-  color: new Prop(String),
+  color: new Prop(String).setIsColor(),
   fontSize: new Prop(Number),
   min: new Prop(Number),
   max: new Prop(Number),

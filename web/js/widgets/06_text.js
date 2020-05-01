@@ -18,7 +18,7 @@ function Text(grid, uuid) {
   this.fontSize = 12
   this.span.style.fontSize = this.fontSize + 'pt'
 
-  this.color = 'black'
+  this.color = '#000000'
 }
 
 Widget.createSubclass(Text, {
@@ -38,7 +38,7 @@ Widget.createSubclass(Text, {
   color: new Prop(String, undefined, function(val) {
     this.color = val
     this.span.style.color = val
-  }),
+  }).setIsColor(),
   align: new Prop(String, undefined, function(val) {
     this.align = val
     this.el.style.textAlign = val
