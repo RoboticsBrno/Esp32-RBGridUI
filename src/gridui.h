@@ -60,6 +60,10 @@ public:
         return *newWidget<builder::Led>(x, y, w, h, uuid);
     }
 
+    builder::Text& text(float x, float y, float w, float h, uint16_t uuid = 0) {
+        return *newWidget<builder::Text>(x, y, w, h, uuid);
+    }
+
 private:
     template <typename T>
     T* newWidget(float x, float y, float w, float h, uint16_t uuid) {
