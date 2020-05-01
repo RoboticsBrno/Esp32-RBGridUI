@@ -13,6 +13,7 @@
 #include "builder/checkbox.h"
 #include "builder/joystick.h"
 #include "builder/led.h"
+#include "builder/text.h"
 
 namespace rb {
 class Protocol;
