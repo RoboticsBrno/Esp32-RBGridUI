@@ -11,6 +11,7 @@
 #include "builder/bar.h"
 #include "builder/button.h"
 #include "builder/checkbox.h"
+#include "builder/input.h"
 #include "builder/joystick.h"
 #include "builder/led.h"
 #include "builder/text.h"
@@ -51,6 +52,10 @@ public:
 
     builder::Checkbox& checkbox(float x, float y, float w, float h, uint16_t uuid = 0) {
         return *newWidget<builder::Checkbox>(x, y, w, h, uuid);
+    }
+
+    builder::Input& input(float x, float y, float w, float h, uint16_t uuid = 0) {
+        return *newWidget<builder::Input>(x, y, w, h, uuid);
     }
 
     builder::Joystick& joystick(float x, float y, float w, float h, uint16_t uuid = 0) {

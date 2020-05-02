@@ -1,0 +1,33 @@
+#pragma once
+
+#include "../widgets/input.h"
+#include "widget.h"
+
+namespace gridui {
+namespace builder {
+
+class Input : public Widget, public BuilderMixin<Input, gridui::Input> {
+    static const char* name() { return "Input"; }
+
+    friend class gridui::_GridUi;
+    using Widget::Widget;
+
+public:
+    Input& text(const std::string& text) {
+        extra().set("text", text);
+        return *this;
+    }
+
+    Input& color(const std::string& color) {
+        extra().set("color", color);
+        return *this;
+    }
+
+    Input& onChanged(callback_t cb) {
+        addCallback("changed", cb);
+        return *this;
+    }
+};
+
+};
+};

@@ -138,7 +138,12 @@ Grid.prototype.drawGrid = function(cols, rows) {
 }
 
 Grid.prototype.addWidget = function(uuid, typeName, extra) {
-  var w = new window[typeName](this, uuid)
+  try {
+    var w = new window[typeName](this, uuid)
+  } catch (e) {
+    console.log(typeName, e)
+    return
+  }
   w.applyState(extra)
   this.addWidgetConstructed(w)
 }
