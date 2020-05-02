@@ -1,9 +1,8 @@
 function Text(grid, uuid) {
   var el = document.createElement('div')
-  el.style.display = 'table'
+  el.style.display = 'flex'
 
   this.span = document.createElement('span')
-  this.span.style.display = 'table-cell'
   this.span.innerHTML = 'Text'
   el.appendChild(this.span)
 
@@ -12,8 +11,8 @@ function Text(grid, uuid) {
   this.w = 3
   this.h = 1
 
-  this.el.style.textAlign = this.align = 'center'
-  this.span.style.verticalAlign = this.valign = 'middle'
+  this.el.style.justifyContent = this.align = 'center'
+  this.el.style.alignItems = this.valign = 'center'
 
   this.fontSize = 12
   this.span.style.fontSize = this.fontSize + 'pt'
@@ -41,11 +40,10 @@ Widget.createSubclass(Text, {
   }).setIsColor(),
   align: new Prop(String, undefined, function(val) {
     this.align = val
-    this.el.style.textAlign = val
-  }).setOptions(['left', 'center', 'right']),
+    this.el.style.justifyContent = val
+  }).setOptions(['start', 'center', 'end']),
   valign: new Prop(String, undefined, function(val) {
     this.valign = val
-    if (val === 'center') val = 'middle'
-    this.span.style.verticalAlign = val
-  }).setOptions(['top', 'middle', 'bottom'])
+    this.el.style.alignItems = val
+  }).setOptions(['start', 'center', 'end'])
 })
