@@ -23,6 +23,39 @@ function Input(grid, uuid) {
       this.sendEvent('changed', { text: this.input.value })
     }.bind(this)
   )
+
+  if ('ontouchstart' in document.documentElement) {
+    this.input.addEventListener("focus", function() {
+      if(this.input.parentElement === this.el) {
+        this.el.removeChild(this.input)
+        this.el.parentElement.appendChild(this.input)
+        this.input.style.boxShadow = "5px 5px 5px black"
+        this.input.style.fontSize = "150%"
+        this.input.style.position = "absolute"
+        this.input.style.top = "15px"
+        this.input.style.left = "50%"
+        this.input.style.marginLeft = "-45%"
+        this.input.style.width = "90%"
+        this.input.style.height = "2em"
+        this.input.focus()
+      }
+    }.bind(this))
+
+    this.input.addEventListener("blur", function() {
+      if(this.input.parentElement !== this.el) {
+        this.el.parentElement.removeChild(this.input)
+        this.el.appendChild(this.input)
+        this.input.style.width = '100%'
+        this.input.style.height = '100%'
+        this.input.style.boxShadow = null
+        this.input.style.position = null
+        this.input.style.top = null
+        this.input.style.left = null
+        this.input.style.marginLeft = null
+        this.input.style.fontSize = null
+      }
+    }.bind(this))
+  }
 }
 
 Widget.createSubclass(Input, {

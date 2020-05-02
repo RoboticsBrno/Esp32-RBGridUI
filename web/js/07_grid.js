@@ -12,6 +12,17 @@ function Grid(manager, elementId, data) {
 
   window.addEventListener('resize', this.onResize.bind(this))
 
+  var focusedInput = null
+  this.el.addEventListener("touchstart", function(ev) {
+    if(ev.target.tagName === 'INPUT') {
+      ev.target.focus()
+      focusedInput = ev.target
+    } else if(focusedInput !== null) {
+      focusedInput.blur()
+      focusedInput = null
+    }
+  }.bind(this));
+
   this.isSplit = 0
   this.offsetX = 0
   this.offsetY = 0
