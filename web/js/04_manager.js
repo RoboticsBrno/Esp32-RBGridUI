@@ -7,7 +7,7 @@ function Manager(logElementId, gridElementId) {
   this.mustArriveIdOut = 0
   this.mustArriveCommands = {}
   this.MUST_ARRIVE_TIMER_FULL = 100
-  this.MUST_ARRIVE_RETRIES = 15
+  this.MUST_ARRIVE_RETRIES = 30
 
   this.mustArriveTimerId = null
   this.possessed = false
