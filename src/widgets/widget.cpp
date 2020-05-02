@@ -125,6 +125,13 @@ void WidgetState::markChangedLocked(const std::string& key) {
     UI.notifyStateChange();
 }
 
+void WidgetState::markGlobalChangedLocked(const std::string& key) {
+    for (int i = 0; i < hash_count; ++i) {
+        const auto bit = murmur3_32((uint8_t*)key.c_str(), key.size(), i) % 16;
+        m_bloom_global |= (1 << bit);
+    }
+}
+
 bool WidgetState::wasChangedInTickLocked(const std::string& key) const {
     for (int i = 0; i < hash_count; ++i) {
         const auto bit = murmur3_32((uint8_t*)key.c_str(), key.size(), i) % 16;

@@ -46,7 +46,8 @@ private:
     void update(rbjson::Object* other) {
         m_mutex.lock();
         for (auto itr : other->members()) {
-            m_data.set(itr.first.c_str(), itr.second->copy());
+            m_data.set(itr.first, itr.second->copy());
+            markGlobalChangedLocked(itr.first);
         }
         m_mutex.unlock();
     }
@@ -68,6 +69,7 @@ private:
     }
 
     void markChangedLocked(const std::string& key);
+    void markGlobalChangedLocked(const std::string& key);
     inline bool wasChangedInTickLocked(const std::string& key) const;
 
     bool popChanges(rbjson::Object& state);
