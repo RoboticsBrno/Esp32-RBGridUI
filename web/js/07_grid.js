@@ -36,7 +36,8 @@ function Grid(manager, elementId, data) {
 Grid.prototype.reset = function (data) {
   this.COLS = data.cols
   this.ROWS = data.rows
-  this.enableSplitting = data.enableSplitting
+  this.enableSplitting = !!data.enableSplitting
+  this.drawGrid = !!data.drawGrid
 
   this.clear()
 
@@ -70,7 +71,7 @@ Grid.prototype.onResize = function () {
     this.canvas.width = this.el.clientWidth + 2
     this.canvas.height = this.el.clientHeight + 2
 
-    this.drawGrid(this.COLS, this.ROWS)
+    this.drawGridDots(this.COLS, this.ROWS)
   } else {
     this.scaleX = w / (this.COLS * 2)
     this.scaleY = h / Math.round(this.ROWS / 2)
@@ -80,7 +81,7 @@ Grid.prototype.onResize = function () {
     this.canvas.width = this.el.clientWidth + 2
     this.canvas.height = this.el.clientHeight + 2
 
-    this.drawGrid(this.COLS * 2, this.ROWS / 2)
+    this.drawGridDots(this.COLS * 2, this.ROWS / 2)
   }
 
   var len = this.widgets.length
@@ -127,11 +128,13 @@ Grid.prototype.shouldSplitGrid = function (w, h) {
   return true
 }
 
-Grid.prototype.drawGrid = function (cols, rows) {
+Grid.prototype.drawGridDots = function (cols, rows) {
+  if (!this.drawGrid) return
+
   var ctx = this.canvas.getContext('2d')
 
   ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-  ctx.fillStyle = '#BBB'
+  ctx.fillStyle = '#777'
 
   for (var x = 0; x <= cols; ++x) {
     for (var y = 0; y <= rows; ++y) {
