@@ -1,5 +1,3 @@
-// prettier-ignore
-
 function Grid(manager, elementId, data) {
   this.manager = manager
 
@@ -13,15 +11,18 @@ function Grid(manager, elementId, data) {
   window.addEventListener('resize', this.onResize.bind(this))
 
   var focusedInput = null
-  this.el.addEventListener("touchstart", function(ev) {
-    if(ev.target.tagName === 'INPUT') {
-      ev.target.focus()
-      focusedInput = ev.target
-    } else if(focusedInput !== null) {
-      focusedInput.blur()
-      focusedInput = null
-    }
-  }.bind(this));
+  this.el.addEventListener(
+    'touchstart',
+    function (ev) {
+      if (ev.target.tagName === 'INPUT') {
+        ev.target.focus()
+        focusedInput = ev.target
+      } else if (focusedInput !== null) {
+        focusedInput.blur()
+        focusedInput = null
+      }
+    }.bind(this)
+  )
 
   this.isSplit = 0
   this.offsetX = 0
@@ -32,7 +33,7 @@ function Grid(manager, elementId, data) {
   this.reset(data)
 }
 
-Grid.prototype.reset = function(data) {
+Grid.prototype.reset = function (data) {
   this.COLS = data.cols
   this.ROWS = data.rows
   this.enableSplitting = data.enableSplitting
@@ -47,7 +48,7 @@ Grid.prototype.reset = function(data) {
   this.onResize()
 }
 
-Grid.prototype.onResize = function() {
+Grid.prototype.onResize = function () {
   var w = this.el.clientWidth
   var h = this.el.clientHeight
 
@@ -88,10 +89,10 @@ Grid.prototype.onResize = function() {
   }
 }
 
-Grid.prototype.calculatePxPos = function(w) {
+Grid.prototype.calculatePxPos = function (w) {
   var res = {
     w: w.w * this.scaleX,
-    h: w.h * this.scaleY
+    h: w.h * this.scaleY,
   }
 
   if (!this.isSplit) {
@@ -113,7 +114,7 @@ Grid.prototype.calculatePxPos = function(w) {
   return res
 }
 
-Grid.prototype.shouldSplitGrid = function(w, h) {
+Grid.prototype.shouldSplitGrid = function (w, h) {
   if (this.enableSplitting !== true || w <= h) return false
 
   var centerY = this.ROWS / 2
@@ -126,7 +127,7 @@ Grid.prototype.shouldSplitGrid = function(w, h) {
   return true
 }
 
-Grid.prototype.drawGrid = function(cols, rows) {
+Grid.prototype.drawGrid = function (cols, rows) {
   var ctx = this.canvas.getContext('2d')
 
   ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -148,7 +149,7 @@ Grid.prototype.drawGrid = function(cols, rows) {
   }
 }
 
-Grid.prototype.addWidget = function(uuid, typeName, extra) {
+Grid.prototype.addWidget = function (uuid, typeName, extra) {
   try {
     var w = new window[typeName](this, uuid)
   } catch (e) {
@@ -159,7 +160,7 @@ Grid.prototype.addWidget = function(uuid, typeName, extra) {
   this.addWidgetConstructed(w)
 }
 
-Grid.prototype.addWidgetConstructed = function(widget) {
+Grid.prototype.addWidgetConstructed = function (widget) {
   widget.updatePosition()
   widget.setEventListener(this.onWidgetEvent.bind(this))
 
@@ -167,7 +168,7 @@ Grid.prototype.addWidgetConstructed = function(widget) {
   this.widgets.push(widget)
 }
 
-Grid.prototype.removeWidget = function(widget) {
+Grid.prototype.removeWidget = function (widget) {
   var idx = this.widgets.indexOf(widget)
   if (idx === -1) return false
 
@@ -176,7 +177,7 @@ Grid.prototype.removeWidget = function(widget) {
   return true
 }
 
-Grid.prototype.clear = function() {
+Grid.prototype.clear = function () {
   var len = this.widgets.length
   for (var i = 0; i < len; ++i) {
     var w = this.widgets[i]
@@ -185,14 +186,14 @@ Grid.prototype.clear = function() {
   this.widgets = []
 }
 
-Grid.prototype.onWidgetEvent = function(w, name, extra, mustArrive, callback) {
+Grid.prototype.onWidgetEvent = function (w, name, extra, mustArrive, callback) {
   //console.log("Event from " + w.uuid + ": " + name + " " + JSON.stringify(extra));
 
   if (this.manager === null) return
 
   var data = {
     id: w.uuid,
-    ev: name
+    ev: name,
   }
 
   if (extra !== undefined && extra !== null) {
@@ -206,7 +207,7 @@ Grid.prototype.onWidgetEvent = function(w, name, extra, mustArrive, callback) {
   }
 }
 
-Grid.prototype.update = function(diffMs) {
+Grid.prototype.update = function (diffMs) {
   var len = this.widgets.length
   for (var i = 0; i < len; ++i) {
     var w = this.widgets[i]
@@ -214,7 +215,7 @@ Grid.prototype.update = function(diffMs) {
   }
 }
 
-Grid.prototype.onMessageState = function(data) {
+Grid.prototype.onMessageState = function (data) {
   var len = this.widgets.length
   for (var i = 0; i < len; ++i) {
     var w = this.widgets[i]
@@ -225,7 +226,7 @@ Grid.prototype.onMessageState = function(data) {
   }
 }
 
-Grid.prototype.getWidgetByUuid = function(uuid) {
+Grid.prototype.getWidgetByUuid = function (uuid) {
   var len = this.widgets.length
   for (var i = 0; i < len; ++i) {
     var w = this.widgets[i]
@@ -236,7 +237,7 @@ Grid.prototype.getWidgetByUuid = function(uuid) {
   return null
 }
 
-Grid.prototype.getWidgetAtPos = function(x, y) {
+Grid.prototype.getWidgetAtPos = function (x, y) {
   var len = this.widgets.length
   for (var i = len - 1; i >= 0; --i) {
     var w = this.widgets[i]
@@ -248,12 +249,12 @@ Grid.prototype.getWidgetAtPos = function(x, y) {
   return null
 }
 
-Grid.prototype.roundToPrecision = function(x, precision) {
+Grid.prototype.roundToPrecision = function (x, precision) {
   var y = +x + (precision === undefined ? 0.5 : precision / 2)
   return y - (y % (precision === undefined ? 1 : +precision))
 }
 
-Grid.prototype.pxPosToCoordinates = function(x, y) {
+Grid.prototype.pxPosToCoordinates = function (x, y) {
   var rect = this.el.getBoundingClientRect()
   x -= rect.left
   y -= rect.top
@@ -262,11 +263,11 @@ Grid.prototype.pxPosToCoordinates = function(x, y) {
   y = this.roundToPrecision(y / this.scaleY, 0.5)
   return {
     x: x,
-    y: y
+    y: y,
   }
 }
 
-Grid.prototype.tryMoveWidget = function(w, x, y) {
+Grid.prototype.tryMoveWidget = function (w, x, y) {
   var coords = this.pxPosToCoordinates(x, y)
   x = coords.x
   y = coords.y
@@ -278,7 +279,7 @@ Grid.prototype.tryMoveWidget = function(w, x, y) {
   return true
 }
 
-Grid.prototype.tryScaleWidget = function(widget, r, b) {
+Grid.prototype.tryScaleWidget = function (widget, r, b) {
   var coords = this.pxPosToCoordinates(r, b)
 
   var w = coords.x - widget.x

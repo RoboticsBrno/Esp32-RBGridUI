@@ -18,7 +18,7 @@ function Manager(logElementId, gridElementId) {
   this.loadLayout(gridElementId)
 }
 
-Manager.prototype.start = function(address) {
+Manager.prototype.start = function (address) {
   this.log.write('Connecting to ' + address + '... ', true)
 
   if (!('WebSocket' in window)) {
@@ -29,7 +29,7 @@ Manager.prototype.start = function(address) {
   this.socket = new ReconnectingWebSocket(address)
   this.socket.addEventListener(
     'open',
-    function(event) {
+    function (event) {
       if (this.mustArriveTimerId === null) {
         this.mustArriveTimerId = setInterval(
           this.mustArriveTask.bind(this),
@@ -43,7 +43,7 @@ Manager.prototype.start = function(address) {
         'possess',
         {},
         true,
-        function() {
+        function () {
           this.possessed = true
           if (this.grid) {
             this.sendMustArrive('_gall', {})
@@ -55,7 +55,7 @@ Manager.prototype.start = function(address) {
 
   this.socket.addEventListener(
     'error',
-    function(event) {
+    function (event) {
       this.log.write('Connection FAILED!')
       if (this.mustArriveTimerId !== null) {
         clearInterval(this.mustArriveTimerId)
@@ -70,7 +70,7 @@ Manager.prototype.start = function(address) {
   requestAnimationFrame(this.update.bind(this))
 }
 
-Manager.prototype.update = function() {
+Manager.prototype.update = function () {
   if (++this.divider >= 2) {
     this.divider = 0
   } else {
@@ -89,7 +89,7 @@ Manager.prototype.update = function() {
   requestAnimationFrame(this.update.bind(this))
 }
 
-Manager.prototype.mustArriveTask = function() {
+Manager.prototype.mustArriveTask = function () {
   for (var id in this.mustArriveCommands) {
     if (!this.mustArriveCommands.hasOwnProperty(id)) continue
 
@@ -101,7 +101,7 @@ Manager.prototype.mustArriveTask = function() {
   }
 }
 
-Manager.prototype.onMessage = function(event) {
+Manager.prototype.onMessage = function (event) {
   var data = JSON.parse(event.data)
   if ('f' in data) {
     var cmd = this.mustArriveCommands[data['f']]
@@ -134,12 +134,12 @@ Manager.prototype.onMessage = function(event) {
   }
 }
 
-Manager.prototype.send = function(command, data) {
+Manager.prototype.send = function (command, data) {
   data['c'] = command
   this.socket.send(JSON.stringify(data))
 }
 
-Manager.prototype.sendMustArrive = function(
+Manager.prototype.sendMustArrive = function (
   command,
   data,
   unlimitedAttempts,
@@ -153,20 +153,20 @@ Manager.prototype.sendMustArrive = function(
   this.mustArriveCommands[id] = {
     payload: payload,
     attempts: unlimitedAttempts !== true ? 0 : null,
-    callback: callback
+    callback: callback,
   }
   this.socket.send(payload)
 }
 
-Manager.prototype.flashBody = function() {
+Manager.prototype.flashBody = function () {
   var body = document.getElementById('body')
   body.style.backgroundColor = '#ff5454'
-  setTimeout(function() {
+  setTimeout(function () {
     body.style.backgroundColor = 'white'
   }, 50)
 }
 
-Manager.prototype.loadLayout = function(gridElementId) {
+Manager.prototype.loadLayout = function (gridElementId) {
   //this.grid = new Grid(this, gridElementId, GRID_DATA);
   //return;
 
@@ -174,7 +174,7 @@ Manager.prototype.loadLayout = function(gridElementId) {
   req.open('GET', '/layout.json')
   req.timeout = 15000
   req.responseType = 'json'
-  req.onreadystatechange = function() {
+  req.onreadystatechange = function () {
     if (req.readyState !== XMLHttpRequest.DONE) return
 
     if (req.status !== 200) {

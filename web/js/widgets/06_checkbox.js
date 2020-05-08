@@ -12,7 +12,7 @@ function Checkbox(grid, uuid) {
 
   this.canvas = ge1doot.canvas(el)
   this.canvas.resize = this.draw.bind(this)
-  this.canvas.pointer.up = function() {
+  this.canvas.pointer.up = function () {
     this.checked = !this.checked
     this.draw()
     this.sendEvent('checked', { checked: this.checked })
@@ -23,21 +23,21 @@ Widget.createSubclass(Checkbox, {
   fontSize: new Prop(Number),
   checked: new Prop(Boolean),
   color: new Prop(String).setIsColor(),
-  text: new Prop(String)
+  text: new Prop(String),
 })
 
-Checkbox.prototype.applyState = function(state) {
+Checkbox.prototype.applyState = function (state) {
   Widget.prototype.applyState.call(this, state)
   this.draw()
 }
 
-Checkbox.prototype.updatePosition = function(x, y, scaleX, scaleY) {
+Checkbox.prototype.updatePosition = function (x, y, scaleX, scaleY) {
   Widget.prototype.updatePosition.call(this, x, y, scaleX, scaleY)
 
   setTimeout(this.canvas.setSize.bind(this.canvas), 0)
 }
 
-Checkbox.prototype.draw = function() {
+Checkbox.prototype.draw = function () {
   var ctx = this.canvas.ctx
   ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 

@@ -22,16 +22,16 @@ function Slider(grid, uuid) {
 
   var pointer = this.canvas.pointer
 
-  pointer.down = function() {
+  pointer.down = function () {
     this.touched = true
     this.movePos(pointer)
   }.bind(this)
 
-  pointer.up = function() {
+  pointer.up = function () {
     this.touched = false
   }.bind(this)
 
-  pointer.move = function() {
+  pointer.move = function () {
     if (this.touched) {
       this.movePos(pointer)
     }
@@ -45,26 +45,26 @@ Widget.createSubclass(Slider, {
   max: new Prop(Number),
   value: new Prop(Number),
   precision: new Prop(Number),
-  showValue: new Prop(Boolean)
+  showValue: new Prop(Boolean),
 })
 
-Slider.prototype.applyState = function(state) {
+Slider.prototype.applyState = function (state) {
   Widget.prototype.applyState.call(this, state)
   this.draw()
 }
 
-Slider.prototype.updatePosition = function(x, y, scaleX, scaleY) {
+Slider.prototype.updatePosition = function (x, y, scaleX, scaleY) {
   Widget.prototype.updatePosition.call(this, x, y, scaleX, scaleY)
 
   setTimeout(this.canvas.setSize.bind(this.canvas), 0)
 }
 
-Slider.prototype.roundToPrecision = function(x, precision) {
+Slider.prototype.roundToPrecision = function (x, precision) {
   var y = +x + (precision === undefined ? 0.5 : precision / 2)
   return y - (y % (precision === undefined ? 1 : +precision))
 }
 
-Slider.prototype.movePos = function(pointer) {
+Slider.prototype.movePos = function (pointer) {
   var x = pointer.x
   var w = this.canvas.width
   if (this.h > this.w) {
@@ -86,11 +86,11 @@ Slider.prototype.movePos = function(pointer) {
   this.draw()
 }
 
-Slider.prototype.sendValue = function() {
+Slider.prototype.sendValue = function () {
   if (this.sendValueTimer !== null) return
 
   this.sendValueTimer = setTimeout(
-    function() {
+    function () {
       this.sendValueTimer = null
       this.sendEvent('changed', { value: this.value })
     }.bind(this),
@@ -98,7 +98,7 @@ Slider.prototype.sendValue = function() {
   )
 }
 
-Slider.prototype.formatValue = function(value, precision) {
+Slider.prototype.formatValue = function (value, precision) {
   var pStr = '' + precision
   var idx = pStr.indexOf('.')
   var decimals = 0
@@ -108,7 +108,7 @@ Slider.prototype.formatValue = function(value, precision) {
   return value.toFixed(decimals)
 }
 
-Slider.prototype.draw = function() {
+Slider.prototype.draw = function () {
   var ctx = this.canvas.ctx
   ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 

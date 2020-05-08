@@ -25,22 +25,22 @@ function Joystick(grid, uuid) {
 Widget.createSubclass(Joystick, {
   color: new Prop(String).setIsColor(),
   keys: new Prop(String),
-  text: new Prop(String)
+  text: new Prop(String),
 })
 
-Joystick.prototype.applyState = function(state) {
+Joystick.prototype.applyState = function (state) {
   Widget.prototype.applyState.call(this, state)
 
   if (this.manager !== null) this.createNippleJs()
 }
 
-Joystick.prototype.updatePosition = function(x, y, scaleX, scaleY) {
+Joystick.prototype.updatePosition = function (x, y, scaleX, scaleY) {
   Widget.prototype.updatePosition.call(this, x, y, scaleX, scaleY)
 
   setTimeout(this.createNippleJs.bind(this), 0)
 }
 
-Joystick.prototype.createNippleJs = function() {
+Joystick.prototype.createNippleJs = function () {
   if (this.manager !== null) {
     this.manager.destroy()
   }
@@ -54,10 +54,10 @@ Joystick.prototype.createNippleJs = function() {
     size: this.radius * 2,
     position: {
       top: '50%',
-      left: '50%'
+      left: '50%',
     },
     restOpacity: 0.9,
-    fadeTime: 0
+    fadeTime: 0,
   })
 
   this.joy = this.manager.get(this.manager.ids[0])
@@ -75,7 +75,7 @@ Joystick.prototype.createNippleJs = function() {
 
   this.manager.on(
     'start',
-    function(event, data) {
+    function (event, data) {
       this.touchStart = Date.now()
       this.valX = 0
       this.valY = 0
@@ -84,7 +84,7 @@ Joystick.prototype.createNippleJs = function() {
 
   this.manager.on(
     'move',
-    function(event, data) {
+    function (event, data) {
       var dist = (data.distance / this.radius) * 32767
       this.valX = (Math.cos(data.angle.radian) * dist) | 0
       this.valY = (Math.sin(data.angle.radian) * dist) | 0
@@ -93,7 +93,7 @@ Joystick.prototype.createNippleJs = function() {
 
   this.manager.on(
     'end',
-    function(event, data) {
+    function (event, data) {
       var diff = Date.now() - this.touchStart
       if (
         diff < 150 &&
@@ -109,7 +109,7 @@ Joystick.prototype.createNippleJs = function() {
   )
 }
 
-Joystick.prototype.onKeyDown = function(ev) {
+Joystick.prototype.onKeyDown = function (ev) {
   if (this.keys === '') return
   var idx = this.keys.indexOf(ev.key)
   if (idx === -1) return
@@ -120,7 +120,7 @@ Joystick.prototype.onKeyDown = function(ev) {
   this.updateNippleFront()
 }
 
-Joystick.prototype.onKeyUp = function(ev) {
+Joystick.prototype.onKeyUp = function (ev) {
   if (this.keys === '') return
   var idx = this.keys.indexOf(ev.key)
   if (idx === -1) return
@@ -128,7 +128,7 @@ Joystick.prototype.onKeyUp = function(ev) {
   this.updateNippleFront()
 }
 
-Joystick.prototype.updateNippleFront = function() {
+Joystick.prototype.updateNippleFront = function () {
   var p = this.pressedKeys
   var left = 0
   var top = 0
@@ -145,12 +145,12 @@ Joystick.prototype.updateNippleFront = function() {
   fr.style.top = top * this.radius + 'px'
 }
 
-Joystick.prototype.update = function() {
+Joystick.prototype.update = function () {
   this.sendEvent(
     'pos',
     {
       jx: this.valX,
-      jy: this.valY
+      jy: this.valY,
     },
     false
   )

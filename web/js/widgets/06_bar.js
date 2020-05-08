@@ -22,21 +22,21 @@ Widget.createSubclass(Bar, {
   min: new Prop(Number),
   max: new Prop(Number),
   value: new Prop(Number),
-  showValue: new Prop(Boolean)
+  showValue: new Prop(Boolean),
 })
 
-Bar.prototype.applyState = function(state) {
+Bar.prototype.applyState = function (state) {
   Widget.prototype.applyState.call(this, state)
   this.draw()
 }
 
-Bar.prototype.updatePosition = function(x, y, scaleX, scaleY) {
+Bar.prototype.updatePosition = function (x, y, scaleX, scaleY) {
   Widget.prototype.updatePosition.call(this, x, y, scaleX, scaleY)
 
   setTimeout(this.canvas.setSize.bind(this.canvas), 0)
 }
 
-Bar.prototype.draw = function() {
+Bar.prototype.draw = function () {
   var ctx = this.canvas.ctx
   ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 

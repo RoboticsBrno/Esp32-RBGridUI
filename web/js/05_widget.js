@@ -8,22 +8,22 @@ function Prop(type, getFunc, setFunc) {
   this.isColor = false
 }
 
-Prop.prototype.disableEdit = function() {
+Prop.prototype.disableEdit = function () {
   this.editable = false
   return this
 }
 
-Prop.prototype.setIgnoreInBuilder = function() {
+Prop.prototype.setIgnoreInBuilder = function () {
   this.ignoreInBuilder = true
   return this
 }
 
-Prop.prototype.setOptions = function(opts) {
+Prop.prototype.setOptions = function (opts) {
   this.options = opts
   return this
 }
 
-Prop.prototype.setIsColor = function() {
+Prop.prototype.setIsColor = function () {
   this.isColor = true
   return this
 }
@@ -35,7 +35,7 @@ function Position(x, y, w, h) {
   this.h = h
 }
 
-Position.prototype.equals = function(o) {
+Position.prototype.equals = function (o) {
   return this.x === o.x && this.y === o.y && this.w === o.w && this.h === o.h
 }
 
@@ -65,10 +65,10 @@ Widget.prototype.PROPERTIES = {
   h: new Prop(Number).setIgnoreInBuilder(),
   css: new Prop(
     Object,
-    function() {
+    function () {
       return this.extraCss
     },
-    function(val) {
+    function (val) {
       for (var k in this.extraCss) {
         if (!this.extraCss.hasOwnProperty(k)) continue
         this.el.style.removeProperty(k)
@@ -80,15 +80,15 @@ Widget.prototype.PROPERTIES = {
         this.extraCss[k] = val[k]
       }
     }
-  )
+  ),
 }
 
-Widget.createSubclass = function(cls, properties) {
+Widget.createSubclass = function (cls, properties) {
   cls.prototype = Object.create(Widget.prototype)
   Object.defineProperty(cls.prototype, 'constructor', {
     value: cls,
     enumerable: false,
-    writable: true
+    writable: true,
   })
 
   Widget.SUBCLASSES.push(cls)
@@ -100,7 +100,7 @@ Widget.createSubclass = function(cls, properties) {
   }
 }
 
-Widget.wrapCanvas = function(canvas) {
+Widget.wrapCanvas = function (canvas) {
   var wrapper = document.createElement('div')
   canvas.style.width = '100%'
   canvas.style.height = '100%'
@@ -108,7 +108,7 @@ Widget.wrapCanvas = function(canvas) {
   return wrapper
 }
 
-Widget.prototype.applyState = function(state) {
+Widget.prototype.applyState = function (state) {
   var proto = Object.getPrototypeOf(this)
   var pos = false
   for (var k in state) {
@@ -133,11 +133,11 @@ Widget.prototype.applyState = function(state) {
   }
 }
 
-Widget.prototype.setEventListener = function(listener) {
+Widget.prototype.setEventListener = function (listener) {
   this.eventListener = listener
 }
 
-Widget.prototype.updatePosition = function() {
+Widget.prototype.updatePosition = function () {
   var pos = this.grid.calculatePxPos(this)
   this.el.style.left = '' + pos.x + 'px'
   this.el.style.top = '' + pos.y + 'px'
@@ -145,9 +145,9 @@ Widget.prototype.updatePosition = function() {
   this.el.style.height = '' + pos.h + 'px'
 }
 
-Widget.prototype.update = function(diffMs) {}
+Widget.prototype.update = function (diffMs) {}
 
-Widget.prototype.sendEvent = function(name, extra, mustArrive, callback) {
+Widget.prototype.sendEvent = function (name, extra, mustArrive, callback) {
   if (this.eventListener === null) return
   this.eventListener(
     this,
@@ -158,11 +158,11 @@ Widget.prototype.sendEvent = function(name, extra, mustArrive, callback) {
   )
 }
 
-Widget.prototype.pos = function() {
+Widget.prototype.pos = function () {
   return new Position(this.x, this.y, this.w, this.h)
 }
 
-Widget.prototype.getState = function() {
+Widget.prototype.getState = function () {
   var res = {}
   var proto = Object.getPrototypeOf(this)
   for (var key in proto.PROPERTIES) {

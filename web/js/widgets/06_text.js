@@ -23,27 +23,27 @@ function Text(grid, uuid) {
 Widget.createSubclass(Text, {
   text: new Prop(
     String,
-    function() {
+    function () {
       return this.span.innerHTML
     },
-    function(val) {
+    function (val) {
       this.span.innerHTML = val
     }
   ),
-  fontSize: new Prop(Number, undefined, function(val) {
+  fontSize: new Prop(Number, undefined, function (val) {
     this.fontSize = val
     this.span.style.fontSize = val + 'pt'
   }),
-  color: new Prop(String, undefined, function(val) {
+  color: new Prop(String, undefined, function (val) {
     this.color = val
     this.span.style.color = val
   }).setIsColor(),
-  align: new Prop(String, undefined, function(val) {
+  align: new Prop(String, undefined, function (val) {
     this.align = val
     this.el.style.justifyContent = val
   }).setOptions(['start', 'center', 'end']),
-  valign: new Prop(String, undefined, function(val) {
+  valign: new Prop(String, undefined, function (val) {
     this.valign = val
     this.el.style.alignItems = val
-  }).setOptions(['start', 'center', 'end'])
+  }).setOptions(['start', 'center', 'end']),
 })

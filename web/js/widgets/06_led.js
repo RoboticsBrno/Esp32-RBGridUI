@@ -15,21 +15,21 @@ function Led(grid, uuid) {
 
 Widget.createSubclass(Led, {
   color: new Prop(String).setIsColor(),
-  on: new Prop(Boolean)
+  on: new Prop(Boolean),
 })
 
-Led.prototype.applyState = function(state) {
+Led.prototype.applyState = function (state) {
   Widget.prototype.applyState.call(this, state)
   this.draw()
 }
 
-Led.prototype.updatePosition = function(x, y, scaleX, scaleY) {
+Led.prototype.updatePosition = function (x, y, scaleX, scaleY) {
   Widget.prototype.updatePosition.call(this, x, y, scaleX, scaleY)
 
   setTimeout(this.canvas.setSize.bind(this.canvas), 0)
 }
 
-Led.prototype.draw = function() {
+Led.prototype.draw = function () {
   var ctx = this.canvas.ctx
   ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 

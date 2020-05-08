@@ -1,15 +1,15 @@
 var ge1doot = ge1doot || {}
-ge1doot.canvas = function(elem) {
+ge1doot.canvas = function (elem) {
   var canvas = { width: 0, height: 0, left: 0, top: 0, ctx: null, elem: null }
   canvas.elem = elem
-  canvas.elem.onselectstart = function() {
+  canvas.elem.onselectstart = function () {
     return false
   }
-  canvas.elem.ondragstart = function() {
+  canvas.elem.ondragstart = function () {
     return false
   }
   canvas.ctx = canvas.elem.getContext('2d')
-  canvas.setSize = function() {
+  canvas.setSize = function () {
     var o = this.elem
     var w = this.elem.offsetWidth * 1
     var h = this.elem.offsetHeight * 1
@@ -34,22 +34,22 @@ ge1doot.canvas = function(elem) {
     canvas: canvas,
     touchMode: false,
     isDown: false,
-    center: function(s) {
+    center: function (s) {
       this.dx *= s
       this.dy *= s
       endX = endY = 0
     },
-    sweeping: false
+    sweeping: false,
   }
   var started = false,
     endX = 0,
     endY = 0
-  var addEvent = function(elem, e, fn) {
+  var addEvent = function (elem, e, fn) {
     for (var i = 0, events = e.split(','); i < events.length; i++) {
       elem.addEventListener(events[i], fn.bind(canvas.pointer), false)
     }
   }
-  addEvent(window, 'mousemove,touchmove', function(e) {
+  addEvent(window, 'mousemove,touchmove', function (e) {
     e.preventDefault()
     this.touchMode = e.targetTouches
     var pointer = this.touchMode ? this.touchMode[0] : e
@@ -62,7 +62,7 @@ ge1doot.canvas = function(elem) {
     }
     if (this.move) this.move(e)
   })
-  addEvent(canvas.elem, 'mousedown,touchstart', function(e) {
+  addEvent(canvas.elem, 'mousedown,touchstart', function (e) {
     e.preventDefault()
     this.touchMode = e.targetTouches
     var pointer = this.touchMode ? this.touchMode[0] : e
@@ -72,7 +72,7 @@ ge1doot.canvas = function(elem) {
     this.isDown = true
     if (this.down) this.down(e)
     setTimeout(
-      function() {
+      function () {
         if (
           !started &&
           Math.abs(this.startX - this.x) < 11 &&
@@ -84,7 +84,7 @@ ge1doot.canvas = function(elem) {
       200
     )
   })
-  addEvent(window, 'mouseup,touchend,touchcancel', function(e) {
+  addEvent(window, 'mouseup,touchend,touchcancel', function (e) {
     e.preventDefault()
     if (started) {
       endX = this.dx
@@ -99,7 +99,7 @@ ge1doot.canvas = function(elem) {
 }
 
 if (String.prototype.endsWith === undefined) {
-  String.prototype.endsWith = function(suffix) {
+  String.prototype.endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1
   }
 }
@@ -131,6 +131,6 @@ if (typeof Object.assign !== 'function') {
       return to
     },
     writable: true,
-    configurable: true
+    configurable: true,
   })
 }

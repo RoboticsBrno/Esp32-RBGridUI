@@ -30,7 +30,7 @@ function Bone(info, color, prev) {
   this.baseMax = info.bmax
 }
 
-Bone.prototype.toInfo = function() {
+Bone.prototype.toInfo = function () {
   return {
     len: this.length,
     angle: this.angle,
@@ -39,11 +39,11 @@ Bone.prototype.toInfo = function() {
     amin: this.absMin,
     amax: this.absMax,
     bmin: this.baseMin,
-    bmax: this.baseMax
+    bmax: this.baseMax,
   }
 }
 
-Bone.prototype.updatePos = function(prevBone, unit) {
+Bone.prototype.updatePos = function (prevBone, unit) {
   this.angle = this.relAngle
   if (prevBone) {
     this.angle = clampAng(prevBone.angle + this.angle)
@@ -66,22 +66,22 @@ function Animation(arm) {
   this.cmdSent = true
 }
 
-Animation.prototype.addFrame = function(x, y, durationMs) {
+Animation.prototype.addFrame = function (x, y, durationMs) {
   this.keyframes.push({
     x: x,
     y: y,
     duration: durationMs,
-    current: 0
+    current: 0,
   })
 }
 
-Animation.prototype.start = function() {
+Animation.prototype.start = function () {
   this.lastTick = performance.now()
   this.nextFrame()
   requestAnimationFrame(this.update.bind(this))
 }
 
-Animation.prototype.nextFrame = function() {
+Animation.prototype.nextFrame = function () {
   this.curFrame += 1
   if (this.curFrame >= this.keyframes.length) return false
   var f = this.keyframes[this.curFrame]
@@ -100,7 +100,7 @@ Animation.prototype.nextFrame = function() {
     'pos',
     { armX: f.x, armY: f.y },
     true,
-    function() {
+    function () {
       this.cmdSent = true
       requestAnimationFrame(this.update.bind(this))
     }.bind(this)
@@ -109,7 +109,7 @@ Animation.prototype.nextFrame = function() {
   return true
 }
 
-Animation.prototype.update = function() {
+Animation.prototype.update = function () {
   var now = performance.now()
   var diff = now - this.lastTick
   this.lastTick = now
@@ -159,7 +159,7 @@ function Arm(grid, uuid) {
       y: 0,
       w: 0,
       h: 0,
-      blink: false
+      blink: false,
     })
   }
 
@@ -174,20 +174,20 @@ function Arm(grid, uuid) {
   this.touchedButton = null
   this.animation = null
 
-  this.pointer.down = function() {
+  this.pointer.down = function () {
     this.touchedButton = this.getTouchedButton()
     if (this.touchedButton === null && this.animation === null) {
       this.run()
       this.touched = true
     }
   }.bind(this)
-  this.pointer.up = function() {
+  this.pointer.up = function () {
     if (this.touchedButton !== null) {
       if (this.getTouchedButton() === this.touchedButton) {
         this.touchedButton.blink = true
         this.draw()
         setTimeout(
-          function(btn) {
+          function (btn) {
             btn.blink = false
             this.draw()
           }.bind(this, this.touchedButton),
@@ -201,7 +201,7 @@ function Arm(grid, uuid) {
       requestAnimationFrame(this.run.bind(this))
     }
   }.bind(this)
-  this.pointer.move = function() {
+  this.pointer.move = function () {
     if (this.touched) requestAnimationFrame(this.run.bind(this))
   }.bind(this)
 
@@ -214,7 +214,7 @@ function Arm(grid, uuid) {
 Widget.createSubclass(Arm, {
   info: new Prop(
     Object,
-    function() {
+    function () {
       var bones = []
       for (var i = 0; i < this.bones.length; ++i)
         bones.push(this.bones[i].toInfo())
@@ -222,10 +222,10 @@ Widget.createSubclass(Arm, {
         radius: this.BODY_RADIUS,
         height: this.BODY_HEIGHT,
         off_y: this.ARM_BASE_HEIGHT,
-        bones: bones
+        bones: bones,
       }
     },
-    function(info) {
+    function (info) {
       this.BODY_RADIUS = info.radius
       this.BODY_HEIGHT = info.height
       this.ARM_BASE_HEIGHT = info.off_y
@@ -240,21 +240,21 @@ Widget.createSubclass(Arm, {
         this.bones.push(prev)
       }
     }
-  ).disableEdit()
+  ).disableEdit(),
 })
 
-Arm.prototype.applyState = function(state) {
+Arm.prototype.applyState = function (state) {
   Widget.prototype.applyState.call(this, state)
 
   this.resize()
   this.updateAngles(true)
 }
 
-Arm.prototype.shouldSend = function() {
+Arm.prototype.shouldSend = function () {
   return this.bones !== null && this.animation === null
 }
 
-Arm.prototype.resize = function() {
+Arm.prototype.resize = function () {
   this.unit =
     Math.min(this.canvas.width * 0.6, this.canvas.height * 0.8) /
     this.ARM_TOTAL_LEN
@@ -279,13 +279,13 @@ Arm.prototype.resize = function() {
   this.draw()
 }
 
-Arm.prototype.updatePosition = function(x, y, scaleX, scaleY) {
+Arm.prototype.updatePosition = function (x, y, scaleX, scaleY) {
   Widget.prototype.updatePosition.call(this, x, y, scaleX, scaleY)
 
   setTimeout(this.canvas.setSize.bind(this.canvas), 0)
 }
 
-Arm.prototype.getTouchedButton = function() {
+Arm.prototype.getTouchedButton = function () {
   var x = this.pointer.x
   var y = this.pointer.y
   for (var i = 0; i < this.buttons.length; ++i) {
@@ -295,7 +295,7 @@ Arm.prototype.getTouchedButton = function() {
   return null
 }
 
-Arm.prototype.handleButton = function(text) {
+Arm.prototype.handleButton = function (text) {
   switch (text) {
     case 'RETRACT':
       if (this.animation !== null) break
@@ -318,11 +318,11 @@ Arm.prototype.handleButton = function(text) {
   }
 }
 
-Arm.prototype.drawSegment = function(seg, color) {
+Arm.prototype.drawSegment = function (seg, color) {
   this.drawLine(seg.sx, seg.sy, seg.ex, seg.ey, color, 3, 6)
 }
 
-Arm.prototype.drawPointer = function(src, dst, color) {
+Arm.prototype.drawPointer = function (src, dst, color) {
   var ctx = this.canvas.ctx
   ctx.beginPath()
   ctx.strokeStyle = color
@@ -337,7 +337,7 @@ Arm.prototype.drawPointer = function(src, dst, color) {
   ctx.setLineDash([])
 }
 
-Arm.prototype.drawCircleDashed = function(x, y, radius, color) {
+Arm.prototype.drawCircleDashed = function (x, y, radius, color) {
   var ctx = this.canvas.ctx
   ctx.beginPath()
   ctx.strokeStyle = color
@@ -349,7 +349,7 @@ Arm.prototype.drawCircleDashed = function(x, y, radius, color) {
   ctx.setLineDash([])
 }
 
-Arm.prototype.drawTouchTarget = function(x, y) {
+Arm.prototype.drawTouchTarget = function (x, y) {
   var ctx = this.canvas.ctx
   ctx.beginPath()
   ctx.fillStyle = 'red'
@@ -358,7 +358,7 @@ Arm.prototype.drawTouchTarget = function(x, y) {
   ctx.fill()
 }
 
-Arm.prototype.drawLine = function(x0, y0, x1, y1, color, width, dotRadius) {
+Arm.prototype.drawLine = function (x0, y0, x1, y1, color, width, dotRadius) {
   var ctx = this.canvas.ctx
   ctx.beginPath()
   ctx.strokeStyle = color
@@ -376,7 +376,7 @@ Arm.prototype.drawLine = function(x0, y0, x1, y1, color, width, dotRadius) {
   }
 }
 
-Arm.prototype.updateAngles = function(updateAbsAngles) {
+Arm.prototype.updateAngles = function (updateAbsAngles) {
   var prev = null
   for (var i = 0; i < this.bones.length; ++i) {
     if (updateAbsAngles === true) this.bones[i].updatePos(prev, this.unit)
@@ -384,7 +384,7 @@ Arm.prototype.updateAngles = function(updateAbsAngles) {
   }
 }
 
-Arm.prototype.run = function() {
+Arm.prototype.run = function () {
   var dx = this.pointer.x - this.origin.x
   var dy = this.pointer.y - this.origin.y
   for (var i = 0; i < 10; ++i) {
@@ -401,17 +401,17 @@ Arm.prototype.run = function() {
   this.draw()
 }
 
-Arm.prototype.getTargetPos = function() {
+Arm.prototype.getTargetPos = function () {
   if (this.bones === null || this.bones.length === 0) return null
 
   var end = this.bones[this.bones.length - 1]
   return {
     x: end.x / this.unit,
-    y: end.y / this.unit
+    y: end.y / this.unit,
   }
 }
 
-Arm.prototype.draw = function() {
+Arm.prototype.draw = function () {
   var ctx = this.canvas.ctx
 
   ctx.fillStyle = '#ffffff'
@@ -490,7 +490,7 @@ Arm.prototype.draw = function() {
   this.drawPointer(this.origin, this.pointer, 'red')
 }
 
-Bone.prototype.rotate = function(prev, rotAng) {
+Bone.prototype.rotate = function (prev, rotAng) {
   var newRelAng = clampAng(this.relAngle + rotAng)
   var _min = this.relMin
   var _max = this.relMax
@@ -505,7 +505,7 @@ Bone.prototype.rotate = function(prev, rotAng) {
   return res
 }
 
-Arm.prototype.fixBodyCollision = function() {
+Arm.prototype.fixBodyCollision = function () {
   var base = this.bones[0]
   var endBone = this.bones[this.bones.length - 1]
   base.relAngle = Math.min(Math.max(base.relAngle, base.relMin), base.relMax)
@@ -519,14 +519,14 @@ Arm.prototype.fixBodyCollision = function() {
   }
 }
 
-Arm.prototype.isInBody = function(x, y) {
+Arm.prototype.isInBody = function (x, y) {
   return (
     Math.abs(x) <= this.BODY_RADIUS * this.unit &&
     y >= this.ARM_BASE_HEIGHT * this.unit
   )
 }
 
-Arm.prototype.solve = function(targetX, targetY) {
+Arm.prototype.solve = function (targetX, targetY) {
   if (this.bones === null || this.bones.length === 0) return
 
   var prev = null
@@ -627,7 +627,7 @@ Arm.prototype.solve = function(targetX, targetY) {
   return -1
 }
 
-Arm.prototype.rotateArm = function(bones, idx, rotAng) {
+Arm.prototype.rotateArm = function (bones, idx, rotAng) {
   var me = bones[idx]
 
   var base = bones[0]
@@ -685,7 +685,7 @@ Arm.prototype.rotateArm = function(bones, idx, rotAng) {
   return res
 }
 
-Arm.prototype.update = function(diffMs) {
+Arm.prototype.update = function (diffMs) {
   if (!this.shouldSend()) return
   var pos = this.getTargetPos()
   if (pos !== null)
@@ -693,7 +693,7 @@ Arm.prototype.update = function(diffMs) {
       'pos',
       {
         armX: pos.x,
-        armY: pos.y
+        armY: pos.y,
       },
       false
     )

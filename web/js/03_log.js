@@ -9,14 +9,14 @@ function Log(elementId) {
 
   this.el.addEventListener(
     'touchstart',
-    function(ev) {
+    function (ev) {
       this.isTouched = true
       this.touchStart = ev.timeStamp
     }.bind(this)
   )
   this.el.addEventListener(
     'touchend',
-    function(ev) {
+    function (ev) {
       this.isTouched = false
       if (ev.timeStamp - this.touchStart < 400) {
         this.onClick(ev)
@@ -27,7 +27,7 @@ function Log(elementId) {
   this.scrollToBottom()
 }
 
-Log.prototype.onClick = function(ev) {
+Log.prototype.onClick = function (ev) {
   if (ev.timeStamp - this.lastClick < 500) return
   this.lastClick = ev.timeStamp
 
@@ -40,15 +40,15 @@ Log.prototype.onClick = function(ev) {
   this.scrollToBottom()
 }
 
-Log.prototype.scrollToBottom = function() {
+Log.prototype.scrollToBottom = function () {
   this.el.scrollTop = this.el.scrollHeight
 }
 
-Log.prototype.clear = function() {
+Log.prototype.clear = function () {
   this.el.textContent = ''
 }
 
-Log.prototype.write = function(msg, noNewLine) {
+Log.prototype.write = function (msg, noNewLine) {
   if (noNewLine !== true && !msg.endsWith('\n')) {
     msg += '\n'
   }

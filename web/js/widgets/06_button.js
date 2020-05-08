@@ -12,7 +12,7 @@ function Button(grid, uuid) {
   if (!('ontouchstart' in document.documentElement)) {
     el.addEventListener(
       'mousedown',
-      function() {
+      function () {
         this.sendEvent('press')
         this.pressed = true
       }.bind(this)
@@ -20,7 +20,7 @@ function Button(grid, uuid) {
 
     document.addEventListener(
       'mouseup',
-      function() {
+      function () {
         if (!this.pressed) return
         this.sendEvent('release')
         this.pressed = false
@@ -29,7 +29,7 @@ function Button(grid, uuid) {
   } else {
     this.el.addEventListener(
       'touchstart',
-      function(ev) {
+      function (ev) {
         if (this.pressed) return
         this.pressed = true
         this.sendEvent('press')
@@ -37,7 +37,7 @@ function Button(grid, uuid) {
     )
     this.el.addEventListener(
       'touchend',
-      function(ev) {
+      function (ev) {
         if (!this.pressed) return
         this.pressed = false
         this.sendEvent('release')
@@ -49,11 +49,11 @@ function Button(grid, uuid) {
 Widget.createSubclass(Button, {
   text: new Prop(
     String,
-    function() {
+    function () {
       return this.el.innerText
     },
-    function(val) {
+    function (val) {
       this.el.innerText = val
     }
-  )
+  ),
 })
