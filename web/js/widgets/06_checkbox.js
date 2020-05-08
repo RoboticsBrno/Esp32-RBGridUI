@@ -23,7 +23,7 @@ Widget.createSubclass(Checkbox, {
   fontSize: new Prop(Number),
   checked: new Prop(Boolean),
   color: new Prop(String).setIsColor(),
-  text: new Prop(String),
+  text: new Prop(String)
 })
 
 Checkbox.prototype.applyState = function (state) {

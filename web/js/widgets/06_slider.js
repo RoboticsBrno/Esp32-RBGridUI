@@ -45,7 +45,7 @@ Widget.createSubclass(Slider, {
   max: new Prop(Number),
   value: new Prop(Number),
   precision: new Prop(Number),
-  showValue: new Prop(Boolean),
+  showValue: new Prop(Boolean)
 })
 
 Slider.prototype.applyState = function (state) {

@@ -22,7 +22,7 @@ Widget.createSubclass(Bar, {
   min: new Prop(Number),
   max: new Prop(Number),
   value: new Prop(Number),
-  showValue: new Prop(Boolean),
+  showValue: new Prop(Boolean)
 })
 
 Bar.prototype.applyState = function (state) {

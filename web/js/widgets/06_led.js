@@ -15,7 +15,7 @@ function Led(grid, uuid) {
 
 Widget.createSubclass(Led, {
   color: new Prop(String).setIsColor(),
-  on: new Prop(Boolean),
+  on: new Prop(Boolean)
 })
 
 Led.prototype.applyState = function (state) {

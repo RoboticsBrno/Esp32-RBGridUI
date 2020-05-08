@@ -39,7 +39,7 @@ Bone.prototype.toInfo = function () {
     amin: this.absMin,
     amax: this.absMax,
     bmin: this.baseMin,
-    bmax: this.baseMax,
+    bmax: this.baseMax
   }
 }
 
@@ -71,7 +71,7 @@ Animation.prototype.addFrame = function (x, y, durationMs) {
     x: x,
     y: y,
     duration: durationMs,
-    current: 0,
+    current: 0
   })
 }
 
@@ -159,7 +159,7 @@ function Arm(grid, uuid) {
       y: 0,
       w: 0,
       h: 0,
-      blink: false,
+      blink: false
     })
   }
 
@@ -222,7 +222,7 @@ Widget.createSubclass(Arm, {
         radius: this.BODY_RADIUS,
         height: this.BODY_HEIGHT,
         off_y: this.ARM_BASE_HEIGHT,
-        bones: bones,
+        bones: bones
       }
     },
     function (info) {
@@ -240,7 +240,7 @@ Widget.createSubclass(Arm, {
         this.bones.push(prev)
       }
     }
-  ).disableEdit(),
+  ).disableEdit()
 })
 
 Arm.prototype.applyState = function (state) {
@@ -407,7 +407,7 @@ Arm.prototype.getTargetPos = function () {
   var end = this.bones[this.bones.length - 1]
   return {
     x: end.x / this.unit,
-    y: end.y / this.unit,
+    y: end.y / this.unit
   }
 }
 
@@ -693,7 +693,7 @@ Arm.prototype.update = function (diffMs) {
       'pos',
       {
         armX: pos.x,
-        armY: pos.y,
+        armY: pos.y
       },
       false
     )

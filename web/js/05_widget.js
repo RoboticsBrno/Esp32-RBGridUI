@@ -80,7 +80,7 @@ Widget.prototype.PROPERTIES = {
         this.extraCss[k] = val[k]
       }
     }
-  ),
+  )
 }
 
 Widget.createSubclass = function (cls, properties) {
@@ -88,7 +88,7 @@ Widget.createSubclass = function (cls, properties) {
   Object.defineProperty(cls.prototype, 'constructor', {
     value: cls,
     enumerable: false,
-    writable: true,
+    writable: true
   })
 
   Widget.SUBCLASSES.push(cls)

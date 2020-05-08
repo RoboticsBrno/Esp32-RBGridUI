@@ -39,7 +39,7 @@ ge1doot.canvas = function (elem) {
       this.dy *= s
       endX = endY = 0
     },
-    sweeping: false,
+    sweeping: false
   }
   var started = false,
     endX = 0,
@@ -131,6 +131,6 @@ if (typeof Object.assign !== 'function') {
       return to
     },
     writable: true,
-    configurable: true,
+    configurable: true
   })
 }

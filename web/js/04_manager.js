@@ -153,7 +153,7 @@ Manager.prototype.sendMustArrive = function (
   this.mustArriveCommands[id] = {
     payload: payload,
     attempts: unlimitedAttempts !== true ? 0 : null,
-    callback: callback,
+    callback: callback
   }
   this.socket.send(payload)
 }

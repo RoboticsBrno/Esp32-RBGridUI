@@ -92,7 +92,7 @@ Grid.prototype.onResize = function () {
 Grid.prototype.calculatePxPos = function (w) {
   var res = {
     w: w.w * this.scaleX,
-    h: w.h * this.scaleY,
+    h: w.h * this.scaleY
   }
 
   if (!this.isSplit) {
@@ -193,7 +193,7 @@ Grid.prototype.onWidgetEvent = function (w, name, extra, mustArrive, callback) {
 
   var data = {
     id: w.uuid,
-    ev: name,
+    ev: name
   }
 
   if (extra !== undefined && extra !== null) {
@@ -263,7 +263,7 @@ Grid.prototype.pxPosToCoordinates = function (x, y) {
   y = this.roundToPrecision(y / this.scaleY, 0.5)
   return {
     x: x,
-    y: y,
+    y: y
   }
 }
 

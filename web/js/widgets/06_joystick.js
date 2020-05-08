@@ -25,7 +25,7 @@ function Joystick(grid, uuid) {
 Widget.createSubclass(Joystick, {
   color: new Prop(String).setIsColor(),
   keys: new Prop(String),
-  text: new Prop(String),
+  text: new Prop(String)
 })
 
 Joystick.prototype.applyState = function (state) {
@@ -54,10 +54,10 @@ Joystick.prototype.createNippleJs = function () {
     size: this.radius * 2,
     position: {
       top: '50%',
-      left: '50%',
+      left: '50%'
     },
     restOpacity: 0.9,
-    fadeTime: 0,
+    fadeTime: 0
   })
 
   this.joy = this.manager.get(this.manager.ids[0])
@@ -150,7 +150,7 @@ Joystick.prototype.update = function () {
     'pos',
     {
       jx: this.valX,
-      jy: this.valY,
+      jy: this.valY
     },
     false
   )

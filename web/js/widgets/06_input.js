@@ -77,5 +77,5 @@ Widget.createSubclass(Input, {
   color: new Prop(String, undefined, function (val) {
     this.color = val
     this.input.style.borderColor = val
-  }).setIsColor(),
+  }).setIsColor()
 })

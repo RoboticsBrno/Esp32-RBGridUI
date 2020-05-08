@@ -45,5 +45,5 @@ Widget.createSubclass(Text, {
   valign: new Prop(String, undefined, function (val) {
     this.valign = val
     this.el.style.alignItems = val
-  }).setOptions(['start', 'center', 'end']),
+  }).setOptions(['start', 'center', 'end'])
 })
