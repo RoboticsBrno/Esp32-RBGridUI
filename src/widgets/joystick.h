@@ -15,7 +15,7 @@ public:
         m_state->set("color", new rbjson::String(color));
     }
 
-    std::string getColor() const {
+    std::string color() const {
         return data().getString("color");
     }
 
@@ -23,7 +23,7 @@ public:
         m_state->set("keys", new rbjson::String(keys));
     }
 
-    std::string getKeys() const {
+    std::string keys() const {
         return data().getString("keys");
     }
 
@@ -31,15 +31,15 @@ public:
         m_state->set("text", new rbjson::String(text));
     }
 
-    std::string getText() const {
+    std::string text() const {
         return data().getString("text");
     }
 
-    int32_t getX() const {
+    int32_t x() const {
         return data().getInt("jx");
     }
 
-    int32_t getY() const {
+    int32_t y() const {
         return data().getInt("jy");
     }
 };

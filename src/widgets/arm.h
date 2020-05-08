@@ -11,11 +11,11 @@ class Arm : public Widget {
     using Widget::Widget;
 
 public:
-    double getX() const {
+    double x() const {
         return data().getDouble("armX");
     }
 
-    double getY() const {
+    double y() const {
         return data().getDouble("armY");
     }
 };

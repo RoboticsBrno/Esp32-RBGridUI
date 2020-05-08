@@ -15,7 +15,7 @@ public:
         m_state->set("color", new rbjson::String(color));
     }
 
-    std::string getColor() const {
+    std::string color() const {
         return data().getString("color");
     }
 
@@ -23,7 +23,7 @@ public:
         m_state->set("on", new rbjson::Bool(on));
     }
 
-    bool isOn() const {
+    bool on() const {
         return data().getBool("on");
     }
 };

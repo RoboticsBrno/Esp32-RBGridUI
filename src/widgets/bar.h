@@ -15,7 +15,7 @@ public:
         m_state->set("color", new rbjson::String(color));
     }
 
-    std::string getColor() const {
+    std::string color() const {
         return data().getString("color");
     }
 
@@ -23,7 +23,7 @@ public:
         m_state->set("fontSize", new rbjson::Number(fontSize));
     }
 
-    float getFontSize() const {
+    float fontSize() const {
         return data().getDouble("fontSize");
     }
 
@@ -31,7 +31,7 @@ public:
         m_state->set("min", new rbjson::Number(min));
     }
 
-    float getMin() const {
+    float min() const {
         return data().getDouble("min");
     }
 
@@ -39,7 +39,7 @@ public:
         m_state->set("max", new rbjson::Number(max));
     }
 
-    float getMax() const {
+    float max() const {
         return data().getDouble("max");
     }
 
@@ -47,7 +47,7 @@ public:
         m_state->set("value", new rbjson::Number(value));
     }
 
-    float getValue() const {
+    float value() const {
         return data().getDouble("value");
     }
 
@@ -55,7 +55,7 @@ public:
         m_state->set("showValue", new rbjson::Bool(showValue));
     }
 
-    bool isShowValue() const {
+    bool showValue() const {
         return data().getBool("showValue");
     }
 };

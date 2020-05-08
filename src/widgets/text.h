@@ -15,7 +15,7 @@ public:
         m_state->set("text", new rbjson::String(text));
     }
 
-    std::string getText() const {
+    std::string text() const {
         return data().getString("text");
     }
 
@@ -23,7 +23,7 @@ public:
         m_state->set("fontSize", new rbjson::Number(fontSize));
     }
 
-    float getFontSize() const {
+    float fontSize() const {
         return data().getDouble("fontSize");
     }
 
@@ -31,7 +31,7 @@ public:
         m_state->set("color", new rbjson::String(color));
     }
 
-    std::string getColor() const {
+    std::string color() const {
         return data().getString("color");
     }
 
@@ -39,7 +39,7 @@ public:
         m_state->set("align", new rbjson::String(align));
     }
 
-    std::string getAlign() const {
+    std::string align() const {
         return data().getString("align");
     }
 
@@ -47,7 +47,7 @@ public:
         m_state->set("valign", new rbjson::String(valign));
     }
 
-    std::string getValign() const {
+    std::string valign() const {
         return data().getString("valign");
     }
 };

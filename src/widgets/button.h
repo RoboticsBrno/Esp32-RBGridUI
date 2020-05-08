@@ -15,7 +15,7 @@ public:
         m_state->set("text", new rbjson::String(text));
     }
 
-    std::string getText() const {
+    std::string text() const {
         return data().getString("text");
     }
 };
