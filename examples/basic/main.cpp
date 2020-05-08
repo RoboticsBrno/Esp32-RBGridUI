@@ -56,7 +56,7 @@ void setup() {
                         .fontSize(17.5)
                         .text("TestBox")
                         .onChanged([](Checkbox& b) {
-                            printf("Checkbox changed: %d\n", (int)b.isChecked());
+                            printf("Checkbox changed: %d\n", (int)b.checked());
                         })
                         .finish();
 
@@ -65,8 +65,8 @@ void setup() {
         .keys("wasd ")
         .text("Fire!")
         .onPositionChanged([](Joystick& joy) {
-            const auto x = joy.getX();
-            const auto y = joy.getY();
+            const auto x = joy.x();
+            const auto y = joy.x();
             if (x != 0 || y != 0) {
                 printf("Joystick value: %d %d\n", x, y);
             }
@@ -97,6 +97,6 @@ void setup() {
 }
 
 void loop() {
-    gLedRed.setOn(!gLedRed.isOn());
+    gLedRed.setOn(!gLedRed.on());
     sleep(1);
 }
