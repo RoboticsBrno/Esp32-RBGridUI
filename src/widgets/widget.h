@@ -102,7 +102,7 @@ public:
         return *this;
     }
 
-    uint16_t getUuid() const {
+    uint16_t uuid() const {
         return m_state->uuid();
     }
 
@@ -110,7 +110,7 @@ public:
         m_state->set("x", new rbjson::Number(val));
     }
 
-    float getWidgetX() const {
+    float widgetX() const {
         return data().getDouble("x");
     }
 
@@ -118,7 +118,7 @@ public:
         m_state->set("y", new rbjson::Number(val));
     }
 
-    float getWidgetY() const {
+    float widgetY() const {
         return data().getDouble("y");
     }
 
@@ -126,7 +126,7 @@ public:
         m_state->set("w", new rbjson::Number(val));
     }
 
-    float getWidgetW() const {
+    float widgetW() const {
         return data().getDouble("w");
     }
 
@@ -134,7 +134,7 @@ public:
         m_state->set("h", new rbjson::Number(val));
     }
 
-    float getWidgetH() const {
+    float widgetH() const {
         return data().getDouble("h");
     }
 
@@ -142,7 +142,7 @@ public:
         m_state->setInnerObjectProp("css", propertyName, new rbjson::String(value));
     }
 
-    std::string getCss(const std::string& propertyName) const {
+    std::string css(const std::string& propertyName) const {
         auto* css = data().getObject("css");
         if (css == nullptr)
             return "";
