@@ -3,8 +3,12 @@ function Text(grid, uuid) {
   el.style.display = 'flex'
 
   this.span = document.createElement('span')
-  this.span.innerHTML = 'Text'
   el.appendChild(this.span)
+
+  this.text = "Text"
+  this.prefix = ""
+  this.suffix = ""
+  this.updateContent()
 
   Widget.call(this, grid, uuid, el)
 
@@ -22,12 +26,10 @@ function Text(grid, uuid) {
 
 Widget.createSubclass(Text, {
   text: new Prop(
-    String,
-    function () {
-      return this.span.innerHTML
-    },
+    String, undefined,
     function (val) {
-      this.span.innerHTML = val
+      this.text = val
+      this.updateContent()
     }
   ),
   fontSize: new Prop(Number, undefined, function (val) {
@@ -45,5 +47,17 @@ Widget.createSubclass(Text, {
   valign: new Prop(String, undefined, function (val) {
     this.valign = val
     this.el.style.alignItems = val
-  }).setOptions(['start', 'center', 'end'])
+  }).setOptions(['start', 'center', 'end']),
+  prefix: new Prop(String, undefined, function(val) {
+    this.prefix = val
+    this.updateContent()
+  }),
+  suffix: new Prop(String, undefined, function(val) {
+    this.suffix = val
+    this.updateContent()
+  }),
 })
+
+Widget.prototype.updateContent = function() {
+  this.span.innerHTML = this.prefix + this.text + this.suffix
+}

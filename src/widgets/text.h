@@ -50,6 +50,22 @@ public:
     std::string valign() const {
         return data().getString("valign");
     }
+
+    void setPrefix(const std::string& prefix) {
+        m_state->set("prefix", new rbjson::String(prefix));
+    }
+
+    std::string prefix() const {
+        return data().getString("prefix");
+    }
+
+    void setSuffix(const std::string& suffix) {
+        m_state->set("suffix", new rbjson::String(suffix));
+    }
+
+    std::string suffix() const {
+        return data().getString("suffix");
+    }
 };
 
 };

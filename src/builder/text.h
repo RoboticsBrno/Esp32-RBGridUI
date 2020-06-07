@@ -37,6 +37,16 @@ public:
         extra().set("valign", valign);
         return *this;
     }
+
+    Text& prefix(const std::string& prefix) {
+        extra().set("prefix", prefix);
+        return *this;
+    }
+
+    Text& suffix(const std::string& suffix) {
+        extra().set("suffix", suffix);
+        return *this;
+    }
 };
 
 };
