@@ -6,6 +6,8 @@
 namespace gridui {
 namespace builder {
 
+/** @ingroup widgets_builder
+*/
 class Input : public Widget, public BuilderMixin<Input, gridui::Input> {
     static const char* name() { return "Input"; }
 
@@ -23,6 +25,8 @@ public:
         return *this;
     }
 
+    /** @ingroup event
+     */
     Input& onChanged(callback_t cb) {
         addCallback("changed", cb);
         return *this;

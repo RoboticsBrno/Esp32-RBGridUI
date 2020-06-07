@@ -4,6 +4,8 @@
 
 namespace gridui {
 
+/** @ingroup widgets_constructed
+*/
 class Input : public Widget {
     template <typename Self, typename Finished>
     friend class builder::BuilderMixin;

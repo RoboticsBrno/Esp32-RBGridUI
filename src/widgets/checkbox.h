@@ -4,6 +4,8 @@
 
 namespace gridui {
 
+/** @ingroup widgets_constructed
+*/
 class Checkbox : public Widget {
     template <typename Self, typename Finished>
     friend class builder::BuilderMixin;

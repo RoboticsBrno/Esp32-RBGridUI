@@ -8,6 +8,8 @@
 namespace gridui {
 namespace builder {
 
+/** @ingroup widgets_builder
+*/
 class Arm : public Widget, public BuilderMixin<Arm, gridui::Arm> {
     static const char* name() { return "Arm"; }
 

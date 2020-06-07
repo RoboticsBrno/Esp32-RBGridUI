@@ -18,6 +18,11 @@ template <typename Self, typename Finished>
 class BuilderMixin;
 };
 
+/**
+ *  @defgroup widgets_constructed Layout widgets
+ *  Classes in this module are used to modify state of the already constructed Layout.
+ */
+
 class WidgetState {
     friend class gridui::builder::Widget;
     friend class gridui::_GridUi;

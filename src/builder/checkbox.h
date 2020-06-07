@@ -6,6 +6,8 @@
 namespace gridui {
 namespace builder {
 
+/** @ingroup widgets_builder
+*/
 class Checkbox : public Widget, public BuilderMixin<Checkbox, gridui::Checkbox> {
     static const char* name() { return "Checkbox"; }
 
@@ -33,6 +35,8 @@ public:
         return *this;
     }
 
+    /** @ingroup event
+     */
     Checkbox& onChanged(callback_t cb) {
         addCallback("checked", cb);
         return *this;

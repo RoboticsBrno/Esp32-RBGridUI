@@ -6,6 +6,8 @@
 namespace gridui {
 namespace builder {
 
+/** @ingroup widgets_builder
+*/
 class Joystick : public Widget, public BuilderMixin<Joystick, gridui::Joystick> {
     static const char* name() { return "Joystick"; }
 
@@ -34,11 +36,15 @@ public:
         return *this;
     }
 
+    /** @ingroup event
+     */
     Joystick& onClick(callback_t cb) {
         addCallback("click", cb);
         return *this;
     }
 
+    /** @ingroup event
+     */
     Joystick& onPositionChanged(callback_t cb) {
         addCallback("pos", cb);
         return *this;

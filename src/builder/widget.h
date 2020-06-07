@@ -11,6 +11,16 @@
 
 #include "../widgets/widget.h"
 
+/**
+ *  @defgroup event Event handlers
+ *  This group contains all possible event handlers
+ */
+
+/**
+ *  @defgroup widgets_builder Builder widgets
+ *  Classes in this module are used to construct the layout.
+ */
+
 namespace gridui {
 
 class _GridUi;

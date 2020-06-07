@@ -6,6 +6,8 @@
 namespace gridui {
 namespace builder {
 
+/** @ingroup widgets_builder
+*/
 class Led : public Widget, public BuilderMixin<Led, gridui::Led> {
     static const char* name() { return "Led"; }
 
