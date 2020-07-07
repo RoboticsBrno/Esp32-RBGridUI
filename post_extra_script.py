@@ -10,7 +10,9 @@ import shutil
 import sys
 import gzip
 
-VERSION = 4 # increase to force spiffs flash
+VERSION = 5 # increase to force spiffs flash
+
+PROCESS_ENC = "mbcs" if sys.platform.startswith("win") else "utf-8"
 
 def autodisable_old_lib(base, env):
     web_dir = os.path.join(base, "web")
@@ -104,7 +106,7 @@ def after_upload(source, target, env, base="."):
         pass
 
     dev_list = subprocess.check_output([ "pio", "device", "list", "--serial", "--json-output" ], env=env["ENV"])
-    dev_list = json.loads(dev_list)
+    dev_list = json.loads(dev_list.decode(PROCESS_ENC))
     for d in dev_list:
         hasher.update(d.get("hwid", "").encode("utf-8"))
 
