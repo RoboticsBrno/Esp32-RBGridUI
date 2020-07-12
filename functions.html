@@ -100,6 +100,7 @@ $(function() {
 , <a class="el" href="classgridui_1_1Input.html#a27714b1ce584611b1ca261004139e361">gridui::Input</a>
 , <a class="el" href="classgridui_1_1Joystick.html#a27714b1ce584611b1ca261004139e361">gridui::Joystick</a>
 , <a class="el" href="classgridui_1_1Led.html#a27714b1ce584611b1ca261004139e361">gridui::Led</a>
+, <a class="el" href="classgridui_1_1Orientation.html#a27714b1ce584611b1ca261004139e361">gridui::Orientation</a>
 , <a class="el" href="classgridui_1_1Slider.html#a27714b1ce584611b1ca261004139e361">gridui::Slider</a>
 , <a class="el" href="classgridui_1_1Text.html#a27714b1ce584611b1ca261004139e361">gridui::Text</a>
 , <a class="el" href="classgridui_1_1WidgetState.html#a27714b1ce584611b1ca261004139e361">gridui::WidgetState</a>
@@ -131,12 +132,14 @@ $(function() {
 , <a class="el" href="classgridui_1_1builder_1_1Input.html#a1cc02672646485a682f79b095548535a">gridui::builder::Input</a>
 , <a class="el" href="classgridui_1_1builder_1_1Joystick.html#af43f3fd3cd5f3b1123194b8f1691e865">gridui::builder::Joystick</a>
 , <a class="el" href="classgridui_1_1builder_1_1Led.html#a73ac7adf4ff1490e92b396057278834e">gridui::builder::Led</a>
+, <a class="el" href="classgridui_1_1builder_1_1Orientation.html#ab56d16a4c9c04ae644bd447e447b9194">gridui::builder::Orientation</a>
 , <a class="el" href="classgridui_1_1builder_1_1Slider.html#a87e072feac0e3575fc5ed9f8c0d1c160">gridui::builder::Slider</a>
 , <a class="el" href="classgridui_1_1builder_1_1Text.html#af1153092cb9544fe1201a6fbfc8eb549">gridui::builder::Text</a>
 , <a class="el" href="classgridui_1_1Checkbox.html#a455cceb9f29d89c5b12e7f4b3525bc9b">gridui::Checkbox</a>
 , <a class="el" href="classgridui_1_1Input.html#a6a35270a88f02a4280e621ee51d3aca8">gridui::Input</a>
 , <a class="el" href="classgridui_1_1Joystick.html#a9c483c4769a76c8459dafafb88c4770e">gridui::Joystick</a>
 , <a class="el" href="classgridui_1_1Led.html#abcf42f49c326ccb54329a205727379e0">gridui::Led</a>
+, <a class="el" href="classgridui_1_1Orientation.html#a563368e4888fbed6c241d77924b70279">gridui::Orientation</a>
 , <a class="el" href="classgridui_1_1Slider.html#a713a254370ae2b5757203d0c868348c0">gridui::Slider</a>
 , <a class="el" href="classgridui_1_1Text.html#a23157bb77e11cf2f76b4281253436d2e">gridui::Text</a>
 </li>
@@ -192,6 +195,7 @@ $(function() {
 , <a class="el" href="classgridui_1_1builder_1_1Input.html#acbedd92055dbde843c044e168dd94b10">gridui::builder::Input</a>
 , <a class="el" href="classgridui_1_1builder_1_1Joystick.html#acbedd92055dbde843c044e168dd94b10">gridui::builder::Joystick</a>
 , <a class="el" href="classgridui_1_1builder_1_1Led.html#acbedd92055dbde843c044e168dd94b10">gridui::builder::Led</a>
+, <a class="el" href="classgridui_1_1builder_1_1Orientation.html#acbedd92055dbde843c044e168dd94b10">gridui::builder::Orientation</a>
 , <a class="el" href="classgridui_1_1builder_1_1Slider.html#acbedd92055dbde843c044e168dd94b10">gridui::builder::Slider</a>
 , <a class="el" href="classgridui_1_1builder_1_1Text.html#acbedd92055dbde843c044e168dd94b10">gridui::builder::Text</a>
 , <a class="el" href="classgridui_1_1builder_1_1Widget.html#acbedd92055dbde843c044e168dd94b10">gridui::builder::Widget</a>
@@ -223,6 +227,12 @@ $(function() {
 <h3><a id="index_j"></a>- j -</h3><ul>
 <li>joystick()
 : <a class="el" href="classgridui_1_1__GridUi.html#a4e68d579d9bf75d8cd246b951e69b5f5">gridui::_GridUi</a>
+</li>
+<li>joystickX()
+: <a class="el" href="classgridui_1_1Orientation.html#aa105030925e1cb02c7d03132d1570949">gridui::Orientation</a>
+</li>
+<li>joystickY()
+: <a class="el" href="classgridui_1_1Orientation.html#afb333731967d821ce89d3842338fa9a9">gridui::Orientation</a>
 </li>
 </ul>
 
@@ -281,6 +291,7 @@ $(function() {
 <li>onPositionChanged()
 : <a class="el" href="classgridui_1_1builder_1_1Arm.html#a7a32f416f1e7abf277e8b982d1ed4650">gridui::builder::Arm</a>
 , <a class="el" href="group__event.html#ga32f46133ce0fa89dd838c1da3c58e572">gridui::builder::Joystick</a>
+, <a class="el" href="group__event.html#gaf94b6c4205d10f8a2cffa851a333d610">gridui::builder::Orientation</a>
 </li>
 <li>onPress()
 : <a class="el" href="group__event.html#gae5b0e1c0461bc2088befe82a2b1ccdc3">gridui::builder::Button</a>
@@ -289,12 +300,18 @@ $(function() {
 : <a class="el" href="group__event.html#gab64c7dede75eedbd178e6d17f3d9695b">gridui::builder::Button</a>
 </li>
 <li>operator=()
-: <a class="el" href="classgridui_1_1Widget.html#a2b2963a1cd9249e8acb564d04e7287c2">gridui::Widget</a>
+: <a class="el" href="classgridui_1_1Widget.html#a5b7ca86c7b10dbd5ac3a0f56f0f80ae1">gridui::Widget</a>
+</li>
+<li>orientation()
+: <a class="el" href="classgridui_1_1__GridUi.html#aa6f156aca1a64ffb06eaa8ea2169e229">gridui::_GridUi</a>
 </li>
 </ul>
 
 
 <h3><a id="index_p"></a>- p -</h3><ul>
+<li>pitch()
+: <a class="el" href="classgridui_1_1Orientation.html#a0974bc20ecae2f3877906c203a7ddb6c">gridui::Orientation</a>
+</li>
 <li>precision()
 : <a class="el" href="classgridui_1_1builder_1_1Slider.html#ac5be3c5567fd59a428cb41a181853adc">gridui::builder::Slider</a>
 , <a class="el" href="classgridui_1_1Slider.html#aaf7c4bf362fd64e654ef7e67d555f678">gridui::Slider</a>
@@ -305,6 +322,13 @@ $(function() {
 </li>
 <li>protocol()
 : <a class="el" href="classgridui_1_1__GridUi.html#af0a5c6663084e22e5f7b43d88d99e79e">gridui::_GridUi</a>
+</li>
+</ul>
+
+
+<h3><a id="index_r"></a>- r -</h3><ul>
+<li>roll()
+: <a class="el" href="classgridui_1_1Orientation.html#af7eac169493d42ce41699946013101af">gridui::Orientation</a>
 </li>
 </ul>
 
@@ -329,6 +353,7 @@ $(function() {
 , <a class="el" href="classgridui_1_1Input.html#aa43390b8facb91a88e76745e876846ee">gridui::Input</a>
 , <a class="el" href="classgridui_1_1Joystick.html#aff297ce0b8851e3ade8e0857455514cd">gridui::Joystick</a>
 , <a class="el" href="classgridui_1_1Led.html#a61696d9cc7a19329d5b5cf2aff891111">gridui::Led</a>
+, <a class="el" href="classgridui_1_1Orientation.html#aa8e2fe6d131fa90111d3684a87b932ad">gridui::Orientation</a>
 , <a class="el" href="classgridui_1_1Slider.html#a65d801461827869a2ca435ecf0dd264b">gridui::Slider</a>
 , <a class="el" href="classgridui_1_1Text.html#ad2d5b5a71419e3de64fdf0106fd68d72">gridui::Text</a>
 </li>
@@ -458,7 +483,7 @@ $(function() {
 <h3><a id="index_w"></a>- w -</h3><ul>
 <li>Widget()
 : <a class="el" href="classgridui_1_1builder_1_1Widget.html#aa212d59db20cbdb59ab2dd77096a664a">gridui::builder::Widget</a>
-, <a class="el" href="classgridui_1_1Widget.html#a5c58b18f88f18959900eeec8a0e466e9">gridui::Widget</a>
+, <a class="el" href="classgridui_1_1Widget.html#add1e2715815d5c63c574d6c1c2fb06eb">gridui::Widget</a>
 </li>
 <li>widgetH()
 : <a class="el" href="classgridui_1_1Widget.html#a0d986e774b8acf22a8f4def0c264c6b0">gridui::Widget</a>
@@ -492,6 +517,9 @@ $(function() {
 : <a class="el" href="classgridui_1_1Arm.html#a8c682e464ae6dc1502d7814181f79a95">gridui::Arm</a>
 , <a class="el" href="classgridui_1_1Joystick.html#ac0c2193b87aad1ae5fd105a4097e04c4">gridui::Joystick</a>
 </li>
+<li>yaw()
+: <a class="el" href="classgridui_1_1Orientation.html#a99c9fd2bb039f3250120a26791dd1eab">gridui::Orientation</a>
+</li>
 </ul>
 
 
@@ -506,7 +534,7 @@ $(function() {
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 7 2020 17:07:08 for Esp32-RBGridUI by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 12 2020 08:14:25 for Esp32-RBGridUI by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.18
 </small></address>

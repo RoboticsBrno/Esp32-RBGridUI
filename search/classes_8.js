@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['text_132',['Text',['../classgridui_1_1builder_1_1Text.html',1,'gridui::builder::Text'],['../classgridui_1_1Text.html',1,'gridui::Text']]]
+  ['slider_143',['Slider',['../classgridui_1_1Slider.html',1,'gridui::Slider'],['../classgridui_1_1builder_1_1Slider.html',1,'gridui::builder::Slider']]]
 ];
