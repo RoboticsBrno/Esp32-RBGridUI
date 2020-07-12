@@ -1,9 +1,3 @@
 #pragma once
 
-#include <stdint.h>
-
-namespace gridui {
-
-static constexpr uint32_t RbGridUiVersion = 0x040101;
-
-};
+#define RB_GRIDUI_VERSION 0x040101
