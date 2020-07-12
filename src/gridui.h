@@ -18,6 +18,8 @@
 #include "builder/slider.h"
 #include "builder/text.h"
 
+#include "gridui_version.h"
+
 namespace rb {
 class Protocol;
 };

@@ -40,6 +40,8 @@ Position.prototype.equals = function (o) {
 }
 
 function Widget(grid, uuid, element) {
+  this.MIN_LIBRARY_VERSION = 0x040000
+
   this.x = 0
   this.y = 0
   this.w = 2

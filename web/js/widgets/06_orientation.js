@@ -18,6 +18,8 @@ function Orientation(grid, uuid) {
     this.canvas.resize = this.draw.bind(this)
   }
 
+  this.MIN_LIBRARY_VERSION = 0x040200
+
   this.w = 1
   this.h = 1
 
