@@ -6,7 +6,8 @@ function Orientation(grid, uuid) {
     this.canvas = null
 
     var el = document.createElement('span')
-    el.innerText = 'Orientation sensor not supported on this device.'
+    el.innerText =
+      'Orientation sensor requires the Android RBController app, version >= 1.9.'
     Widget.call(this, grid, uuid, el)
   } else {
     this.enabled = true
