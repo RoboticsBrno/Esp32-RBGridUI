@@ -182,7 +182,7 @@ Manager.prototype.loadLayout = function (gridElementId) {
       return
     }
 
-    this.grid = new Grid(this, gridElementId, req.response)
+    this.grid = new Grid(this, gridElementId, JSON.parse(req.responseText))
     if (this.possessed) {
       this.sendMustArrive('_gall', {})
     }
