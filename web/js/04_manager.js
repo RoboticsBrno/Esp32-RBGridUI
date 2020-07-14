@@ -173,7 +173,6 @@ Manager.prototype.loadLayout = function (gridElementId) {
   var req = new XMLHttpRequest()
   req.open('GET', '/layout.json')
   req.timeout = 15000
-  req.responseType = 'json'
   req.onreadystatechange = function () {
     if (req.readyState !== XMLHttpRequest.DONE) return
 
