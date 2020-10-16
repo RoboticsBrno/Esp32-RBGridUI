@@ -3,6 +3,10 @@ A library to build user interfaces for ESP32 programs, controllable via
 the RBController apps ([Android](https://play.google.com/store/apps/details?id=com.tassadar.rbcontroller),
 [Windows](https://github.com/RoboticsBrno/rbcontroller-electron/releases)).
 
+## Documentation
+There is a small documentation site with all the possible widget and event types:
+[https://roboticsbrno.github.io/Esp32-RBGridUI/modules.html](https://roboticsbrno.github.io/Esp32-RBGridUI/modules.html).
+
 ## Examples of use
 ### Basic
 **Source: [examples/basic/main.cpp](examples/basic/main.cpp)**
