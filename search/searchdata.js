@@ -3,13 +3,14 @@ var indexSectionsWithContent =
   0: "_abcdefghijklmoprstuvwxy~",
   1: "_abcijlostw",
   2: "gr",
-  3: "abcgijlostw",
+  3: "abcgijlorstw",
   4: "_abcdefhijklmoprstuvwxy~",
   5: "hmu",
   6: "c",
   7: "bgw",
   8: "rt",
-  9: "bel"
+  9: "bel",
+  10: "e"
 };
 
 var indexSectionNames =
@@ -23,7 +24,8 @@ var indexSectionNames =
   6: "typedefs",
   7: "related",
   8: "defines",
-  9: "groups"
+  9: "groups",
+  10: "pages"
 };
 
 var indexSectionLabels =
@@ -37,6 +39,7 @@ var indexSectionLabels =
   6: "Typedefs",
   7: "Friends",
   8: "Macros",
-  9: "Modules"
+  9: "Modules",
+  10: "Pages"
 };
 
