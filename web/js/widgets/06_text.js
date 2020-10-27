@@ -43,11 +43,11 @@ Widget.createSubclass(Text, {
   align: new Prop(String, undefined, function (val) {
     this.align = val
     this.el.style.justifyContent = val
-  }).setOptions(['start', 'center', 'end']),
+  }).setOptions(['flex-start', 'center', 'flex-end']),
   valign: new Prop(String, undefined, function (val) {
     this.valign = val
     this.el.style.alignItems = val
-  }).setOptions(['start', 'center', 'end']),
+  }).setOptions(['flex-start', 'center', 'flex-end']),
   prefix: new Prop(String, undefined, function(val) {
     this.prefix = val
     this.updateContent()
