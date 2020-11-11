@@ -14,7 +14,7 @@
             "maintainer": true
         }
     ],
-    "version": "4.2.5",
+    "version": "4.2.6",
     "frameworks": [
         "espidf",
         "arduino"
@@ -23,7 +23,7 @@
     "dependencies": [
         {
             "name": "RB3201-RBProtocol",
-            "version": "https://github.com/RoboticsBrno/RB3201-RBProtocol-library/archive/v10.3.2.zip"
+            "version": "https://github.com/RoboticsBrno/RB3201-RBProtocol-library/archive/v10.3.3.zip"
         }
     ],
     "build": {
