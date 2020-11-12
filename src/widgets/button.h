@@ -20,6 +20,10 @@ public:
     std::string text() const {
         return data().getString("text");
     }
+
+    bool pressed() const {
+        return data().getBool("pressed");
+    }
 };
 
 };

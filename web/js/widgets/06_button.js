@@ -32,7 +32,7 @@ function Button(grid, uuid) {
       function (ev) {
         if (this.pressed) return
         this.pressed = true
-        this.sendEvent('press')
+        this.sendEvent('press', { pressed: true })
       }.bind(this)
     )
     this.el.addEventListener(
@@ -40,7 +40,7 @@ function Button(grid, uuid) {
       function (ev) {
         if (!this.pressed) return
         this.pressed = false
-        this.sendEvent('release')
+        this.sendEvent('release', { pressed: false })
       }.bind(this)
     )
   }
