@@ -68,6 +68,11 @@ public:
     std::string suffix() const {
         return data().getString("suffix");
     }
+
+    void setNumber(float number) {
+        rbjson::Number n(number);
+        setText(n.str());
+    }
 };
 
 };
