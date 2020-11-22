@@ -138,9 +138,14 @@ $(function() {
 <div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="classgridui_1_1Text.html#aaffc4e5f9e2207482c514d3a426e0e30">   68</a></span>&#160;    std::string <a class="code" href="classgridui_1_1Text.html#aaffc4e5f9e2207482c514d3a426e0e30">suffix</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classgridui_1_1Widget.html#af4953ac08989476cf3c31baa10967b9c">data</a>().getString(<span class="stringliteral">&quot;suffix&quot;</span>);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;};</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;};</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="classgridui_1_1Text.html#ad27e244dfd408dfcda8b3869860a4993">   72</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classgridui_1_1Text.html#ad27e244dfd408dfcda8b3869860a4993">setNumber</a>(<span class="keywordtype">float</span> number) {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        rbjson::Number n(number);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <a class="code" href="classgridui_1_1Text.html#a983426487df335b2d7b6075abf053019">setText</a>(n.str());</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassgridui_1_1WidgetState_html_a21683123d2425b15ba97d77a9f41df27"><div class="ttname"><a href="classgridui_1_1WidgetState.html#a21683123d2425b15ba97d77a9f41df27">gridui::WidgetState::set</a></div><div class="ttdeci">bool set(const std::string &amp;key, rbjson::Value *value)</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2widget_8cpp_source.html#l00023">widget.cpp:23</a></div></div>
 <div class="ttc" id="aclassgridui_1_1Text_html"><div class="ttname"><a href="classgridui_1_1Text.html">gridui::Text</a></div><div class="ttdef"><b>Definition:</b> <a href="widgets_2text_8h_source.html#l00009">text.h:9</a></div></div>
@@ -157,6 +162,7 @@ $(function() {
 <div class="ttc" id="aclassgridui_1_1Text_html_a3fe36187b32320de0b6bf55e8da31493"><div class="ttname"><a href="classgridui_1_1Text.html#a3fe36187b32320de0b6bf55e8da31493">gridui::Text::setSuffix</a></div><div class="ttdeci">void setSuffix(const std::string &amp;suffix)</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2text_8h_source.html#l00064">text.h:64</a></div></div>
 <div class="ttc" id="aclassgridui_1_1Widget_html_af4953ac08989476cf3c31baa10967b9c"><div class="ttname"><a href="classgridui_1_1Widget.html#af4953ac08989476cf3c31baa10967b9c">gridui::Widget::data</a></div><div class="ttdeci">const rbjson::Object &amp; data() const</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2widget_8h_source.html#l00165">widget.h:165</a></div></div>
 <div class="ttc" id="anamespacegridui_html"><div class="ttname"><a href="namespacegridui.html">gridui</a></div><div class="ttdef"><b>Definition:</b> <a href="builder_2arm_8h_source.html#l00008">arm.h:8</a></div></div>
+<div class="ttc" id="aclassgridui_1_1Text_html_ad27e244dfd408dfcda8b3869860a4993"><div class="ttname"><a href="classgridui_1_1Text.html#ad27e244dfd408dfcda8b3869860a4993">gridui::Text::setNumber</a></div><div class="ttdeci">void setNumber(float number)</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2text_8h_source.html#l00072">text.h:72</a></div></div>
 <div class="ttc" id="aclassgridui_1_1Text_html_ab8ce70ec76a92be98ad34831f696e6bb"><div class="ttname"><a href="classgridui_1_1Text.html#ab8ce70ec76a92be98ad34831f696e6bb">gridui::Text::fontSize</a></div><div class="ttdeci">float fontSize() const</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2text_8h_source.html#l00028">text.h:28</a></div></div>
 <div class="ttc" id="aclassgridui_1_1Text_html_aaffc4e5f9e2207482c514d3a426e0e30"><div class="ttname"><a href="classgridui_1_1Text.html#aaffc4e5f9e2207482c514d3a426e0e30">gridui::Text::suffix</a></div><div class="ttdeci">std::string suffix() const</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2text_8h_source.html#l00068">text.h:68</a></div></div>
 <div class="ttc" id="aclassgridui_1_1Text_html_a69e8b091df81c37e299854f093abc3cc"><div class="ttname"><a href="classgridui_1_1Text.html#a69e8b091df81c37e299854f093abc3cc">gridui::Text::setFontSize</a></div><div class="ttdeci">void setFontSize(float fontSize)</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2text_8h_source.html#l00024">text.h:24</a></div></div>
@@ -167,7 +173,7 @@ $(function() {
 <div class="ttc" id="aclassgridui_1_1Text_html_aef44c04d488f989a7fc14c81e2adf5f3"><div class="ttname"><a href="classgridui_1_1Text.html#aef44c04d488f989a7fc14c81e2adf5f3">gridui::Text::prefix</a></div><div class="ttdeci">std::string prefix() const</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2text_8h_source.html#l00060">text.h:60</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 12 2020 21:03:41 for Esp32-RBGridUI by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20
+Generated on Sun Nov 22 2020 10:13:10 for Esp32-RBGridUI by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20
 </small></address>
 </body>
 </html>
