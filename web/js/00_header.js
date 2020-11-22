@@ -44,6 +44,11 @@ ge1doot.canvas = function (elem) {
   var started = false,
     endX = 0,
     endY = 0
+
+  if (window['IN_RB_GRID_DESIGNER'] === true) {
+    return canvas
+  }
+
   var addEvent = function (elem, e, fn) {
     for (var i = 0, events = e.split(','); i < events.length; i++) {
       elem.addEventListener(events[i], fn.bind(canvas.pointer), false)
