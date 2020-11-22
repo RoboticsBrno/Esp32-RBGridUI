@@ -5,9 +5,9 @@ function Text(grid, uuid) {
   this.span = document.createElement('span')
   el.appendChild(this.span)
 
-  this.text = "Text"
-  this.prefix = ""
-  this.suffix = ""
+  this.text = 'Text'
+  this.prefix = ''
+  this.suffix = ''
   this.updateContent()
 
   Widget.call(this, grid, uuid, el)
@@ -22,16 +22,14 @@ function Text(grid, uuid) {
   this.span.style.fontSize = this.fontSize + 'pt'
 
   this.color = '#000000'
+  this.background = ''
 }
 
 Widget.createSubclass(Text, {
-  text: new Prop(
-    String, undefined,
-    function (val) {
-      this.text = val
-      this.updateContent()
-    }
-  ),
+  text: new Prop(String, undefined, function (val) {
+    this.text = val
+    this.updateContent()
+  }),
   fontSize: new Prop(Number, undefined, function (val) {
     this.fontSize = val
     this.span.style.fontSize = val + 'pt'
@@ -39,6 +37,10 @@ Widget.createSubclass(Text, {
   color: new Prop(String, undefined, function (val) {
     this.color = val
     this.span.style.color = val
+  }).setIsColor(),
+  background: new Prop(String, undefined, function (val) {
+    this.background = val
+    this.el.style.backgroundColor = val
   }).setIsColor(),
   align: new Prop(String, undefined, function (val) {
     this.align = val
@@ -48,16 +50,16 @@ Widget.createSubclass(Text, {
     this.valign = val
     this.el.style.alignItems = val
   }).setOptions(['flex-start', 'center', 'flex-end']),
-  prefix: new Prop(String, undefined, function(val) {
+  prefix: new Prop(String, undefined, function (val) {
     this.prefix = val
     this.updateContent()
   }),
-  suffix: new Prop(String, undefined, function(val) {
+  suffix: new Prop(String, undefined, function (val) {
     this.suffix = val
     this.updateContent()
-  }),
+  })
 })
 
-Widget.prototype.updateContent = function() {
+Widget.prototype.updateContent = function () {
   this.span.innerHTML = this.prefix + this.text + this.suffix
 }

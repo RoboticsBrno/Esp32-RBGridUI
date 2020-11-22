@@ -30,6 +30,11 @@ public:
         return *this;
     }
 
+    Text& background(const std::string& background) {
+        extra().set("background", background);
+        return *this;
+    }
+
     Text& align(const std::string& align) {
         extra().set("align", align);
         return *this;

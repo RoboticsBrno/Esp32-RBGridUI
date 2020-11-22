@@ -20,6 +20,31 @@ public:
         return *this;
     }
 
+    Button& fontSize(float fontSize) {
+        extra().set("fontSize", fontSize);
+        return *this;
+    }
+
+    Button& color(const std::string& color) {
+        extra().set("color", color);
+        return *this;
+    }
+
+    Button& background(const std::string& background) {
+        extra().set("background", background);
+        return *this;
+    }
+
+    Button& align(const std::string& align) {
+        extra().set("align", align);
+        return *this;
+    }
+
+    Button& valign(const std::string& valign) {
+        extra().set("valign", valign);
+        return *this;
+    }
+
     /** @ingroup event
      */
     Button& onPress(callback_t cb) {

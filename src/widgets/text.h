@@ -37,6 +37,14 @@ public:
         return data().getString("color");
     }
 
+    void setBackground(const std::string& background) {
+        m_state->set("background", new rbjson::String(background));
+    }
+
+    std::string background() const {
+        return data().getString("background");
+    }
+
     void setAlign(const std::string& align) {
         m_state->set("align", new rbjson::String(align));
     }
