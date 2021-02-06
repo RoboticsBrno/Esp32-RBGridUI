@@ -1,4 +1,4 @@
 #pragma once
 
-#define RB_GRIDUI_VERSION 0x040400
+#define RB_GRIDUI_VERSION 0x040500
 
