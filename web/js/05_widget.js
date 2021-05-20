@@ -6,6 +6,7 @@ function Prop(type, getFunc, setFunc) {
   this.ignoreInBuilder = false
   this.options = null
   this.isColor = false
+  this.step = undefined
 }
 
 Prop.prototype.disableEdit = function () {
@@ -25,6 +26,11 @@ Prop.prototype.setOptions = function (opts) {
 
 Prop.prototype.setIsColor = function () {
   this.isColor = true
+  return this
+}
+
+Prop.prototype.setStep = function (step) {
+  this.step = step
   return this
 }
 
