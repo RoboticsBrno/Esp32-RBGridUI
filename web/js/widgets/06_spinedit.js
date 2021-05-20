@@ -1,4 +1,6 @@
 function SpinEdit(grid, uuid) {
+  this.MIN_LIBRARY_VERSION = 0x040600
+
   this.color = '#000000'
   this.fontSize = 14
   this.value = 0
