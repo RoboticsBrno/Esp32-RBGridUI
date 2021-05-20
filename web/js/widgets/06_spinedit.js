@@ -24,6 +24,7 @@ function SpinEdit(grid, uuid) {
     }
 
     this.sendEvent('changed', { value: this.value })
+    this.draw()
   }.bind(this)
 }
 
@@ -73,13 +74,9 @@ SpinEdit.prototype.draw = function () {
   // plus
   ctx.save()
   ctx.translate(part * 3, 0)
-  ctx.strokeRect(padding, this.canvas.height / 2, part - padding * 2, 1)
-  ctx.strokeRect(
-    this.canvas.height / 2 - (part - padding * 2) / 2,
-    padding,
-    1,
-    part - padding * 2
-  )
+  const minusW = part - padding * 2
+  ctx.strokeRect(padding, this.canvas.height / 2, minusW, 1)
+  ctx.strokeRect(part / 2, this.canvas.height / 2 - minusW / 2, 1, minusW)
   ctx.restore()
 
   // text

@@ -16,6 +16,7 @@
 #include "builder/led.h"
 #include "builder/orientation.h"
 #include "builder/slider.h"
+#include "builder/spinedit.h"
 #include "builder/text.h"
 
 #include "gridui_version.h"
@@ -76,6 +77,10 @@ public:
 
     builder::Slider& slider(float x, float y, float w, float h, uint16_t uuid = 0) {
         return *newWidget<builder::Slider>(x, y, w, h, uuid);
+    }
+
+    builder::SpinEdit& spinedit(float x, float y, float w, float h, uint16_t uuid = 0) {
+        return *newWidget<builder::SpinEdit>(x, y, w, h, uuid);
     }
 
     builder::Text& text(float x, float y, float w, float h, uint16_t uuid = 0) {
