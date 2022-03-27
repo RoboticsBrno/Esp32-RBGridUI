@@ -42,7 +42,7 @@ def generate_amalgamations(source=None, target=None, env=None, base="."):
     if not os.path.isdir(web_dir):
         return
 
-    data_dir = env.get("PROJECTDATA_DIR")
+    data_dir = env.get("PROJECT_DATA_DIR", env.get("PROJECTDATA_DIR"))
     # Probably unsafe from a library
     #if os.path.isdir(data_dir):
     #    shutil.rmtree(data_dir)
