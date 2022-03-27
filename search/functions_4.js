@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['data_204',['data',['../classgridui_1_1WidgetState.html#a48ac74190f1a011a50bcabed514ad401',1,'gridui::WidgetState::data()'],['../classgridui_1_1Widget.html#af4953ac08989476cf3c31baa10967b9c',1,'gridui::Widget::data()']]]
+  ['data_0',['data',['../classgridui_1_1WidgetState.html#a582881ab1fb96ac1407d301f31ed3b29',1,'gridui::WidgetState::data()'],['../classgridui_1_1Widget.html#a7697906f865df9d4c3d781e8db82ec2a',1,'gridui::Widget::data()']]]
 ];
