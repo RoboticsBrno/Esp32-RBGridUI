@@ -47,35 +47,36 @@ Circle.prototype.draw = function () {
 
   ctx.save()
 
-  var padding = 4 + this.lineWidth/2
+  var padding = 4 + this.lineWidth / 2
   var w = this.canvas.width
   var h = this.canvas.height
-  var arcRadius = Math.max(1, Math.min(w, h)/2 - padding)
+  var arcRadius = Math.max(1, Math.min(w, h) / 2 - padding)
 
-  if(!w || !h) {
+  if (!w || !h) {
     return
   }
 
   var valueStartClipped = Math.max(this.valueStart, this.min)
-  var angleStart = ((valueStartClipped - this.min) / (this.max - this.min)) * Math.PI * 2;
-  var angleEnd = ((this.value - this.min) / (this.max - this.min)) * Math.PI * 2;
+  var angleStart =
+    ((valueStartClipped - this.min) / (this.max - this.min)) * Math.PI * 2
+  var angleEnd = ((this.value - this.min) / (this.max - this.min)) * Math.PI * 2
   // Let's start on top
-  angleStart -= Math.PI/2;
-  angleEnd -= Math.PI/2;
+  angleStart -= Math.PI / 2
+  angleEnd -= Math.PI / 2
 
   ctx.lineWidth = this.lineWidth
 
-  ctx.beginPath();
-  ctx.globalAlpha = 0.1;
+  ctx.beginPath()
+  ctx.globalAlpha = 0.1
   ctx.strokeStyle = this.color
-  ctx.arc(w/2, h/2, arcRadius, 0, Math.PI*2)
-  ctx.stroke();
+  ctx.arc(w / 2, h / 2, arcRadius, 0, Math.PI * 2)
+  ctx.stroke()
 
-  ctx.globalAlpha = 1;
-  ctx.beginPath();
+  ctx.globalAlpha = 1
+  ctx.beginPath()
   ctx.strokeStyle = this.color
-  ctx.arc(w/2, h/2, arcRadius, angleStart, angleEnd);
-  ctx.stroke();
+  ctx.arc(w / 2, h / 2, arcRadius, angleStart, angleEnd)
+  ctx.stroke()
 
   if (this.showValue) {
     ctx.translate(w / 2, h / 2)
