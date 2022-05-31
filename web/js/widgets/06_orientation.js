@@ -1,7 +1,10 @@
 function Orientation(grid, uuid) {
   this.color = '#FF0000'
 
-  if (window['RbGravitySensor'] === undefined) {
+  if (
+    window['RbGravitySensor'] === undefined &&
+    window['IN_RB_GRID_DESIGNER'] !== true
+  ) {
     this.enabled = false
     this.canvas = null
 
@@ -10,13 +13,19 @@ function Orientation(grid, uuid) {
       'Orientation sensor requires the Android RBController app, version >= 1.9.'
     Widget.call(this, grid, uuid, el)
   } else {
-    this.enabled = true
-    RbGravitySensor.start()
+    this.enabled = window['IN_RB_GRID_DESIGNER'] !== true
 
     var el = document.createElement('canvas')
     Widget.call(this, grid, uuid, Widget.wrapCanvas(el))
     this.canvas = ge1doot.canvas(el)
     this.canvas.resize = this.draw.bind(this)
+
+    if (this.enabled) {
+      RbGravitySensor.start()
+    } else {
+      this.demoRollDelta = 0.02
+      requestAnimationFrame(this.doGridDesignerDemo.bind(this))
+    }
   }
 
   this.w = 1
@@ -41,6 +50,18 @@ Orientation.prototype.updatePosition = function (x, y, scaleX, scaleY) {
   Widget.prototype.updatePosition.call(this, x, y, scaleX, scaleY)
 
   if (this.canvas !== null) setTimeout(this.canvas.setSize.bind(this.canvas), 0)
+}
+
+Orientation.prototype.doGridDesignerDemo = function () {
+  if (!this.canvas.elem.isConnected) {
+    return
+  }
+  this.roll += this.demoRollDelta
+  if (this.roll > 1 || this.roll < -1) {
+    this.demoRollDelta *= -1
+  }
+  this.draw()
+  requestAnimationFrame(this.doGridDesignerDemo.bind(this))
 }
 
 Orientation.prototype.draw = function () {
@@ -73,7 +94,9 @@ Orientation.prototype.draw = function () {
 }
 
 Orientation.prototype.update = function () {
-  if (this.enabled === false) return
+  if (this.enabled === false) {
+    return
+  }
 
   this.yaw = RbGravitySensor.getYaw()
   this.pitch = RbGravitySensor.getPitch()
