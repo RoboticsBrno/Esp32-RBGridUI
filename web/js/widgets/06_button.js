@@ -75,11 +75,11 @@ Widget.createSubclass(Button, {
   }),
   color: new Prop(String, undefined, function (val) {
     this.color = val
-    this.span.style.color = val
+    this.el.style.color = val
   }).setIsColor(),
   background: new Prop(String, undefined, function (val) {
     this.background = val
-    this.span.style.backgroundColor = val
+    this.el.style.backgroundColor = val
   }).setIsColor(),
   align: new Prop(String, undefined, function (val) {
     this.align = val
