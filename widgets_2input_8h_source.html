@@ -107,13 +107,23 @@ $(function() {
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classgridui_1_1Widget.html#a7697906f865df9d4c3d781e8db82ec2a">data</a>().getString(<span class="stringliteral">&quot;type&quot;</span>);</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    }</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>};</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>};</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classgridui_1_1Input.html#a9ca40762e92811bd0c594a9ff10407cb">   40</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classgridui_1_1Input.html#a9ca40762e92811bd0c594a9ff10407cb">setDisabled</a>(<span class="keywordtype">bool</span> <a class="code hl_function" href="classgridui_1_1Input.html#a8518f78ee8a82495da2fe692466e920a">disabled</a>) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <a class="code hl_variable" href="classgridui_1_1Widget.html#a412bd0c9edc617484397391bebb0f025">m_state</a>-&gt;<a class="code hl_function" href="classgridui_1_1WidgetState.html#a21683123d2425b15ba97d77a9f41df27">set</a>(<span class="stringliteral">&quot;disabled&quot;</span>, <span class="keyword">new</span> rbjson::Bool(<a class="code hl_function" href="classgridui_1_1Input.html#a8518f78ee8a82495da2fe692466e920a">disabled</a>));</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classgridui_1_1Input.html#a8518f78ee8a82495da2fe692466e920a">   44</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classgridui_1_1Input.html#a8518f78ee8a82495da2fe692466e920a">disabled</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classgridui_1_1Widget.html#a7697906f865df9d4c3d781e8db82ec2a">data</a>().getBool(<span class="stringliteral">&quot;disabled&quot;</span>);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>};</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>};</div>
 <div class="ttc" id="aclassgridui_1_1Input_html"><div class="ttname"><a href="classgridui_1_1Input.html">gridui::Input</a></div><div class="ttdef"><b>Definition:</b> <a href="widgets_2input_8h_source.html#l00009">input.h:9</a></div></div>
 <div class="ttc" id="aclassgridui_1_1Input_html_a6a35270a88f02a4280e621ee51d3aca8"><div class="ttname"><a href="classgridui_1_1Input.html#a6a35270a88f02a4280e621ee51d3aca8">gridui::Input::color</a></div><div class="ttdeci">std::string color() const</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2input_8h_source.html#l00028">input.h:28</a></div></div>
 <div class="ttc" id="aclassgridui_1_1Input_html_a82da1518cc696c2f9babdd682e04f7be"><div class="ttname"><a href="classgridui_1_1Input.html#a82da1518cc696c2f9babdd682e04f7be">gridui::Input::setType</a></div><div class="ttdeci">void setType(const std::string &amp;type)</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2input_8h_source.html#l00032">input.h:32</a></div></div>
+<div class="ttc" id="aclassgridui_1_1Input_html_a8518f78ee8a82495da2fe692466e920a"><div class="ttname"><a href="classgridui_1_1Input.html#a8518f78ee8a82495da2fe692466e920a">gridui::Input::disabled</a></div><div class="ttdeci">bool disabled() const</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2input_8h_source.html#l00044">input.h:44</a></div></div>
 <div class="ttc" id="aclassgridui_1_1Input_html_a93ae2d3555b3c99bebe302baff036c65"><div class="ttname"><a href="classgridui_1_1Input.html#a93ae2d3555b3c99bebe302baff036c65">gridui::Input::text</a></div><div class="ttdeci">std::string text() const</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2input_8h_source.html#l00020">input.h:20</a></div></div>
+<div class="ttc" id="aclassgridui_1_1Input_html_a9ca40762e92811bd0c594a9ff10407cb"><div class="ttname"><a href="classgridui_1_1Input.html#a9ca40762e92811bd0c594a9ff10407cb">gridui::Input::setDisabled</a></div><div class="ttdeci">void setDisabled(bool disabled)</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2input_8h_source.html#l00040">input.h:40</a></div></div>
 <div class="ttc" id="aclassgridui_1_1Input_html_aa43390b8facb91a88e76745e876846ee"><div class="ttname"><a href="classgridui_1_1Input.html#aa43390b8facb91a88e76745e876846ee">gridui::Input::setColor</a></div><div class="ttdeci">void setColor(const std::string &amp;color)</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2input_8h_source.html#l00024">input.h:24</a></div></div>
 <div class="ttc" id="aclassgridui_1_1Input_html_ab87630343037266fc8c2ef6f0c384738"><div class="ttname"><a href="classgridui_1_1Input.html#ab87630343037266fc8c2ef6f0c384738">gridui::Input::setText</a></div><div class="ttdeci">void setText(const std::string &amp;text)</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2input_8h_source.html#l00016">input.h:16</a></div></div>
 <div class="ttc" id="aclassgridui_1_1Input_html_ae864d30d438d74f7e00f857ab2d2d60b"><div class="ttname"><a href="classgridui_1_1Input.html#ae864d30d438d74f7e00f857ab2d2d60b">gridui::Input::type</a></div><div class="ttdeci">std::string type() const</div><div class="ttdef"><b>Definition:</b> <a href="widgets_2input_8h_source.html#l00036">input.h:36</a></div></div>
@@ -128,7 +138,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 31 2022 20:48:17 for Esp32-RBGridUI by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Tue May 31 2022 20:56:30 for Esp32-RBGridUI by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
