@@ -29,6 +29,8 @@ Widget.createSubclass(Circle, {
   showValue: new Prop(Boolean)
 })
 
+Circle.prototype.MIN_LIBRARY_VERSION = 0x040700
+
 Circle.prototype.applyState = function (state) {
   Widget.prototype.applyState.call(this, state)
   this.draw()
