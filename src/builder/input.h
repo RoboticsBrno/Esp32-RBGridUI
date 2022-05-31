@@ -25,6 +25,11 @@ public:
         return *this;
     }
 
+    Input& type(const std::string& type) {
+        extra().set("type", type);
+        return *this;
+    }
+
     /** @ingroup event
      */
     Input& onChanged(callback_t cb) {

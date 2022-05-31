@@ -77,5 +77,14 @@ Widget.createSubclass(Input, {
   color: new Prop(String, undefined, function (val) {
     this.color = val
     this.input.style.borderColor = val
-  }).setIsColor()
+  }).setIsColor(),
+  type: new Prop(
+    String,
+    function () {
+      return this.input.type
+    },
+    function (val) {
+      this.input.type = val
+    }
+  ).setOptions([ 'text', 'number', 'password' ])
 })

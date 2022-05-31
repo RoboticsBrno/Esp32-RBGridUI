@@ -28,6 +28,15 @@ public:
     std::string color() const {
         return data().getString("color");
     }
+
+    void setType(const std::string& type) {
+        m_state->set("type", new rbjson::String(type));
+    }
+
+    std::string type() const {
+        return data().getString("type");
+    }
+
 };
 
 };
