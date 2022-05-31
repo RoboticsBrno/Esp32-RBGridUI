@@ -45,6 +45,11 @@ public:
         return *this;
     }
 
+    Button& disabled(bool disabled) {
+        extra().set("disabled", new rbjson::Bool(disabled));
+        return *this;
+    }
+
     /** @ingroup event
      */
     Button& onPress(callback_t cb) {

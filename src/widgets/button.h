@@ -69,6 +69,14 @@ public:
     bool pressed() const {
         return data().getBool("pressed");
     }
+
+    void setDisabled(bool disabled) {
+        m_state->set("disabled", new rbjson::Bool(disabled));
+    }
+
+    bool disabled() const {
+        return data().getBool("disabled");
+    }
 };
 
 };

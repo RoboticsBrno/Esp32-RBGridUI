@@ -86,5 +86,14 @@ Widget.createSubclass(Input, {
     function (val) {
       this.input.type = val
     }
-  ).setOptions([ 'text', 'number', 'password' ])
+  ).setOptions(['text', 'number', 'password']),
+  disabled: new Prop(
+    Boolean,
+    function () {
+      return this.input.disabled
+    },
+    function (val) {
+      this.input.disabled = !!val
+    }
+  )
 })

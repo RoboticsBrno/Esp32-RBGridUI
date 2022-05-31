@@ -88,5 +88,14 @@ Widget.createSubclass(Button, {
   valign: new Prop(String, undefined, function (val) {
     this.valign = val
     this.el.style.alignItems = val
-  }).setOptions(['flex-start', 'center', 'flex-end'])
+  }).setOptions(['flex-start', 'center', 'flex-end']),
+  disabled: new Prop(
+    Boolean,
+    function () {
+      return this.el.disabled
+    },
+    function (val) {
+      this.el.disabled = !!val
+    }
+  )
 })

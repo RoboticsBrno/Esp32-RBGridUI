@@ -30,6 +30,11 @@ public:
         return *this;
     }
 
+    Input& disabled(bool disabled) {
+        extra().set("disabled", new rbjson::Bool(disabled));
+        return *this;
+    }
+
     /** @ingroup event
      */
     Input& onChanged(callback_t cb) {
