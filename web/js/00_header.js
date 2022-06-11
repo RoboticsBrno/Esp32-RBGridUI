@@ -9,17 +9,21 @@ ge1doot.canvas = function (elem) {
     return false
   }
   canvas.ctx = canvas.elem.getContext('2d')
+  canvas.dpr = window.devicePixelRatio || 1;
   canvas.setSize = function () {
     var o = this.elem
-    var w = this.elem.offsetWidth * 1
-    var h = this.elem.offsetHeight * 1
+    var w = this.elem.offsetWidth
+    var h = this.elem.offsetHeight
     if (w != this.width || h != this.height) {
       for (this.left = 0, this.top = 0; o != null; o = o.offsetParent) {
         this.left += o.offsetLeft
         this.top += o.offsetTop
       }
-      this.width = this.elem.width = w
-      this.height = this.elem.height = h
+      this.elem.width = w*this.dpr
+      this.elem.height = h*this.dpr
+      this.width = w
+      this.height = h
+      canvas.ctx.scale(this.dpr, this.dpr)
       this.resize && this.resize()
     }
   }

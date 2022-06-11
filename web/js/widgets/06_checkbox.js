@@ -33,7 +33,6 @@ Checkbox.prototype.applyState = function (state) {
 
 Checkbox.prototype.updatePosition = function (x, y, scaleX, scaleY) {
   Widget.prototype.updatePosition.call(this, x, y, scaleX, scaleY)
-
   setTimeout(this.canvas.setSize.bind(this.canvas), 0)
 }
 
