@@ -19,6 +19,7 @@
 #include "builder/slider.h"
 #include "builder/spinedit.h"
 #include "builder/text.h"
+#include "builder/select.h"
 
 #include "gridui_version.h"
 
@@ -90,6 +91,10 @@ public:
 
     builder::Text& text(float x, float y, float w, float h, uint16_t uuid = 0) {
         return *newWidget<builder::Text>(x, y, w, h, uuid);
+    }
+
+    builder::Select& select(float x, float y, float w, float h, uint16_t uuid = 0) {
+        return *newWidget<builder::Select>(x, y, w, h, uuid);
     }
 
 private:
