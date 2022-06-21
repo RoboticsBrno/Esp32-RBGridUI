@@ -50,6 +50,7 @@ function Widget(grid, uuid, element) {
   this.y = 0
   this.w = 2
   this.h = 2
+  this.tab = 0
 
   this.grid = grid
   this.uuid = uuid
@@ -71,6 +72,7 @@ Widget.prototype.PROPERTIES = {
   y: new Prop(Number).setIgnoreInBuilder(),
   w: new Prop(Number).setIgnoreInBuilder(),
   h: new Prop(Number).setIgnoreInBuilder(),
+  tab: new Prop(Number).setIgnoreInBuilder(),
   css: new Prop(
     Object,
     function () {
