@@ -50,9 +50,10 @@ public:
         std::vector<std::string> out;
         std::string str = data().getString("options");
         std::string::size_type lastDelim = 0;
+        std::string::size_type delim = 0;
 
         do {
-            auto delim = str.find(',', lastDelim);
+            delim = str.find(',', lastDelim);
             out.push_back(str.substr(lastDelim, delim - lastDelim));
             lastDelim = delim;
         } while (delim != std::string::npos);
