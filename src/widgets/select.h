@@ -2,9 +2,9 @@
 
 #include "widget.h"
 
+#include <cstring>
 #include <iostream>
 #include <iterator>
-#include <cstring>
 #include <vector>
 
 namespace gridui {
@@ -34,10 +34,6 @@ public:
         return data().getString("background");
     }
 
-    std::size_t length() const {
-        return data().getInt("length");
-    }
-
     void setOptions(const std::vector<std::string>& options) {
         std::string out = "";
         for (auto& option : options) {
@@ -51,30 +47,17 @@ public:
     }
 
     std::vector<std::string> options() const {
-        struct tokens : std::ctype<char> {
-            tokens()
-                : std::ctype<char>(get_table()) {}
+        std::vector<std::string> out;
+        std::string str = data().getString("options");
+        std::string::size_type lastDelim = 0;
 
-            static std::ctype_base::mask const* get_table() {
-                typedef std::ctype<char> cctype;
-                static const cctype::mask* const_rc = cctype::classic_table();
+        do {
+            auto delim = str.find(',', lastDelim);
+            out.push_back(str.substr(lastDelim, delim - lastDelim));
+            lastDelim = delim;
+        } while (delim != std::string::npos);
 
-                static cctype::mask rc[cctype::table_size];
-                std::memcpy(rc, const_rc, cctype::table_size * sizeof(cctype::mask));
-
-                rc[','] = std::ctype_base::space;
-                return &rc[0];
-            }
-        };
-
-        std::stringstream ss(data().getString("options"));
-        ss.imbue(std::locale(std::locale(), new tokens()));
-        std::istream_iterator<std::string> begin(ss);
-        std::istream_iterator<std::string> end;
-        std::vector<std::string> vstrings(begin, end);
-        std::copy(vstrings.begin(), vstrings.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
-
-        return vstrings;
+        return out;
     }
 
     void setSelectedIndex(int index) {

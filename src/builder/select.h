@@ -34,7 +34,10 @@ public:
         std::string out = "";
         for (auto& option : options) {
             out.append(option);
+            out.push_back(',');
         }
+        if (out.size() > 0)
+            out.pop_back();
         extra().set("options", new rbjson::String(out));
         return *this;
     }

@@ -8,7 +8,6 @@ function Select(grid, uuid) {
   this.h = 1
 
   this.el.selectedIndex = this.selectedIndex = 0
-  this.length = this.el.length 
   this.options = "None"
   this.el.add(new Option("None", "0"))
 
@@ -32,14 +31,6 @@ Widget.createSubclass(Select, {
     this.background = val
     this.el.style.backgroundColor = val
   }).setIsColor(),
-  length: new Prop(
-    Number,
-    function () {
-      return this.el.length
-    },
-    function (val) {
-    }
-  ),
   disabled: new Prop(
     Boolean,
     function () {
@@ -73,7 +64,6 @@ Widget.createSubclass(Select, {
       }
 
       this.options = val
-      this.length = this.el.length
     }
   ),
   selectedIndex: new Prop(
