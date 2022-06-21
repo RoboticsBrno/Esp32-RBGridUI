@@ -11,8 +11,9 @@ var searchData=
   ['buildermixin_3c_20joystick_2c_20gridui_3a_3ajoystick_20_3e_8',['BuilderMixin&lt; Joystick, gridui::Joystick &gt;',['../classgridui_1_1builder_1_1BuilderMixin.html',1,'gridui::builder']]],
   ['buildermixin_3c_20led_2c_20gridui_3a_3aled_20_3e_9',['BuilderMixin&lt; Led, gridui::Led &gt;',['../classgridui_1_1builder_1_1BuilderMixin.html',1,'gridui::builder']]],
   ['buildermixin_3c_20orientation_2c_20gridui_3a_3aorientation_20_3e_10',['BuilderMixin&lt; Orientation, gridui::Orientation &gt;',['../classgridui_1_1builder_1_1BuilderMixin.html',1,'gridui::builder']]],
-  ['buildermixin_3c_20slider_2c_20gridui_3a_3aslider_20_3e_11',['BuilderMixin&lt; Slider, gridui::Slider &gt;',['../classgridui_1_1builder_1_1BuilderMixin.html',1,'gridui::builder']]],
-  ['buildermixin_3c_20spinedit_2c_20gridui_3a_3aspinedit_20_3e_12',['BuilderMixin&lt; SpinEdit, gridui::SpinEdit &gt;',['../classgridui_1_1builder_1_1BuilderMixin.html',1,'gridui::builder']]],
-  ['buildermixin_3c_20text_2c_20gridui_3a_3atext_20_3e_13',['BuilderMixin&lt; Text, gridui::Text &gt;',['../classgridui_1_1builder_1_1BuilderMixin.html',1,'gridui::builder']]],
-  ['button_14',['Button',['../classgridui_1_1builder_1_1Button.html',1,'gridui::builder::Button'],['../classgridui_1_1Button.html',1,'gridui::Button']]]
+  ['buildermixin_3c_20select_2c_20gridui_3a_3aselect_20_3e_11',['BuilderMixin&lt; Select, gridui::Select &gt;',['../classgridui_1_1builder_1_1BuilderMixin.html',1,'gridui::builder']]],
+  ['buildermixin_3c_20slider_2c_20gridui_3a_3aslider_20_3e_12',['BuilderMixin&lt; Slider, gridui::Slider &gt;',['../classgridui_1_1builder_1_1BuilderMixin.html',1,'gridui::builder']]],
+  ['buildermixin_3c_20spinedit_2c_20gridui_3a_3aspinedit_20_3e_13',['BuilderMixin&lt; SpinEdit, gridui::SpinEdit &gt;',['../classgridui_1_1builder_1_1BuilderMixin.html',1,'gridui::builder']]],
+  ['buildermixin_3c_20text_2c_20gridui_3a_3atext_20_3e_14',['BuilderMixin&lt; Text, gridui::Text &gt;',['../classgridui_1_1builder_1_1BuilderMixin.html',1,'gridui::builder']]],
+  ['button_15',['Button',['../classgridui_1_1builder_1_1Button.html',1,'gridui::builder::Button'],['../classgridui_1_1Button.html',1,'gridui::Button']]]
 ];
