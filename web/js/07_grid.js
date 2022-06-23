@@ -11,6 +11,7 @@ function Grid(manager, elementId, data) {
 
   this.canvas = document.createElement('canvas')
   this.canvas.style.position = 'absolute'
+  this.canvas.style.top = '0px'
   this.el.appendChild(this.canvas)
 
   window.addEventListener('resize', this.onResize.bind(this))
@@ -44,6 +45,13 @@ Grid.prototype.setCurrentTab = function (idx) {
   this.currentTabIdx = idx
 }
 
+Grid.prototype.moveToTab = function (widget, tab, oldTab) {
+  widget.tab = oldTab
+  this.removeWidget(widget)
+  widget.tab = tab
+  this.addWidgetConstructed(widget)
+}
+
 Grid.prototype.setTabCount = function (count) {
   if (this.tabs.length === count || count <= 0) {
     return
@@ -55,7 +63,7 @@ Grid.prototype.setTabCount = function (count) {
       t.style.width = '100%'
       t.style.height = '100%'
       t.style.display = 'none'
-      this.el.appendChild(t)
+      this.el.appendChild(t) 
       this.tabs[i] = t
     }
   } else {
@@ -203,6 +211,9 @@ Grid.prototype.addWidgetConstructed = function (widget) {
   widget.updatePosition()
   widget.setEventListener(this.onWidgetEvent.bind(this))
 
+  
+  if (this.tabs.length <= widget.tab) 
+    this.setTabCount(widget.tab + 1)
   this.tabs[widget.tab].appendChild(widget.el)
   this.widgets.push(widget)
 }
