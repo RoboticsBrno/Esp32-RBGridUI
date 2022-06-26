@@ -110,6 +110,7 @@ bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
     } else if (cmd == "_gall") {
         bool changed = false;
         std::lock_guard<std::mutex> l(m_states_mu);
+        std::lock_guard<std::mutex> k(m_tab_mu);
         for (auto& itr : m_states) {
             if (itr->remarkAllChanges())
                 changed = true;
@@ -117,10 +118,17 @@ bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
         if (changed) {
             m_states_modified = true;
         }
+        m_tab_changed = true;
     } else {
         return false;
     }
     return true;
+}
+
+void _GridUi::changeTab(uint16_t index) {
+    std::lock_guard<std::mutex> lock(m_tab_mu);
+    m_tab_changed = true;
+    m_tab = index;
 }
 
 void _GridUi::stateChangeTask(void* selfVoid) {
@@ -133,8 +141,17 @@ void _GridUi::stateChangeTask(void* selfVoid) {
     if (!prot->is_mustarrive_complete(self->m_state_mustarrive_id))
         return;
 
-    if (!self->m_states_modified.exchange(false))
-        return;
+    if (!self->m_states_modified.exchange(false)) {
+        if (!self->m_tab_changed)
+            return;
+        self->m_tab_changed = false;
+        std::lock_guard<std::mutex>(self->m_tab_mu);
+        std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
+
+        pkt->set("tab", self->m_tab);
+
+        self->m_state_mustarrive_id = prot->send_mustarrive("_gtb", pkt.release());
+    }
 
     std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
     {

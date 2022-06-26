@@ -45,52 +45,54 @@ public:
 
     rb::Protocol* protocol() const { return m_protocol.load(); }
 
-    builder::Arm& arm(float x, float y, float w, float h, uint16_t uuid = 0) {
-        return *newWidget<builder::Arm>(x, y, w, h, uuid);
+    void changeTab(uint16_t index);
+
+    builder::Arm& arm(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+        return *newWidget<builder::Arm>(x, y, w, h, tab, uuid);
     }
 
-    builder::Bar& bar(float x, float y, float w, float h, uint16_t uuid = 0) {
-        return *newWidget<builder::Bar>(x, y, w, h, uuid);
+    builder::Bar& bar(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+        return *newWidget<builder::Bar>(x, y, w, h, tab, uuid);
     }
 
-    builder::Button& button(float x, float y, float w, float h, uint16_t uuid = 0) {
-        return *newWidget<builder::Button>(x, y, w, h, uuid);
+    builder::Button& button(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+        return *newWidget<builder::Button>(x, y, w, h, tab, uuid);
     }
 
-    builder::Checkbox& checkbox(float x, float y, float w, float h, uint16_t uuid = 0) {
-        return *newWidget<builder::Checkbox>(x, y, w, h, uuid);
+    builder::Checkbox& checkbox(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+        return *newWidget<builder::Checkbox>(x, y, w, h, tab, uuid);
     }
 
-    builder::Circle& circle(float x, float y, float w, float h, uint16_t uuid = 0) {
-        return *newWidget<builder::Circle>(x, y, w, h, uuid);
+    builder::Circle& circle(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+        return *newWidget<builder::Circle>(x, y, w, h, tab, uuid);
     }
 
-    builder::Input& input(float x, float y, float w, float h, uint16_t uuid = 0) {
-        return *newWidget<builder::Input>(x, y, w, h, uuid);
+    builder::Input& input(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+        return *newWidget<builder::Input>(x, y, w, h, tab, uuid);
     }
 
-    builder::Joystick& joystick(float x, float y, float w, float h, uint16_t uuid = 0) {
-        return *newWidget<builder::Joystick>(x, y, w, h, uuid);
+    builder::Joystick& joystick(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+        return *newWidget<builder::Joystick>(x, y, w, h, tab, uuid);
     }
 
-    builder::Led& led(float x, float y, float w, float h, uint16_t uuid = 0) {
-        return *newWidget<builder::Led>(x, y, w, h, uuid);
+    builder::Led& led(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+        return *newWidget<builder::Led>(x, y, w, h, tab, uuid);
     }
 
-    builder::Orientation& orientation(float x, float y, float w, float h, uint16_t uuid = 0) {
-        return *newWidget<builder::Orientation>(x, y, w, h, uuid);
+    builder::Orientation& orientation(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+        return *newWidget<builder::Orientation>(x, y, w, h, tab, uuid);
     }
 
-    builder::Slider& slider(float x, float y, float w, float h, uint16_t uuid = 0) {
-        return *newWidget<builder::Slider>(x, y, w, h, uuid);
+    builder::Slider& slider(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+        return *newWidget<builder::Slider>(x, y, w, h, tab, uuid);
     }
 
-    builder::SpinEdit& spinedit(float x, float y, float w, float h, uint16_t uuid = 0) {
-        return *newWidget<builder::SpinEdit>(x, y, w, h, uuid);
+    builder::SpinEdit& spinedit(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+        return *newWidget<builder::SpinEdit>(x, y, w, h, tab, uuid);
     }
 
-    builder::Text& text(float x, float y, float w, float h, uint16_t uuid = 0) {
-        return *newWidget<builder::Text>(x, y, w, h, uuid);
+    builder::Text& text(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+        return *newWidget<builder::Text>(x, y, w, h, tab, uuid);
     }
 
     builder::Select& select(float x, float y, float w, float h, uint16_t uuid = 0) {
@@ -99,7 +101,7 @@ public:
 
 private:
     template <typename T>
-    T* newWidget(float x, float y, float w, float h, uint16_t uuid) {
+    T* newWidget(float x, float y, float w, float h, uint16_t tab, uint16_t uuid) {
         static_assert(std::is_base_of<builder::Widget, T>::value, "T must inherit from builder::Widget.");
 
         std::lock_guard<std::mutex> l(m_states_mu);
@@ -107,7 +109,7 @@ private:
         if (!checkUuidFreeLocked(uuid))
             uuid = generateUuidLocked();
 
-        auto* state = new WidgetState(uuid, x, y, w, h, &T::callbackTrampoline);
+        auto* state = new WidgetState(uuid, x, y, w, h, tab, &T::callbackTrampoline);
         m_states.push_back(std::unique_ptr<WidgetState>(state));
 
         auto* widget = new T(T::name(), *state);
@@ -125,6 +127,7 @@ private:
     }
 
     static void stateChangeTask(void* self);
+    static void tabChangeTask(void* self);
 
     void notifyStateChange() {
         m_states_modified = true;
@@ -144,6 +147,10 @@ private:
     mutable std::mutex m_states_mu;
     uint32_t m_state_mustarrive_id;
     std::atomic<bool> m_states_modified;
+
+    mutable std::mutex m_tab_mu;
+    bool m_tab_changed;
+    uint16_t m_tab;
 };
 
 extern _GridUi UI;

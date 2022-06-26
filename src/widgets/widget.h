@@ -33,7 +33,7 @@ class WidgetState {
     typedef void (*cb_trampoline_t)(void*, WidgetState*);
 
 public:
-    WidgetState(uint16_t uuid, float x, float y, float w, float h, cb_trampoline_t cb_trampoline);
+    WidgetState(uint16_t uuid, float x, float y, float w, float h, uint16_t tab, cb_trampoline_t cb_trampoline);
 
     uint16_t uuid() const { return m_uuid; }
     const rbjson::Object& data() const { return m_data; }
@@ -141,6 +141,14 @@ public:
 
     float widgetH() const {
         return data().getDouble("h");
+    }
+
+    void setWidgetTab(uint16_t tab) {
+        m_state->set("tab", new rbjson::Number(tab));
+    }
+
+    uint16_t widgetTab() const {
+        return data().getInt("tab");
     }
 
     void setCss(const std::string& propertyName, const std::string& value) {
