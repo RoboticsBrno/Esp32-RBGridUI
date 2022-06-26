@@ -47,51 +47,51 @@ public:
 
     void changeTab(uint16_t index);
 
-    builder::Arm& arm(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+    builder::Arm& arm(float x, float y, float w, float h, uint16_t tab = 0, uint16_t uuid = 0) {
         return *newWidget<builder::Arm>(x, y, w, h, tab, uuid);
     }
 
-    builder::Bar& bar(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+    builder::Bar& bar(float x, float y, float w, float h, uint16_t tab = 0, uint16_t uuid = 0) {
         return *newWidget<builder::Bar>(x, y, w, h, tab, uuid);
     }
 
-    builder::Button& button(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+    builder::Button& button(float x, float y, float w, float h, uint16_t tab = 0, uint16_t uuid = 0) {
         return *newWidget<builder::Button>(x, y, w, h, tab, uuid);
     }
 
-    builder::Checkbox& checkbox(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+    builder::Checkbox& checkbox(float x, float y, float w, float h, uint16_t tab = 0, uint16_t uuid = 0) {
         return *newWidget<builder::Checkbox>(x, y, w, h, tab, uuid);
     }
 
-    builder::Circle& circle(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+    builder::Circle& circle(float x, float y, float w, float h, uint16_t tab = 0, uint16_t uuid = 0) {
         return *newWidget<builder::Circle>(x, y, w, h, tab, uuid);
     }
 
-    builder::Input& input(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+    builder::Input& input(float x, float y, float w, float h, uint16_t tab = 0, uint16_t uuid = 0) {
         return *newWidget<builder::Input>(x, y, w, h, tab, uuid);
     }
 
-    builder::Joystick& joystick(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+    builder::Joystick& joystick(float x, float y, float w, float h, uint16_t tab = 0, uint16_t uuid = 0) {
         return *newWidget<builder::Joystick>(x, y, w, h, tab, uuid);
     }
 
-    builder::Led& led(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+    builder::Led& led(float x, float y, float w, float h, uint16_t tab = 0, uint16_t uuid = 0) {
         return *newWidget<builder::Led>(x, y, w, h, tab, uuid);
     }
 
-    builder::Orientation& orientation(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+    builder::Orientation& orientation(float x, float y, float w, float h, uint16_t tab = 0, uint16_t uuid = 0) {
         return *newWidget<builder::Orientation>(x, y, w, h, tab, uuid);
     }
 
-    builder::Slider& slider(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+    builder::Slider& slider(float x, float y, float w, float h, uint16_t tab = 0, uint16_t uuid = 0) {
         return *newWidget<builder::Slider>(x, y, w, h, tab, uuid);
     }
 
-    builder::SpinEdit& spinedit(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+    builder::SpinEdit& spinedit(float x, float y, float w, float h, uint16_t tab = 0, uint16_t uuid = 0) {
         return *newWidget<builder::SpinEdit>(x, y, w, h, tab, uuid);
     }
 
-    builder::Text& text(float x, float y, float w, float h, uint16_t tab, uint16_t uuid = 0) {
+    builder::Text& text(float x, float y, float w, float h, uint16_t tab = 0, uint16_t uuid = 0) {
         return *newWidget<builder::Text>(x, y, w, h, tab, uuid);
     }
 
