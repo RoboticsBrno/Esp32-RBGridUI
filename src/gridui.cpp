@@ -110,12 +110,12 @@ bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
     } else if (cmd == "_gall") {
         bool changed = false;
         std::lock_guard<std::mutex> l(m_states_mu);
-        std::lock_guard<std::mutex> k(m_tab_mu);
         for (auto& itr : m_states) {
             if (itr->remarkAllChanges())
                 changed = true;
         }
         if (changed) {
+            std::lock_guard<std::mutex> k(m_tab_mu);
             m_states_modified = true;
         }
         m_tab_changed = true;
@@ -141,35 +141,33 @@ void _GridUi::stateChangeTask(void* selfVoid) {
     if (!prot->is_mustarrive_complete(self->m_state_mustarrive_id))
         return;
 
-    if (!self->m_states_modified.exchange(false)) {
-        if (!self->m_tab_changed)
-            return;
-        self->m_tab_changed = false;
+    if (self->m_states_modified.exchange(false)) {
+        std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
+        {
+            std::lock_guard<std::mutex>(self->m_states_mu);
+            char buf[6];
+            std::unique_ptr<rbjson::Object> state(new rbjson::Object);
+
+            const size_t size = self->m_states.size();
+            for (size_t i = 0; i < size; ++i) {
+                auto& s = self->m_states[i];
+                if (s->popChanges(*state.get())) {
+                    snprintf(buf, sizeof(buf), "%d", (int)s->uuid());
+                    pkt->set(buf, state.release());
+                    state.reset(new rbjson::Object);
+                }
+            }
+        }
+        self->m_state_mustarrive_id = prot->send_mustarrive("_gtb", pkt.release());
+    }
+
+    if (self->m_tab_changed.exchange(false)) {
         std::lock_guard<std::mutex>(self->m_tab_mu);
         std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
 
         pkt->set("tab", self->m_tab);
 
-        self->m_state_mustarrive_id = prot->send_mustarrive("_gtb", pkt.release());
+        self->m_state_mustarrive_id = prot->send_mustarrive("_gst", pkt.release());
     }
-
-    std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
-    {
-        std::lock_guard<std::mutex>(self->m_states_mu);
-        char buf[6];
-        std::unique_ptr<rbjson::Object> state(new rbjson::Object);
-
-        const size_t size = self->m_states.size();
-        for (size_t i = 0; i < size; ++i) {
-            auto& s = self->m_states[i];
-            if (s->popChanges(*state.get())) {
-                snprintf(buf, sizeof(buf), "%d", (int)s->uuid());
-                pkt->set(buf, state.release());
-                state.reset(new rbjson::Object);
-            }
-        }
-    }
-
-    self->m_state_mustarrive_id = prot->send_mustarrive("_gst", pkt.release());
 }
 };
