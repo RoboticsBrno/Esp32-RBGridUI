@@ -6,7 +6,13 @@ function Grid(manager, elementId, data) {
 
   this.canvas = document.createElement('canvas')
   this.canvas.style.position = 'absolute'
+  this.canvas.style.top = '0px'
   this.el.appendChild(this.canvas)
+
+  this.tabs = []
+  this.currentTabIdx = 0
+  this.setTabCount(1)
+  this.setCurrentTab(0)
 
   window.addEventListener('resize', this.onResize.bind(this))
 
@@ -31,6 +37,46 @@ function Grid(manager, elementId, data) {
   this.scaleY = 1
 
   this.reset(data)
+}
+
+Grid.prototype.setCurrentTab = function (idx) {
+  this.tabs[this.currentTabIdx].style.display = 'none'
+  this.tabs[idx].style.display = 'block'
+  this.currentTabIdx = idx
+  for (w of this.widgets)
+    w.applyState(w.getState())
+}
+
+Grid.prototype.moveToTab = function (widget, tab, oldTab) {
+  widget.tab = oldTab
+  this.removeWidget(widget)
+  widget.tab = tab
+  this.addWidgetConstructed(widget)
+}
+
+Grid.prototype.setTabCount = function (count) {
+  if (this.tabs.length === count || count <= 0) {
+    return
+  }
+
+  if (this.tabs.length < count) {
+    for (var i = this.tabs.length; i < count; ++i) {
+      var t = document.createElement('div')
+      t.style.width = '100%'
+      t.style.height = '100%'
+      t.style.display = 'none'
+      this.el.appendChild(t) 
+      this.tabs[i] = t
+    }
+  } else {
+    while (this.tabs.length > count) {
+      var t = this.tabs.pop()
+      this.el.removeChild(t)
+    }
+    if (this.currentTabIdx >= this.tabs.length) {
+      this.currentTabIdx = this.tabs.length - 1
+    }
+  }
 }
 
 Grid.prototype.reset = function (data) {
@@ -167,7 +213,10 @@ Grid.prototype.addWidgetConstructed = function (widget) {
   widget.updatePosition()
   widget.setEventListener(this.onWidgetEvent.bind(this))
 
-  this.el.appendChild(widget.el)
+  
+  if (this.tabs.length <= widget.tab) 
+    this.setTabCount(widget.tab + 1)
+  this.tabs[widget.tab].appendChild(widget.el)
   this.widgets.push(widget)
 }
 
@@ -175,7 +224,7 @@ Grid.prototype.removeWidget = function (widget) {
   var idx = this.widgets.indexOf(widget)
   if (idx === -1) return false
 
-  this.el.removeChild(widget.el)
+  this.tabs[widget.tab].removeChild(widget.el)
   this.widgets.splice(idx, 1)
   return true
 }
@@ -184,9 +233,10 @@ Grid.prototype.clear = function () {
   var len = this.widgets.length
   for (var i = 0; i < len; ++i) {
     var w = this.widgets[i]
-    this.el.removeChild(w.el)
+    this.tabs[w.tab].removeChild(w.el)
   }
   this.widgets = []
+  this.setTabCount(1)
 }
 
 Grid.prototype.onWidgetEvent = function (w, name, extra, mustArrive, callback) {

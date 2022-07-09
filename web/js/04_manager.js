@@ -131,6 +131,9 @@ Manager.prototype.onMessage = function (event) {
     case '_gst':
       if (this.grid) this.grid.onMessageState(data)
       break
+    case '_gtb':
+      if (this.grid) this.grid.setCurrentTab(data['tab'])
+      break
   }
 }
 
