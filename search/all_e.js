@@ -10,6 +10,6 @@ var searchData=
   ['operator_3d_7',['operator=',['../classgridui_1_1Widget.html#a89cedffd74a6cb037353cc1ab0c3f646',1,'gridui::Widget::operator=(const Widget &amp;&amp;o)'],['../classgridui_1_1Widget.html#afb743e55fd0c2bb2a070bab27962e1b6',1,'gridui::Widget::operator=(const Widget &amp;)=delete']]],
   ['options_8',['options',['../classgridui_1_1builder_1_1Select.html#a0743b4be62c7b9030e00451705a51711',1,'gridui::builder::Select::options(const std::vector&lt; std::string &gt; &amp;options)'],['../classgridui_1_1builder_1_1Select.html#a6ae8870eac77f0a9673a8423312cd8d6',1,'gridui::builder::Select::options(const std::string &amp;options)'],['../classgridui_1_1Select.html#a1dc01383be843d1c70bacca9379683cf',1,'gridui::Select::options()']]],
   ['orientation_9',['Orientation',['../classgridui_1_1builder_1_1Orientation.html',1,'gridui::builder::Orientation'],['../classgridui_1_1Orientation.html',1,'gridui::Orientation']]],
-  ['orientation_10',['orientation',['../classgridui_1_1__GridUi.html#a30d8b54dd6e1ae15b76b3b85f31b3c83',1,'gridui::_GridUi']]],
+  ['orientation_10',['orientation',['../classgridui_1_1__GridUi.html#ad7f2a8948f60fc8aaedd9ed8ad576b83',1,'gridui::_GridUi']]],
   ['orientation_2eh_11',['orientation.h',['../widgets_2orientation_8h.html',1,'(Global Namespace)'],['../builder_2orientation_8h.html',1,'(Global Namespace)']]]
 ];
