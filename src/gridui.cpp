@@ -115,7 +115,6 @@ bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
                 changed = true;
         }
         if (changed) {
-            std::lock_guard<std::mutex> k(m_tab_mu);
             m_states_modified = true;
         }
         m_tab_changed = true;
@@ -126,7 +125,7 @@ bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
 }
 
 void _GridUi::changeTab(uint16_t index) {
-    std::lock_guard<std::mutex> lock(m_tab_mu);
+    std::lock_guard<std::mutex> k(m_tab_mu);
     m_tab_changed = true;
     m_tab = index;
 }
@@ -162,7 +161,7 @@ void _GridUi::stateChangeTask(void* selfVoid) {
     }
 
     if (self->m_tab_changed.exchange(false)) {
-        std::lock_guard<std::mutex>(self->m_tab_mu);
+        std::lock_guard<std::mutex> lock(self->m_tab_mu);
         std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
 
         pkt->set("tab", self->m_tab);
