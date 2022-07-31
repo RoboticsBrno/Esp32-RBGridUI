@@ -18,6 +18,7 @@
 #include "builder/orientation.h"
 #include "builder/slider.h"
 #include "builder/spinedit.h"
+#include "builder/switcher.h"
 #include "builder/text.h"
 #include "builder/select.h"
 
@@ -30,6 +31,8 @@ class Protocol;
 namespace gridui {
 
 class WidgetState;
+
+class _GridUi;
 
 class _GridUi {
     friend class WidgetState;
@@ -47,57 +50,33 @@ public:
 
     void changeTab(uint16_t index);
 
-    builder::Arm& arm(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::Arm>(x, y, w, h, uuid, tab);
-    }
+    builder::Arm& arm(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
-    builder::Bar& bar(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::Bar>(x, y, w, h, uuid, tab);
-    }
+    builder::Bar& bar(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
-    builder::Button& button(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::Button>(x, y, w, h, uuid, tab);
-    }
+    builder::Button& button(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
-    builder::Checkbox& checkbox(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::Checkbox>(x, y, w, h, uuid, tab);
-    }
+    builder::Checkbox& checkbox(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
-    builder::Circle& circle(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::Circle>(x, y, w, h, uuid, tab);
-    }
+    builder::Circle& circle(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
-    builder::Input& input(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::Input>(x, y, w, h, uuid, tab);
-    }
+    builder::Input& input(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
-    builder::Joystick& joystick(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::Joystick>(x, y, w, h, uuid, tab);
-    }
+    builder::Joystick& joystick(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
-    builder::Led& led(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::Led>(x, y, w, h, uuid, tab);
-    }
+    builder::Led& led(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
-    builder::Orientation& orientation(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::Orientation>(x, y, w, h, uuid, tab);
-    }
+    builder::Orientation& orientation(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
-    builder::Slider& slider(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::Slider>(x, y, w, h, uuid, tab);
-    }
+    builder::Slider& slider(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
-    builder::SpinEdit& spinedit(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::SpinEdit>(x, y, w, h, uuid, tab);
-    }
+    builder::SpinEdit& spinedit(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
-    builder::Text& text(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::Text>(x, y, w, h, uuid, tab);
-    }
+    builder::Switcher& switcher(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
-    builder::Select& select(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        return *newWidget<builder::Select>(x, y, w, h, uuid, tab);
-    }
+    builder::Text& text(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
+
+    builder::Select& select(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0);
 
 private:
     template <typename T>
@@ -152,6 +131,86 @@ private:
     std::atomic<bool> m_tab_changed;
     uint16_t m_tab;
 };
+
+template <>
+builder::Switcher* _GridUi::newWidget<builder::Switcher>(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    using T = builder::Switcher;
+    static_assert(std::is_base_of<builder::Widget, T>::value, "T must inherit from builder::Widget.");
+
+    std::lock_guard<std::mutex> l(m_states_mu);
+
+    if (!checkUuidFreeLocked(uuid))
+        uuid = generateUuidLocked();
+
+    auto* state = new WidgetState(uuid, x, y, w, h, tab, &T::callbackTrampoline);
+    m_states.push_back(std::unique_ptr<WidgetState>(state));
+
+    auto* widget = new T(T::name(), *state);
+    m_widgets.push_back(std::unique_ptr<T>(widget));
+
+    if (std::is_same<T, builder::Switcher>::value) {
+        widget->addCallback("changed", [&](gridui::Switcher& w) {
+            changeTab(w.value());
+        });
+    }
+    return widget;
+}
+
+builder::Arm& _GridUi::arm(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Arm>(x, y, w, h, uuid, tab);
+}
+
+builder::Bar& _GridUi::bar(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Bar>(x, y, w, h, uuid, tab);
+}
+
+builder::Button& _GridUi::button(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Button>(x, y, w, h, uuid, tab);
+}
+
+builder::Checkbox& _GridUi::checkbox(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Checkbox>(x, y, w, h, uuid, tab);
+}
+
+builder::Circle& _GridUi::circle(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Circle>(x, y, w, h, uuid, tab);
+}
+
+builder::Input& _GridUi::input(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Input>(x, y, w, h, uuid, tab);
+}
+
+builder::Joystick& _GridUi::joystick(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Joystick>(x, y, w, h, uuid, tab);
+}
+
+builder::Led& _GridUi::led(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Led>(x, y, w, h, uuid, tab);
+}
+
+builder::Orientation& _GridUi::orientation(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Orientation>(x, y, w, h, uuid, tab);
+}
+
+builder::Slider& _GridUi::slider(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Slider>(x, y, w, h, uuid, tab);
+}
+
+builder::SpinEdit& _GridUi::spinedit(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::SpinEdit>(x, y, w, h, uuid, tab);
+}
+
+builder::Switcher& _GridUi::switcher(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Switcher>(x, y, w, h, uuid, tab);
+}
+
+builder::Text& _GridUi::text(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Text>(x, y, w, h, uuid, tab);
+}
+
+builder::Select& _GridUi::select(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+    return *newWidget<builder::Select>(x, y, w, h, uuid, tab);
+}
 
 extern _GridUi UI;
 

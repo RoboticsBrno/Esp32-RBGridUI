@@ -3,6 +3,7 @@ function Grid(manager, elementId, data) {
 
   this.el = document.getElementById(elementId)
   this.widgets = []
+  this.switchers = []
 
   this.canvas = document.createElement('canvas')
   this.canvas.style.position = 'absolute'
@@ -43,6 +44,8 @@ Grid.prototype.setCurrentTab = function (idx) {
   this.tabs[this.currentTabIdx].style.display = 'none'
   this.tabs[idx].style.display = 'block'
   this.currentTabIdx = idx
+  for (s of this.switchers)
+    s.value = idx
   for (w of this.widgets)
     w.applyState(w.getState())
 }
@@ -218,6 +221,8 @@ Grid.prototype.addWidgetConstructed = function (widget) {
     this.setTabCount(widget.tab + 1)
   this.tabs[widget.tab].appendChild(widget.el)
   this.widgets.push(widget)
+  if (widget.__switcher)
+    this.switchers.push(widget)
 }
 
 Grid.prototype.removeWidget = function (widget) {
