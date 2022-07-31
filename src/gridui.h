@@ -133,7 +133,7 @@ private:
 };
 
 template <>
-builder::Switcher* _GridUi::newWidget<builder::Switcher>(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Switcher* _GridUi::newWidget<builder::Switcher>(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     using T = builder::Switcher;
     static_assert(std::is_base_of<builder::Widget, T>::value, "T must inherit from builder::Widget.");
 
@@ -156,59 +156,59 @@ builder::Switcher* _GridUi::newWidget<builder::Switcher>(float x, float y, float
     return widget;
 }
 
-builder::Arm& _GridUi::arm(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Arm& _GridUi::arm(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Arm>(x, y, w, h, uuid, tab);
 }
 
-builder::Bar& _GridUi::bar(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Bar& _GridUi::bar(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Bar>(x, y, w, h, uuid, tab);
 }
 
-builder::Button& _GridUi::button(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Button& _GridUi::button(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Button>(x, y, w, h, uuid, tab);
 }
 
-builder::Checkbox& _GridUi::checkbox(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Checkbox& _GridUi::checkbox(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Checkbox>(x, y, w, h, uuid, tab);
 }
 
-builder::Circle& _GridUi::circle(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Circle& _GridUi::circle(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Circle>(x, y, w, h, uuid, tab);
 }
 
-builder::Input& _GridUi::input(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Input& _GridUi::input(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Input>(x, y, w, h, uuid, tab);
 }
 
-builder::Joystick& _GridUi::joystick(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Joystick& _GridUi::joystick(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Joystick>(x, y, w, h, uuid, tab);
 }
 
-builder::Led& _GridUi::led(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Led& _GridUi::led(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Led>(x, y, w, h, uuid, tab);
 }
 
-builder::Orientation& _GridUi::orientation(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Orientation& _GridUi::orientation(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Orientation>(x, y, w, h, uuid, tab);
 }
 
-builder::Slider& _GridUi::slider(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Slider& _GridUi::slider(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Slider>(x, y, w, h, uuid, tab);
 }
 
-builder::SpinEdit& _GridUi::spinedit(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::SpinEdit& _GridUi::spinedit(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::SpinEdit>(x, y, w, h, uuid, tab);
 }
 
-builder::Switcher& _GridUi::switcher(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Switcher& _GridUi::switcher(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Switcher>(x, y, w, h, uuid, tab);
 }
 
-builder::Text& _GridUi::text(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Text& _GridUi::text(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Text>(x, y, w, h, uuid, tab);
 }
 
-builder::Select& _GridUi::select(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
+inline builder::Select& _GridUi::select(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
     return *newWidget<builder::Select>(x, y, w, h, uuid, tab);
 }
 
