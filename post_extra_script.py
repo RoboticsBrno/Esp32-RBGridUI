@@ -128,14 +128,14 @@ def after_upload(source, target, env, base="."):
 if "Import" in locals():
     #print(os.getcwd(), env.Dump())
     Import("env")
-    try:
-        Import("projenv") # this fails in pre: scripts
-    except Exception as e:
+
+    this_post_path = "post:" + os.path.abspath("./post_extra_script.py")
+    extra_scripts = env.GetProjectOption("extra_scripts", [])
+
+    if this_post_path not in extra_scripts:
         # The library.json extraScripts are only pre:, and we need a post: script
         # let's add one using platform.io internal APIs, what's the worst that can happen, right?
-        extra_scripts = env.GetProjectOption("extra_scripts", [])
-        extra_scripts.append("post:" + os.path.abspath("./post_extra_script.py"))
-
+        extra_scripts.append(this_post_path)
         cfg = env.GetProjectConfig()
         cfg.set("env:" + env["PIOENV"], "extra_scripts", extra_scripts)
     else:
