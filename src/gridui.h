@@ -18,6 +18,7 @@
 #include "builder/orientation.h"
 #include "builder/slider.h"
 #include "builder/spinedit.h"
+#include "builder/switcher.h"
 #include "builder/text.h"
 #include "builder/select.h"
 
@@ -89,6 +90,14 @@ public:
 
     builder::SpinEdit& spinedit(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
         return *newWidget<builder::SpinEdit>(x, y, w, h, uuid, tab);
+    }
+
+    builder::Switcher& switcher(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
+        auto *switcher = newWidget<builder::Switcher>(x, y, w, h, uuid, tab);
+        switcher->addCallback("changed", [&](gridui::Switcher& w) {
+            changeTab(w.value());
+        });
+        return *switcher;
     }
 
     builder::Text& text(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
