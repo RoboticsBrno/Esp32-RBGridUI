@@ -157,7 +157,7 @@ void _GridUi::stateChangeTask(void* selfVoid) {
                 }
             }
         }
-        self->m_state_mustarrive_id = prot->send_mustarrive("_gtb", pkt.release());
+        self->m_state_mustarrive_id = prot->send_mustarrive("_gst", pkt.release());
     }
 
     if (self->m_tab_changed.exchange(false)) {
@@ -166,7 +166,7 @@ void _GridUi::stateChangeTask(void* selfVoid) {
 
         pkt->set("tab", self->m_tab);
 
-        self->m_state_mustarrive_id = prot->send_mustarrive("_gst", pkt.release());
+        self->m_state_mustarrive_id = prot->send_mustarrive("_gtb", pkt.release());
     }
 }
 };
