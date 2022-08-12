@@ -1,3 +1,5 @@
+const POPUP_TAB = -1
+
 function Grid(manager, elementId, data) {
   this.manager = manager
 
@@ -13,6 +15,8 @@ function Grid(manager, elementId, data) {
   this.currentTabIdx = 0
   this.setTabCount(1)
   this.setCurrentTab(0)
+
+  this.popUpStack = []
 
   window.addEventListener('resize', this.onResize.bind(this))
 
@@ -39,9 +43,42 @@ function Grid(manager, elementId, data) {
   this.reset(data)
 }
 
+Grid.prototype.enterPopUp = function (popUp, replace = false) {
+  console.log("Entering pop-up")
+  if (this.popUpStack.length === 0)
+    this.setCurrentTab(POPUP_TAB)
+  else
+    this.popUpStack.at(-1).el.style.display = "none"
+
+  if (replace)
+    this.popUpStack.pop()
+
+  // this.el.appendChild(popUp.el)
+  popUp.el.style.display = "block"
+  this.popUpStack.push(popUp)
+}
+
+Grid.prototype.exitPopUp = function (full = false) {
+  console.log("Exiting pop-up")
+  if (this.popUpStack.length > 0) {
+    // this.el.removeChild(this.popUpStack.at(-1).el)
+    this.popUpStack.at(-1).el.style.display = "none"
+    for (var i = 0; i < full ? this.popUpStack.length : 1; i++) { }
+    this.popUpStack.pop()
+  }
+
+  if (this.popUpStack.length === 0) {
+    this.setCurrentTab(this.currentTabIdx)
+    return
+  }
+
+  this.popUpStack.at(-1).el.style.display = "block"
+}
+
 Grid.prototype.setCurrentTab = function (idx) {
   this.tabs[this.currentTabIdx].style.display = 'none'
-  this.tabs[idx].style.display = 'block'
+  if (idx !== POPUP_TAB)
+    this.tabs[idx].style.display = 'block'
   this.currentTabIdx = idx
   for (w of this.widgets)
     w.applyState(w.getState())
@@ -65,7 +102,7 @@ Grid.prototype.setTabCount = function (count) {
       t.style.width = '100%'
       t.style.height = '100%'
       t.style.display = 'none'
-      this.el.appendChild(t) 
+      this.el.appendChild(t)
       this.tabs[i] = t
     }
   } else {
@@ -213,8 +250,8 @@ Grid.prototype.addWidgetConstructed = function (widget) {
   widget.updatePosition()
   widget.setEventListener(this.onWidgetEvent.bind(this))
 
-  
-  if (this.tabs.length <= widget.tab) 
+
+  if (this.tabs.length <= widget.tab)
     this.setTabCount(widget.tab + 1)
   this.tabs[widget.tab].appendChild(widget.el)
   this.widgets.push(widget)
