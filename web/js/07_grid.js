@@ -43,8 +43,11 @@ Grid.prototype.setCurrentTab = function (idx) {
   this.tabs[this.currentTabIdx].style.display = 'none'
   this.tabs[idx].style.display = 'block'
   this.currentTabIdx = idx
-  for (w of this.widgets)
+  for (w of this.widgets) {
+    if (w instanceof Switcher)
+      w.value = idx
     w.applyState(w.getState())
+  }
 }
 
 Grid.prototype.moveToTab = function (widget, tab, oldTab) {
