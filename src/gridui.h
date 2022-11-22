@@ -10,6 +10,7 @@
 #include "builder/arm.h"
 #include "builder/bar.h"
 #include "builder/button.h"
+#include "builder/camera.h"
 #include "builder/checkbox.h"
 #include "builder/circle.h"
 #include "builder/input.h"
@@ -58,6 +59,10 @@ public:
 
     builder::Button& button(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
         return *newWidget<builder::Button>(x, y, w, h, uuid, tab);
+    }
+
+    builder::Camera& camera(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
+        return *newWidget<builder::Camera>(x, y, w, h, uuid, tab);
     }
 
     builder::Checkbox& checkbox(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
