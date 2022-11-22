@@ -78,7 +78,7 @@ void _GridUi::commit() {
         ss.get(layout_json.data(), layout_json.size());
     }
 
-    rb_web_add_file("layout.json", layout_json.data(), layout_json.size() - 1);
+    ESP_ERROR_CHECK(rb_web_add_file("layout.json", layout_json.data(), layout_json.size() - 1));
 
     esp_timer_create_args_t args = {
         .callback = stateChangeTask,
