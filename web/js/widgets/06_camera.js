@@ -22,6 +22,8 @@ Widget.createSubclass(Camera, {
   clip: new Prop(Boolean)
 })
 
+Camera.prototype.MIN_LIBRARY_VERSION = 0x041000
+
 Camera.prototype.updatePosition = function (x, y, scaleX, scaleY) {
   Widget.prototype.updatePosition.call(this, x, y, scaleX, scaleY)
 
