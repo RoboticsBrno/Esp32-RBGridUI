@@ -116,6 +116,14 @@ static inline uint32_t murmur3_32(const uint8_t* key, size_t len, uint32_t seed)
 
 static constexpr int hash_count = 3;
 
+void WidgetState::markChanged(const std::string& key) {
+    if (m_uuid == 0)
+        return;
+
+    std::lock_guard<std::mutex> lock(m_mutex);
+    markChangedLocked(key);
+}
+
 void WidgetState::markChangedLocked(const std::string& key) {
     for (int i = 0; i < hash_count; ++i) {
         const auto bit = murmur3_32((uint8_t*)key.c_str(), key.size(), i) % 16;

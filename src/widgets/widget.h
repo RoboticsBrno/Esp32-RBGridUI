@@ -42,6 +42,8 @@ public:
     bool setInnerObjectProp(const std::string& objectName, const std::string& propertyName,
         rbjson::Value* value);
 
+    void markChanged(const std::string& key);
+
 private:
     WidgetState(const WidgetState&) = delete;
     WidgetState& operator=(const WidgetState&) = delete;

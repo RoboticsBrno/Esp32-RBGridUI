@@ -8,6 +8,7 @@ function Camera(grid, uuid) {
   this.clip = false
   this.frame = null
   this.badStatus = false
+  this.tags = []
 
   this.canvas = ge1doot.canvas(el)
   this.canvas.resize = this.draw.bind(this)
@@ -19,7 +20,12 @@ function Camera(grid, uuid) {
 
 Widget.createSubclass(Camera, {
   rotation: new Prop(Number),
-  clip: new Prop(Boolean)
+  clip: new Prop(Boolean),
+  tags: new Prop(Array, function() {
+    return this.tags
+  }, function(tags) {
+    this.tags = tags
+  }).disableEdit(),
 })
 
 Camera.prototype.MIN_LIBRARY_VERSION = 0x041000
@@ -44,13 +50,13 @@ Camera.prototype.downloadFrame = function() {
 
   var req = new XMLHttpRequest();
   req.responseType = 'blob';
-  req.timeout = 1000
+  req.timeout = 500
 
   req.addEventListener("load", function() {
     if(req.status !== 200) {
       this.badStatus = true
       this.draw()
-      setTimeout(this.scheduleFrameDownload.bind(this), 10000)
+      setTimeout(this.scheduleFrameDownload.bind(this), req.status === 503 ? 500 : 10000)
       return;
     }
 
@@ -136,6 +142,34 @@ Camera.prototype.draw = function() {
     ctx.rotate(this.rotation*Math.PI/180);
     ctx.strokeStyle = "black";
     ctx.strokeRect(-scaledW/2, -scaledH/2, scaledW, scaledH)
+  }
+
+  var scale = scaledW / fw
+
+  ctx.font = "40px sans-serif";
+  ctx.fillStyle = "red";
+  ctx.textAlign = "center"
+  ctx.strokeStyle = "red";
+  ctx.lineWidth = 3;
+
+  for(var i = 0; i < this.tags.length; ++i) {
+    var t = this.tags[i];
+
+    ctx.beginPath();
+    ctx.moveTo(t.c00*scale - scaledW/2, t.c01*scale - scaledH/2)
+    ctx.lineTo(t.c10*scale - scaledW/2, t.c11*scale - scaledH/2)
+    ctx.lineTo(t.c20*scale - scaledW/2, t.c21*scale - scaledH/2)
+    ctx.lineTo(t.c30*scale - scaledW/2, t.c31*scale - scaledH/2)
+    ctx.lineTo(t.c00*scale - scaledW/2, t.c01*scale - scaledH/2)
+    ctx.stroke();
+
+    var textX = ((t.c00 + t.c20)/2)*scale - scaledW/2
+    var textY = ((t.c01 + t.c21)/2)*scale - scaledH/2
+    ctx.save()
+    ctx.translate(textX, textY)
+    ctx.rotate(this.rotation*Math.PI/180*-1)
+    ctx.fillText(t.id.toString(), 0, 0)
+    ctx.restore()
   }
   
   ctx.restore()
