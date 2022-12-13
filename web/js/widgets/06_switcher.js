@@ -78,7 +78,7 @@ Widget.createSubclass(Switcher, {
   max: new Prop(Number)
 })
 
-Switcher.prototype.MIN_LIBRARY_VERSION = 0x040A00
+Switcher.prototype.MIN_LIBRARY_VERSION = 0x041000
 
 Switcher.prototype.applyState = function (state) {
   Widget.prototype.applyState.call(this, state)
