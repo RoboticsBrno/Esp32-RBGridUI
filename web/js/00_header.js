@@ -59,12 +59,12 @@ ge1doot.canvas = function (elem) {
     }
   }
   addEvent(window, 'mousemove,touchmove', function (e) {
-    e.preventDefault()
     this.touchMode = e.targetTouches
     var pointer = this.touchMode ? this.touchMode[0] : e
     this.x = pointer.clientX - this.canvas.left
     this.y = pointer.clientY - this.canvas.top
     if (started) {
+      e.preventDefault()
       this.sweeping = true
       this.dx = endX - (this.x - this.startX)
       this.dy = endY - (this.y - this.startY)
@@ -94,8 +94,8 @@ ge1doot.canvas = function (elem) {
     )
   })
   addEvent(window, 'mouseup,touchend,touchcancel', function (e) {
-    e.preventDefault()
     if (started) {
+      e.preventDefault()
       endX = this.dx
       endY = this.dy
       started = false
