@@ -1,4 +1,23 @@
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+
+#ifdef LX16A_ARDUINO
 #include <Arduino.h>
+#else
+void setup();
+void loop();
+extern "C" void app_main() {
+    setup();
+
+    while (true) {
+        loop();
+        vTaskDelay(0);
+    }
+}
+static void sleep(int secs) {
+    vTaskDelay(pdMS_TO_TICKS(secs * 1000));
+}
+#endif
 
 #include "gridui.h"
 #include "rbprotocol.h"
@@ -47,8 +66,8 @@ void setup() {
 
     builder.Joystick1
         .onPositionChanged([](Joystick& joy) {
-            const auto x = joy.x();
-            const auto y = joy.x();
+            const int x = joy.x();
+            const int y = joy.x();
             if (x != 0 || y != 0) {
                 printf("Joystick value: %d %d\n", x, y);
             }
