@@ -170,6 +170,7 @@ elif __name__ == "__main__":
     subparsers = parser.add_subparsers(dest='cmd')
 
     sub = subparsers.add_parser("generate", help="Generate amalgamations from web/ to data/")
+    sub.add_argument("--base", help="Base dir of the library", default=os.path.dirname(__file__))
 
     args = parser.parse_args()
 
@@ -178,7 +179,7 @@ elif __name__ == "__main__":
     }
 
     if args.cmd == "generate":
-        generate_amalgamations(env=env)
+        generate_amalgamations(env=env, base=args.base)
     else:
         parser.print_help()
         sys.exit(1)

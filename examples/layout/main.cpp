@@ -32,29 +32,9 @@ using namespace gridui;
 #define GRIDUI_LAYOUT_DEFINITION
 #include "layout.hpp"
 
-static Protocol* gProt = nullptr;
-
-static void onPacketReceived(const std::string& cmd, rbjson::Object* pkt) {
-    // Let GridUI handle its packets
-    if (UI.handleRbPacket(cmd, pkt))
-        return;
-
-    // ...any other non-GridUI packets
-}
-
 void setup() {
-    // Initialize WiFi
-    WiFi::connect("Anthrophobia", "Ku1ata2elvA");
-
-    // Initialize RBProtocol
-    gProt = new Protocol("FrantaFlinta", "Robocop", "Compiled at " __DATE__ " " __TIME__, onPacketReceived);
-    gProt->start();
-
-    // Start serving the web page
-    rb_web_start(80);
-
-    // Initialize the UI builder
-    UI.begin(gProt);
+    // Connect to WiFi and Initialize the UI builder
+    UI.beginConnect("FrantaFlinta", "Robocop", "SuperWiFi", "12345678");
 
     // Build the UI widgets. Positions/props are set in the layout, so most of the time,
     // you should only set the event handlers here.

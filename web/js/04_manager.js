@@ -11,6 +11,8 @@ function Manager(logElementId, gridElementId) {
 
   this.mustArriveTimerId = null
   this.possessed = false
+  this.isOverWebSocket = false
+  this.pktCounter = 0
 
   this.log = new Log(logElementId)
   this.grid = null
@@ -18,7 +20,13 @@ function Manager(logElementId, gridElementId) {
   this.loadLayout(gridElementId)
 }
 
-Manager.prototype.start = function (address) {
+Manager.prototype.start = function (address, isOverWebSocket) {
+  if(this.socket !== null) {
+    return
+  }
+
+  this.isOverWebSocket = isOverWebSocket === true
+
   this.log.write('Connecting to ' + address + '... ', true)
 
   if (!('WebSocket' in window)) {
@@ -71,7 +79,8 @@ Manager.prototype.start = function (address) {
 }
 
 Manager.prototype.update = function () {
-  if (++this.divider >= 2) {
+  var targetDivider = this.isOverWebSocket !== true ? 2 : 4;
+  if (++this.divider >= targetDivider) {
     this.divider = 0
   } else {
     requestAnimationFrame(this.update.bind(this))
@@ -94,7 +103,9 @@ Manager.prototype.mustArriveTask = function () {
     if (!this.mustArriveCommands.hasOwnProperty(id)) continue
 
     var info = this.mustArriveCommands[id]
-    this.socket.send(info.payload)
+    if(this.isOverWebSocket !== true) {
+      this.socket.send(info.payload)
+    }
     if (info.attempts !== null && ++info.attempts >= this.MUST_ARRIVE_RETRIES) {
       delete this.mustArriveCommands[id]
     }
@@ -102,7 +113,13 @@ Manager.prototype.mustArriveTask = function () {
 }
 
 Manager.prototype.onMessage = function (event) {
-  var data = JSON.parse(event.data)
+  try {
+    var data = JSON.parse(event.data)
+  } catch(e) {
+    console.error("Failed to parse message", e)
+    return;
+  }
+
   if ('f' in data) {
     var cmd = this.mustArriveCommands[data['f']]
     if (cmd !== undefined) {
@@ -113,7 +130,11 @@ Manager.prototype.onMessage = function (event) {
     }
     return
   } else if ('e' in data) {
-    this.socket.send(JSON.stringify({ c: data['c'], e: data['e'] }))
+    var ack = { c: data['c'], e: data['e']  }
+    if(this.isOverWebSocket === true) {
+      ack['n'] = this.pktCounter++;
+    }
+    this.socket.send(JSON.stringify(ack))
     var e = data['e']
     if (e <= this.mustArriveIdIn && e !== 0) {
       return
@@ -139,6 +160,9 @@ Manager.prototype.onMessage = function (event) {
 
 Manager.prototype.send = function (command, data) {
   data['c'] = command
+  if(this.isOverWebSocket === true) {
+    data['n'] = this.pktCounter++;
+  }
   this.socket.send(JSON.stringify(data))
 }
 
@@ -151,6 +175,9 @@ Manager.prototype.sendMustArrive = function (
   var id = ++this.mustArriveIdOut
   data['c'] = command
   data['f'] = id
+  if(this.isOverWebSocket === true) {
+    data['n'] = this.pktCounter++;
+  }
 
   var payload = JSON.stringify(data)
   this.mustArriveCommands[id] = {

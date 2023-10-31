@@ -25,7 +25,7 @@ function Button(grid, uuid) {
   if (!('ontouchstart' in document.documentElement)) {
     el.addEventListener(
       'mousedown',
-      function () {
+      function (ev) {
         this.sendEvent('press')
         this.pressed = true
       }.bind(this)
@@ -33,7 +33,7 @@ function Button(grid, uuid) {
 
     document.addEventListener(
       'mouseup',
-      function () {
+      function (ev) {
         if (!this.pressed) return
         this.sendEvent('release')
         this.pressed = false
@@ -42,7 +42,7 @@ function Button(grid, uuid) {
   } else {
     this.el.addEventListener(
       'touchstart',
-      function (ev) {
+      function (ev) {        
         if (this.pressed) return
         this.pressed = true
         this.sendEvent('press', { pressed: true })

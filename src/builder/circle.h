@@ -54,7 +54,6 @@ public:
         extra().set("showValue", new rbjson::Bool(showValue));
         return *this;
     }
-
 };
 
 };
