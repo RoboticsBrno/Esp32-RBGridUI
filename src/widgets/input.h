@@ -44,7 +44,6 @@ public:
     bool disabled() const {
         return data().getBool("disabled");
     }
-
 };
 
 };

@@ -76,7 +76,6 @@ public:
     bool showValue() const {
         return data().getBool("showValue");
     }
-
 };
 
 };

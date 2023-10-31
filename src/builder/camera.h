@@ -15,7 +15,6 @@ class Camera : public Widget, public BuilderMixin<Camera, gridui::Camera> {
     using Widget::Widget;
 
 public:
-
     Camera& rotation(float rotation) {
         extra().set("rotation", rotation);
         return *this;
@@ -25,7 +24,6 @@ public:
         extra().set("clip", new rbjson::Bool(clip));
         return *this;
     }
-
 };
 
 };

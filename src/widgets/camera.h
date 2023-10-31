@@ -35,23 +35,24 @@ public:
     }
 
     void addTag(const Tag& t) {
-        auto *tagsArray = data().getArray("tags");
+        auto* tagsArray = data().getArray("tags");
         const bool existedBefore = tagsArray != NULL;
-        if(!existedBefore) {
+        if (!existedBefore) {
             tagsArray = new rbjson::Array;
         }
         tagsArray->push_back(buildTagObject(t));
 
-        if(!existedBefore) {
+        if (!existedBefore) {
             m_state->set("tags", tagsArray);
-        } {
+        }
+        {
             m_state->markChanged("tags");
         }
     }
 
     void setTags(const std::vector<Tag>& tags) {
-        auto *tagsArray = new rbjson::Array;
-        for(const auto& t : tags)  {
+        auto* tagsArray = new rbjson::Array;
+        for (const auto& t : tags) {
             tagsArray->push_back(buildTagObject(t));
         }
 
@@ -59,13 +60,13 @@ public:
     }
 
     void clearTags() {
-        auto *tagsArray = new rbjson::Array;
+        auto* tagsArray = new rbjson::Array;
         m_state->set("tags", tagsArray);
     }
 
 private:
-    rbjson::Object *buildTagObject(const Tag& t) {
-        auto *tag = new rbjson::Object;
+    rbjson::Object* buildTagObject(const Tag& t) {
+        auto* tag = new rbjson::Object;
         tag->set("id", t.id);
         tag->set("c00", t.corners[0][0]);
         tag->set("c01", t.corners[0][1]);

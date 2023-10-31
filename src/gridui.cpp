@@ -3,12 +3,21 @@
 #include <stdio.h>
 
 #include "gridui.h"
+#include "rbdns.h"
 #include "rbprotocol.h"
 #include "rbwebserver.h"
+#include "rbwifi.h"
 
 namespace gridui {
 
 _GridUi UI;
+
+static void defaultOnPacketReceived(const std::string& cmd, rbjson::Object* pkt) {
+    // Let GridUI handle its packets
+    if (UI.handleRbPacket(cmd, pkt))
+        return;
+    // ignore the rest
+}
 
 _GridUi::_GridUi()
     : m_protocol(nullptr)
@@ -32,6 +41,32 @@ void _GridUi::begin(rb::Protocol* protocol, int cols, int rows, bool enableSplit
     m_layout->set("cols", cols);
     m_layout->set("rows", rows);
     m_layout->set("enableSplitting", new rbjson::Bool(enableSplitting));
+}
+
+rb::Protocol* _GridUi::begin(const char* owner, const char* deviceName) {
+    auto protocol = new rb::Protocol(owner, deviceName, "Compiled at " __DATE__ " " __TIME__, defaultOnPacketReceived);
+
+    protocol->start();
+
+    // Start serving the web page
+    rb_web_start(80);
+
+    begin(protocol);
+
+    return protocol;
+}
+
+rb::Protocol* _GridUi::beginConnect(const char* owner, const char* deviceName, const char* wifiSSID, const char* wifiPassword) {
+    rb::WiFi::connect(wifiSSID, wifiPassword);
+    return begin(owner, deviceName);
+}
+
+rb::Protocol* _GridUi::beginStartAp(const char* owner, const char* deviceName, const char* wifiSSID, const char* wifiPassword, bool withCaptivePortal) {
+    rb::WiFi::startAp(wifiSSID, wifiPassword);
+    if (withCaptivePortal) {
+        rb::DnsServer::get().start();
+    }
+    return begin(owner, deviceName);
 }
 
 uint16_t _GridUi::generateUuidLocked() const {
@@ -85,6 +120,7 @@ void _GridUi::commit() {
         .arg = this,
         .dispatch_method = ESP_TIMER_TASK,
         .name = "gridui_state",
+        .skip_unhandled_events = false,
     };
     esp_timer_handle_t timer;
     esp_timer_create(&args, &timer);

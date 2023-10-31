@@ -17,11 +17,11 @@
 #include "builder/joystick.h"
 #include "builder/led.h"
 #include "builder/orientation.h"
+#include "builder/select.h"
 #include "builder/slider.h"
 #include "builder/spinedit.h"
 #include "builder/switcher.h"
 #include "builder/text.h"
-#include "builder/select.h"
 
 #include "gridui_version.h"
 
@@ -41,6 +41,31 @@ public:
     ~_GridUi();
 
     void begin(rb::Protocol* protocol, int cols = 12, int rows = 18, bool enableSplitting = true);
+
+    // Simplified variant of begin() that:
+    // * Creates rb::Protocol with both UDP and WebSocket enabled
+    // * Calls start() on it
+    // * Calls rb_web_start
+    // * Calls begin()
+    rb::Protocol* begin(const char* owner, const char* deviceName);
+
+    // Simplified variant of begin() that:
+    // * Connects to WiFi network
+    // * Creates rb::Protocol with both UDP and WebSocket enabled
+    // * Calls start() on it
+    // * Calls rb_web_start
+    // * Calls begin()
+    rb::Protocol* beginConnect(const char* owner, const char* deviceName, const char* wifiSSID, const char* wifiPassword = "");
+
+    // Simplified variant of begin() that:
+    // * Connects to WiFi network
+    // * Creates rb::Protocol with both UDP and WebSocket enabled
+    // * Calls start() on it
+    // * Calls rb_web_start
+    // * If withCaptivePortal == true (default), starts up DNS server so that devices will automatically open the controller on connection.
+    // * Calls begin()
+    rb::Protocol* beginStartAp(const char* owner, const char* deviceName, const char* wifiSSID, const char* wifiPassword = "", bool withCaptivePortal = true);
+
     void commit();
 
     bool handleRbPacket(const std::string& command, rbjson::Object* pkt);
@@ -98,7 +123,7 @@ public:
     }
 
     builder::Switcher& switcher(float x, float y, float w, float h, uint16_t uuid = 0, uint16_t tab = 0) {
-        auto *switcher = newWidget<builder::Switcher>(x, y, w, h, uuid, tab);
+        auto* switcher = newWidget<builder::Switcher>(x, y, w, h, uuid, tab);
         switcher->addCallback("changed", [&](gridui::Switcher& w) {
             changeTab(w.value());
         });
