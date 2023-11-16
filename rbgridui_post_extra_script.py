@@ -129,23 +129,39 @@ if "Import" in locals():
     #print(os.getcwd(), env.Dump())
     Import("env")
 
-    this_post_path = "post:" + os.path.abspath("./post_extra_script.py")
-    extra_scripts = env.GetProjectOption("extra_scripts", [])
+    OUR_SCRIPT_NAME = "rbgridui_post_extra_script.py"
 
-    if this_post_path not in extra_scripts:
+    extra_scripts = env.GetProjectOption("extra_scripts", [])
+    this_post_path = "post:" + os.path.abspath(OUR_SCRIPT_NAME)
+
+    base = os.path.abspath(".")
+    project_dir_abs = os.path.abspath(env.get("PROJECT_DIR"))
+
+    if base != project_dir_abs and this_post_path not in extra_scripts:
         # The library.json extraScripts are only pre:, and we need a post: script
         # let's add one using platform.io internal APIs, what's the worst that can happen, right?
         extra_scripts.append(this_post_path)
         cfg = env.GetProjectConfig()
         cfg.set("env:" + env["PIOENV"], "extra_scripts", extra_scripts)
     else:
-        base = os.path.abspath(".")
-        if autodisable_old_lib(base, env):
-            print("Autodisabling %s" % base)
+        # Since some version, pio executes this script in the PROJECT_DIR instead of the library's directory.
+        # This tries to workaround it. Autodisabling old versions probably does not work anymore, but is it needed?
+        if base == project_dir_abs:
+            for ex in extra_scripts:
+                if not ex.startswith("post:") or not ex.endswith("/" + OUR_SCRIPT_NAME):
+                    continue
+                base = os.path.dirname(ex[5:])
+                break
+
+        if base == project_dir_abs:
+            print("Failed to figure out Esp32-RBGridUI path, skipping auto-upload")
         else:
-            print("Using %s" % base)
-            env.AddPreAction("$BUILD_DIR/spiffs.bin", functools.partial(generate_amalgamations, base=base))
-            env.AddPostAction("upload", functools.partial(after_upload, base=base))
+            if autodisable_old_lib(base, env):
+                print("Autodisabling %s" % base)
+            else:
+                print("Using %s" % base)
+                env.AddPreAction("$BUILD_DIR/spiffs.bin", functools.partial(generate_amalgamations, base=base))
+                env.AddPostAction("upload", functools.partial(after_upload, base=base))
 
 elif __name__ == "__main__":
     import argparse
