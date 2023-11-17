@@ -120,7 +120,9 @@ void _GridUi::commit() {
         .arg = this,
         .dispatch_method = ESP_TIMER_TASK,
         .name = "gridui_state",
+#ifdef ESP_IDF_VERSION
         .skip_unhandled_events = false,
+#endif
     };
     esp_timer_handle_t timer;
     esp_timer_create(&args, &timer);
