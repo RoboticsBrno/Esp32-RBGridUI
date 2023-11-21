@@ -91,6 +91,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1430c3ff2b1cc9be815a47aa76b0d4b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdd64290abde4c09b73d3fa38c41b773"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1__GridUi.html#acdd64290abde4c09b73d3fa38c41b773">begin</a> (rb::Protocol *<a class="el" href="classgridui_1_1__GridUi.html#a47bb233fd2715cb0493612887baeea8d">protocol</a>, int cols=12, int rows=18, bool enableSplitting=true)</td></tr>
 <tr class="separator:acdd64290abde4c09b73d3fa38c41b773"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b377fc3b8725a157eb1749d93082429"><td class="memItemLeft" align="right" valign="top">rb::Protocol *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1__GridUi.html#a1b377fc3b8725a157eb1749d93082429">begin</a> (const char *owner, const char *deviceName)</td></tr>
+<tr class="separator:a1b377fc3b8725a157eb1749d93082429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92eab7bfa8729de777cbc4a32956da17"><td class="memItemLeft" align="right" valign="top">rb::Protocol *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1__GridUi.html#a92eab7bfa8729de777cbc4a32956da17">beginConnect</a> (const char *owner, const char *deviceName, const char *wifiSSID, const char *wifiPassword=&quot;&quot;)</td></tr>
+<tr class="separator:a92eab7bfa8729de777cbc4a32956da17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb1488e2c7831a3e45e8eb3f77fd005a"><td class="memItemLeft" align="right" valign="top">rb::Protocol *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1__GridUi.html#afb1488e2c7831a3e45e8eb3f77fd005a">beginStartAp</a> (const char *owner, const char *deviceName, const char *wifiSSID, const char *wifiPassword=&quot;&quot;, bool withCaptivePortal=true)</td></tr>
+<tr class="separator:afb1488e2c7831a3e45e8eb3f77fd005a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab32dd96ceb6ecb67eb69587bea41eabd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1__GridUi.html#ab32dd96ceb6ecb67eb69587bea41eabd">commit</a> ()</td></tr>
 <tr class="separator:ab32dd96ceb6ecb67eb69587bea41eabd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad734093c796089ef7cdd9aa13f1bb5b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1__GridUi.html#ad734093c796089ef7cdd9aa13f1bb5b4">handleRbPacket</a> (const std::string &amp;command, rbjson::Object *pkt)</td></tr>
@@ -154,7 +160,7 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00013">13</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00022">22</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
 
 </div>
 </div>
@@ -173,7 +179,7 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00019">19</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00028">28</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
 
 </div>
 </div>
@@ -236,7 +242,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00052">52</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00077">77</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -298,12 +304,42 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00056">56</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00081">81</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+
+</div>
+</div>
+<a id="a1b377fc3b8725a157eb1749d93082429" name="a1b377fc3b8725a157eb1749d93082429"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b377fc3b8725a157eb1749d93082429">&#9670;&#160;</a></span>begin() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rb::Protocol * gridui::_GridUi::begin </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>deviceName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00046">46</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
 
 </div>
 </div>
 <a id="acdd64290abde4c09b73d3fa38c41b773" name="acdd64290abde4c09b73d3fa38c41b773"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acdd64290abde4c09b73d3fa38c41b773">&#9670;&#160;</a></span>begin()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acdd64290abde4c09b73d3fa38c41b773">&#9670;&#160;</a></span>begin() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -340,7 +376,97 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00022">22</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00031">31</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a92eab7bfa8729de777cbc4a32956da17" name="a92eab7bfa8729de777cbc4a32956da17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92eab7bfa8729de777cbc4a32956da17">&#9670;&#160;</a></span>beginConnect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rb::Protocol * gridui::_GridUi::beginConnect </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>deviceName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>wifiSSID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>wifiPassword</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00059">59</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
+
+</div>
+</div>
+<a id="afb1488e2c7831a3e45e8eb3f77fd005a" name="afb1488e2c7831a3e45e8eb3f77fd005a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb1488e2c7831a3e45e8eb3f77fd005a">&#9670;&#160;</a></span>beginStartAp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rb::Protocol * gridui::_GridUi::beginStartAp </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>deviceName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>wifiSSID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>wifiPassword</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>withCaptivePortal</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00064">64</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
 
 </div>
 </div>
@@ -402,7 +528,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00060">60</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00085">85</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -464,7 +590,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00064">64</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00089">89</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -484,7 +610,7 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00127">127</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00165">165</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
 
 </div>
 </div>
@@ -546,7 +672,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00068">68</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00093">93</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -608,7 +734,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00072">72</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00097">97</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -627,7 +753,7 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00047">47</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00082">82</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
 
 </div>
 </div>
@@ -657,7 +783,7 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00094">94</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8cpp_source.html#l00132">132</a> of file <a class="el" href="gridui_8cpp_source.html">gridui.cpp</a>.</p>
 
 </div>
 </div>
@@ -719,7 +845,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00076">76</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00101">101</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -781,7 +907,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00080">80</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00105">105</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -843,7 +969,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00084">84</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00109">109</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -905,7 +1031,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00088">88</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00113">113</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -932,7 +1058,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00048">48</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00073">73</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -994,7 +1120,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00112">112</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00137">137</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -1056,7 +1182,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00092">92</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00117">117</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -1118,7 +1244,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00096">96</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00121">121</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -1180,7 +1306,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00100">100</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00125">125</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -1242,7 +1368,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00108">108</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="gridui_8h_source.html#l00133">133</a> of file <a class="el" href="gridui_8h_source.html">gridui.h</a>.</p>
 
 </div>
 </div>
@@ -1278,7 +1404,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 16 2023 23:49:47 for Esp32-RBGridUI by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Tue Nov 21 2023 18:12:16 for Esp32-RBGridUI by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
