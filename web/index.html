@@ -48,13 +48,39 @@
         left: 0px;
         right: 0px;
       }
+
+      #captive-msg {
+        display: none;
+        margin: auto;
+        text-align: center;
+        padding: 16px;
+      }
+
+      #captive-link {
+        padding: 5px;
+        font-size: larger;
+      }
     </style>
   </head>
 
   <body id="body">
-    <div id="log" class="log-short"></div>
+    <div id="main-ui">
+      <div id="log" class="log-short"></div>
 
-    <div id="grid"></div>
+      <div id="grid"></div>
+    </div>
+
+    <div id="captive-msg">
+      <h2>Grid UI controls</h2>
+      <p>The GridUI controls do not work well in this limited captive portal browser.</p>
+      <div style="margin: 16px">
+        <a id="captive-link">[ Open in browser ]</a>
+      </div>
+      <p><i>If the link above does not work, please open <b id="captive-url"></b> in your normal web browser.</i></p>
+      <div style="margin-top: 48px">
+        <a href="javascript:void(0)" onclick="closeCaptivePortalNotice();">Show the controls anyway</a>
+      </div>
+    </div>
 
     <script src="combined.js"></script>
   </body>
