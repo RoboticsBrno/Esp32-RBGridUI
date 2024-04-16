@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['layout_20widgets_0',['Layout widgets',['../group__widgets__constructed.html',1,'']]]
+  ['handlers_0',['Event handlers',['../group__event.html',1,'']]]
 ];
