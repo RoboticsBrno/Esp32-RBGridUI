@@ -187,3 +187,30 @@ Widget.prototype.getState = function () {
   }
   return res
 }
+
+function UpdateLimiter(msDelay, sendCountBeforeDelay) {
+  this.msDelay = msDelay
+  this.sendCountBeforeDelay = sendCountBeforeDelay
+
+  this.sent = 0
+  this.lastDelayedSend = 0
+}
+
+UpdateLimiter.prototype.isLimited = function(forceUpdateNow) {
+  if(!forceUpdateNow) {
+    if(this.sent < this.sendCountBeforeDelay) {
+      ++this.sent;
+      return false
+    }
+
+    var now = Date.now()
+    if(now - this.lastDelayedSend > this.msDelay) {
+      this.lastDelayedSend = now
+      return false
+    }
+    return true
+  } else if(this.sent !== 0) {
+    this.sent = 0
+    return false
+  }
+}

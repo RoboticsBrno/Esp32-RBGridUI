@@ -17,6 +17,7 @@ function Joystick(grid, uuid) {
   this.touchStart = null
   this.pressedKeys = {}
   this.manager = null
+  this.limiter = new UpdateLimiter(5000, 32)
 
   document.addEventListener('keydown', this.onKeyDown.bind(this))
   document.addEventListener('keyup', this.onKeyUp.bind(this))
@@ -146,6 +147,10 @@ Joystick.prototype.updateNippleFront = function () {
 }
 
 Joystick.prototype.update = function () {
+  if(this.limiter.isLimited(this.valX !== 0 || this.valY !== 0)) {
+    return
+  }
+
   this.sendEvent(
     'pos',
     {
