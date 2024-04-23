@@ -1,6 +1,7 @@
 #include <esp_log.h>
 #include <esp_timer.h>
 #include <stdio.h>
+#include <fstream>
 
 #include "gridui.h"
 #include "rbdns.h"
@@ -164,34 +165,54 @@ void _GridUi::commit() {
         return;
     }
 
-    std::vector<char> layout_json;
     {
-        std::stringstream ss;
-        m_layout->serialize(ss);
+
+        char buf[256];
+
+        snprintf(buf, sizeof(buf), "%s/layout.json", rb_web_get_files_root());
+
+        std::ofstream stream;
+        stream.rdbuf()->pubsetbuf(buf, sizeof(buf));
+        stream.open(buf, std::ofstream::trunc);
+
+        if(stream.fail()) {
+            ESP_LOGE("GridUI", "failed to open %s", buf);
+            return;
+        }
+
+        m_states.shrink_to_fit();
+
+        m_layout->serialize(stream);
         m_layout.reset();
 
-        ss.seekp(-1, std::stringstream::cur);
+        stream.seekp(-1, std::ofstream::cur);
 
-        ss << ",\"widgets\": [";
+        stream << ",\"widgets\": [";
         for (size_t i = 0; i < m_widgets.size(); ++i) {
             if (i != 0) {
-                ss << ",";
+                stream << ",";
             }
+
             auto& w = m_widgets[i];
-            w->serialize(ss);
+            w->serialize(stream);
             w.reset();
         }
         m_widgets.clear();
         m_widgets.shrink_to_fit();
-        m_states.shrink_to_fit();
 
-        ss << "]}";
+        stream << "]}";
 
-        layout_json.resize(((size_t)ss.tellp()) + 1);
-        ss.get(layout_json.data(), layout_json.size());
+        if(stream.fail()) {
+            ESP_LOGE("GridUI", "failed to serialize layout");
+            return;
+        }
+
+        stream.close();
+        if(stream.fail()) {
+            ESP_LOGE("GridUI", "failed to write layout");
+            return;
+        }
     }
-
-    ESP_ERROR_CHECK(rb_web_add_file("layout.json", layout_json.data(), layout_json.size() - 1));
 
     esp_timer_create_args_t args = {
         .callback = stateChangeTask,

@@ -33,7 +33,7 @@ public:
     }
 
 protected:
-    virtual void serialize(std::stringstream& ss) {
+    virtual void serialize(std::ostream& ss) {
         Widget::serialize(ss);
         extra().remove("info");
     }

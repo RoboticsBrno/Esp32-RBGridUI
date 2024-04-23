@@ -10,8 +10,7 @@ namespace builder {
 
 Widget::Widget(const char* type, WidgetState& state)
     : m_state(state)
-    , m_type(type)
-    , m_style(nullptr) {
+    , m_type(type) {
 }
 
 Widget::~Widget() {
@@ -30,7 +29,7 @@ rbjson::Object& Widget::style() {
     return *res;
 }
 
-void Widget::serialize(std::stringstream& ss) {
+void Widget::serialize(std::ostream& ss) {
     ss << "{";
     {
         ss << "\"uuid\":" << m_state.uuid() << ",";

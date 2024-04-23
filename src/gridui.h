@@ -160,7 +160,7 @@ public:
         m_states.emplace_back(std::unique_ptr<WidgetState>(state));
 
         auto* widget = new T(T::name(), *state);
-        m_widgets.push_back(std::unique_ptr<T>(widget));
+        m_widgets.emplace_back(std::unique_ptr<T>(widget));
         return widget;
     }
 

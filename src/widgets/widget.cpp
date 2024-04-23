@@ -19,7 +19,9 @@ WidgetState::WidgetState(uint16_t uuid, float x, float y, float w, float h, uint
     m_data.set("y", y);
     m_data.set("w", w);
     m_data.set("h", h);
-    m_data.set("tab", tab);
+    if(tab != 0) {
+        m_data.set("tab", tab);
+    }
 }
 
 bool WidgetState::set(const std::string& key, rbjson::Value* value) {
