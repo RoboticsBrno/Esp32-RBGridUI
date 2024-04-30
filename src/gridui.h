@@ -7,6 +7,8 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/timers.h>
 
+#include "esp_timer.h"
+
 #include "builder/arm.h"
 #include "builder/bar.h"
 #include "builder/button.h"
@@ -67,6 +69,9 @@ public:
     rb::Protocol* beginStartAp(const char* owner, const char* deviceName, const char* wifiSSID, const char* wifiPassword = "", bool withCaptivePortal = true);
 
     void commit();
+
+    // Deinitializes GridUi. Frees the protocol, if it was created by GridUI and not by the app.
+    void end();
 
     bool handleRbPacket(const std::string& command, rbjson::Object* pkt);
 
@@ -148,8 +153,8 @@ private:
         if (!checkUuidFreeLocked(uuid))
             uuid = generateUuidLocked();
 
-        auto* state = new WidgetState(uuid, x, y, w, h, tab, &T::callbackTrampoline);
-        m_states.push_back(std::unique_ptr<WidgetState>(state));
+        auto* state = new WidgetState(uuid, x, y, w, h, tab);
+        m_states.emplace_back(std::unique_ptr<WidgetState>(state));
 
         auto* widget = new T(T::name(), *state);
         m_widgets.push_back(std::unique_ptr<T>(widget));
@@ -181,7 +186,11 @@ private:
     std::vector<std::unique_ptr<WidgetState>> m_states;
 
     std::atomic<rb::Protocol*> m_protocol;
+    bool m_protocol_ours;
+
     std::unique_ptr<rbjson::Object> m_layout;
+    esp_timer_handle_t m_update_timer;
+    TaskHandle_t m_web_server_task;
 
     mutable std::mutex m_states_mu;
     uint32_t m_state_mustarrive_id;

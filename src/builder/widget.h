@@ -50,15 +50,8 @@ public:
 
 protected:
     void addCallback(const std::string& name, callback_t cb) {
-        auto& all = self().m_state.callbacks();
-
-        auto old = all.find(name);
-        if (old != all.end()) {
-            delete static_cast<callback_t*>(old->second);
-        }
-
-        auto* cbHeap = new callback_t(cb);
-        all[name] = static_cast<void*>(cbHeap); // fuj
+        auto* cbHeap = static_cast<void*>(new callback_t(cb)); // fuj
+        self().m_state.addCallback(&callbackTrampoline, &callbackDeleter, name, cbHeap);
     }
 
 private:
@@ -68,6 +61,11 @@ private:
     static void callbackTrampoline(void* cb, WidgetState* state) {
         Constructed w(state);
         (*static_cast<callback_t*>(cb))(w);
+    }
+
+    static void callbackDeleter(void *cb) {
+        auto *cb_typed = static_cast<callback_t*>(cb);
+        delete cb_typed;
     }
 };
 

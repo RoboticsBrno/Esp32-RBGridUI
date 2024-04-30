@@ -21,6 +21,9 @@ static void defaultOnPacketReceived(const std::string& cmd, rbjson::Object* pkt)
 
 _GridUi::_GridUi()
     : m_protocol(nullptr)
+    , m_protocol_ours(false)
+    , m_update_timer(nullptr)
+    , m_web_server_task(nullptr)
     , m_state_mustarrive_id(UINT32_MAX)
     , m_states_modified(false) {
 }
@@ -36,6 +39,7 @@ void _GridUi::begin(rb::Protocol* protocol, int cols, int rows, bool enableSplit
     }
 
     m_protocol = protocol;
+    m_protocol_ours = false;
 
     m_layout.reset(new rbjson::Object);
     m_layout->set("cols", cols);
@@ -44,15 +48,18 @@ void _GridUi::begin(rb::Protocol* protocol, int cols, int rows, bool enableSplit
 }
 
 rb::Protocol* _GridUi::begin(const char* owner, const char* deviceName) {
-    auto protocol = new rb::Protocol(owner, deviceName, "Compiled at " __DATE__ " " __TIME__, defaultOnPacketReceived);
+    // Start serving the web page
+    m_web_server_task = rb_web_start(80);
+    if(m_web_server_task == NULL) {
+        ESP_LOGE("GridUI", "failed to call rb_web_start");
+        return nullptr;
+    }
 
+    auto protocol = new rb::Protocol(owner, deviceName, "Compiled at " __DATE__ " " __TIME__, defaultOnPacketReceived);
     protocol->start();
 
-    // Start serving the web page
-    rb_web_start(80);
-
     begin(protocol);
-
+    m_protocol_ours = true;
     return protocol;
 }
 
@@ -77,6 +84,45 @@ uint16_t _GridUi::generateUuidLocked() const {
         if (checkUuidFreeLocked(rnd >> 16))
             return rnd >> 16;
     }
+}
+
+void _GridUi::end() {
+    auto *protocol = m_protocol.load();
+    if(!protocol) {
+        ESP_LOGE("GridUI", "end() called when not initialized!");
+        return;
+    }
+
+    if(m_protocol_ours) {
+        protocol->stop();
+        delete protocol;
+    }
+    m_protocol = nullptr;
+
+    if(m_update_timer) {
+        esp_timer_stop(m_update_timer);
+        esp_timer_delete(m_update_timer);
+        m_update_timer = nullptr;
+    }
+
+    if(m_web_server_task) {
+        rb_web_stop(m_web_server_task);
+        m_web_server_task = nullptr;
+    }
+
+    {
+        std::lock_guard<std::mutex> guard(m_states_mu);
+        m_states.clear();
+        m_states.shrink_to_fit();
+        m_widgets.clear();
+        m_widgets.shrink_to_fit();
+    }
+
+    m_layout.reset();
+    m_state_mustarrive_id = 0;
+    m_states_modified = false;
+    m_tab_changed = false;
+    m_tab = 0;
 }
 
 void _GridUi::commit() {
@@ -124,9 +170,9 @@ void _GridUi::commit() {
         .skip_unhandled_events = false,
 #endif
     };
-    esp_timer_handle_t timer;
-    esp_timer_create(&args, &timer);
-    esp_timer_start_periodic(timer, 50 * 1000);
+
+    esp_timer_create(&args, &m_update_timer);
+    esp_timer_start_periodic(m_update_timer, 50 * 1000);
 }
 
 bool _GridUi::handleRbPacket(const std::string& cmd, rbjson::Object* pkt) {
@@ -181,7 +227,7 @@ void _GridUi::stateChangeTask(void* selfVoid) {
     if (self->m_states_modified.exchange(false)) {
         std::unique_ptr<rbjson::Object> pkt(new rbjson::Object);
         {
-            std::lock_guard<std::mutex>(self->m_states_mu);
+            std::lock_guard<std::mutex> guard(self->m_states_mu);
             char buf[6];
             std::unique_ptr<rbjson::Object> state(new rbjson::Object);
 

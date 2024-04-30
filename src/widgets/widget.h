@@ -18,6 +18,48 @@ template <typename Self, typename Finished>
 class BuilderMixin;
 };
 
+class WidgetState;
+
+class CallbacksHolder {
+    friend class WidgetState;
+public:
+    typedef void (*cb_trampoline_t)(void*, WidgetState*);
+    typedef void (*cb_deleter_t)(void*);
+
+    ~CallbacksHolder() {
+        for(const auto& itr : m_callbacks) {
+            m_cb_deleter(itr.second);
+        }
+    }
+
+    void call(WidgetState* state, const std::string& event) {
+        auto itr = m_callbacks.find(event);
+        if (itr != m_callbacks.end()) {
+            (*m_cb_trampoline)(itr->second, state);
+        }
+    }
+
+    void add(const std::string& event, void *cb) {
+        auto itr = m_callbacks.find(event);
+        if(itr != m_callbacks.end()) {
+            m_cb_deleter(cb);
+            itr->second = cb;
+        } else {
+            m_callbacks[event] = cb;
+        }
+    }
+
+private:
+    CallbacksHolder(cb_trampoline_t trampoline, cb_deleter_t deleter) : m_cb_trampoline(trampoline), m_cb_deleter(deleter) { }
+
+    CallbacksHolder(const WidgetState&) = delete;
+    CallbacksHolder& operator=(const WidgetState&) = delete;
+
+    std::map<std::string, void*> m_callbacks;
+    const cb_trampoline_t m_cb_trampoline;
+    const cb_deleter_t m_cb_deleter;
+};
+
 /**
  *  @defgroup widgets_constructed Layout widgets
  *  Classes in this module are used to modify state of the already constructed Layout.
@@ -30,10 +72,8 @@ class WidgetState {
     template <typename Self, typename Finished>
     friend class builder::BuilderMixin;
 
-    typedef void (*cb_trampoline_t)(void*, WidgetState*);
-
 public:
-    WidgetState(uint16_t uuid, float x, float y, float w, float h, uint16_t tab, cb_trampoline_t cb_trampoline);
+    WidgetState(uint16_t uuid, float x, float y, float w, float h, uint16_t tab);
 
     uint16_t uuid() const { return m_uuid; }
     const rbjson::Object& data() const { return m_data; }
@@ -45,6 +85,9 @@ public:
     void markChanged(const std::string& key);
 
 private:
+    // Each mutex is ~100 bytes of heap allocation. Let's keep just one for this.
+    static std::mutex m_mutex;
+
     WidgetState(const WidgetState&) = delete;
     WidgetState& operator=(const WidgetState&) = delete;
 
@@ -59,20 +102,17 @@ private:
         m_mutex.unlock();
     }
 
-    std::map<std::string, void*>& callbacks() {
-        if (!m_callbacks) {
-            m_callbacks.reset(new std::map<std::string, void*>);
+    void addCallback(CallbacksHolder::cb_trampoline_t trampoline, CallbacksHolder::cb_deleter_t deleter, const std::string& event, void *cb) {
+        if (!m_cb_holder) {
+            m_cb_holder.reset(new CallbacksHolder(trampoline, deleter));
         }
-        return *m_callbacks.get();
+        m_cb_holder->add(event, cb);
     }
 
     void call(const std::string& event) {
-        if (!m_callbacks)
+        if (!m_cb_holder)
             return;
-        auto itr = m_callbacks->find(event);
-        if (itr != m_callbacks->end()) {
-            (*m_cb_trampoline)(itr->second, this);
-        }
+        m_cb_holder->call(this, event);
     }
 
     void markChangedLocked(const std::string& key);
@@ -83,10 +123,7 @@ private:
     bool remarkAllChanges();
 
     rbjson::Object m_data;
-    const cb_trampoline_t m_cb_trampoline;
-    std::unique_ptr<std::map<std::string, void*>> m_callbacks;
-
-    mutable std::mutex m_mutex;
+    std::unique_ptr<CallbacksHolder> m_cb_holder;
 
     const uint16_t m_uuid;
 
