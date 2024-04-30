@@ -5,7 +5,7 @@ var searchData=
   ['widget_2eh_2',['widget.h',['../widgets_2widget_8h.html',1,'(Global Namespace)'],['../builder_2widget_8h.html',1,'(Global Namespace)']]],
   ['widgeth_3',['widgetH',['../classgridui_1_1Widget.html#a0d986e774b8acf22a8f4def0c264c6b0',1,'gridui::Widget']]],
   ['widgets_4',['widgets',['../group__widgets__builder.html',1,'Builder widgets'],['../group__widgets__constructed.html',1,'Layout widgets']]],
-  ['widgetstate_5',['widgetstate',['../classgridui_1_1WidgetState.html',1,'gridui::WidgetState'],['../classgridui_1_1__GridUi.html#a67f07f592a006ed3b2db6b7844179652',1,'gridui::_GridUi::WidgetState'],['../classgridui_1_1WidgetState.html#a023d3e12250f3da5a921f92403f13a2c',1,'gridui::WidgetState::WidgetState()']]],
+  ['widgetstate_5',['widgetstate',['../classgridui_1_1WidgetState.html',1,'gridui::WidgetState'],['../classgridui_1_1__GridUi.html#a67f07f592a006ed3b2db6b7844179652',1,'gridui::_GridUi::WidgetState'],['../classgridui_1_1CallbacksHolder.html#a67f07f592a006ed3b2db6b7844179652',1,'gridui::CallbacksHolder::WidgetState'],['../classgridui_1_1WidgetState.html#a9b1964fe16adc384551044fda21b98ae',1,'gridui::WidgetState::WidgetState()']]],
   ['widgettab_6',['widgetTab',['../classgridui_1_1Widget.html#ae180a0c18da0373a0971b61eae758e3f',1,'gridui::Widget']]],
   ['widgetw_7',['widgetW',['../classgridui_1_1Widget.html#ad0f9d0c61ec5f1b1e9ed8c2090ccbe42',1,'gridui::Widget']]],
   ['widgetx_8',['widgetX',['../classgridui_1_1Widget.html#a75f71851f103148969324abbf59ce243',1,'gridui::Widget']]],
