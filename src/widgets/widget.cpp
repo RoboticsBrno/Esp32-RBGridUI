@@ -6,11 +6,12 @@
 
 namespace gridui {
 
-WidgetState Widget::emptyState(0, 0, 0, 0, 0, 0, [](void* cb, WidgetState* state) {});
+std::mutex WidgetState::m_mutex;
 
-WidgetState::WidgetState(uint16_t uuid, float x, float y, float w, float h, uint16_t tab, cb_trampoline_t cb_trampoline)
-    : m_cb_trampoline(cb_trampoline)
-    , m_uuid(uuid)
+WidgetState Widget::emptyState(0, 0, 0, 0, 0, 0);
+
+WidgetState::WidgetState(uint16_t uuid, float x, float y, float w, float h, uint16_t tab)
+    : m_uuid(uuid)
     , m_bloom_global(0)
     , m_bloom_tick(0) {
 
