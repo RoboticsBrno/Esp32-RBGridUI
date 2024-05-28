@@ -141,6 +141,10 @@ public:
         : m_state(o.m_state) {
     }
 
+    Widget(const Widget& o)
+        : m_state(o.m_state) {
+    }
+
     Widget& operator=(const Widget&& o) {
         m_state = o.m_state;
         return *this;
@@ -206,7 +210,6 @@ protected:
         : m_state(state) {
     }
 
-    Widget(const Widget&) = delete;
     Widget& operator=(const Widget&) = delete;
 
     const rbjson::Object& data() const { return static_cast<const WidgetState*>(m_state)->data(); }

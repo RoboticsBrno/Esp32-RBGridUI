@@ -19,6 +19,34 @@ static void defaultOnPacketReceived(const std::string& cmd, rbjson::Object* pkt)
     // ignore the rest
 }
 
+#ifdef RBGRIDUI_USING_ESP_IDF
+
+extern const uint8_t index_html_start[] asm("_binary_index_html_gz_start");
+extern const uint8_t index_html_end[]   asm("_binary_index_html_gz_end");
+
+extern const uint8_t combined_js_start[] asm("_binary_combined_js_gz_start");
+extern const uint8_t combined_js_end[]   asm("_binary_combined_js_gz_end");
+
+not_found_response_t webserverNotFoundCallback(const char *request_path) {
+    not_found_response_t resp = {};
+    if(strcmp(request_path, "/") == 0 || strcmp(request_path, "/index.html") == 0) {
+        resp.data = (uint8_t*)index_html_start;
+        resp.size = index_html_end - index_html_start;
+        resp.is_gzipped = 1;
+    } else if(strcmp(request_path, "/combined.js") == 0) {
+        resp.data = (uint8_t*)combined_js_start;
+        resp.size = combined_js_end - combined_js_start;
+        resp.is_gzipped = 1;
+    }
+    return resp;
+}
+#else
+not_found_response_t webserverNotFoundCallback(const char *request_path) {
+    not_found_response_t resp = {};
+    return resp;
+}
+#endif
+
 _GridUi::_GridUi()
     : m_protocol(nullptr)
     , m_protocol_ours(false)
@@ -54,6 +82,10 @@ rb::Protocol* _GridUi::begin(const char* owner, const char* deviceName) {
         ESP_LOGE("GridUI", "failed to call rb_web_start");
         return nullptr;
     }
+
+#ifdef RBGRIDUI_USING_ESP_IDF
+    rb_web_set_not_found_callback(webserverNotFoundCallback);
+#endif
 
     auto protocol = new rb::Protocol(owner, deviceName, "Compiled at " __DATE__ " " __TIME__, defaultOnPacketReceived);
     protocol->start();
