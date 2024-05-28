@@ -171,11 +171,12 @@ elif __name__ == "__main__":
 
     sub = subparsers.add_parser("generate", help="Generate amalgamations from web/ to data/")
     sub.add_argument("--base", help="Base dir of the library", default=os.path.dirname(__file__))
+    sub.add_argument("--output", "-o", help="Output directory", default="data")
 
     args = parser.parse_args()
 
     env = {
-        "PROJECTDATA_DIR": "data",
+        "PROJECTDATA_DIR": args.output,
     }
 
     if args.cmd == "generate":

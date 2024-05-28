@@ -9,6 +9,8 @@
 
 #include "esp_timer.h"
 
+#include "rbwebserver.h"
+
 #include "builder/arm.h"
 #include "builder/bar.h"
 #include "builder/button.h"
@@ -34,6 +36,8 @@ class Protocol;
 namespace gridui {
 
 class WidgetState;
+
+not_found_response_t webserverNotFoundCallback(const char *request_path);
 
 class _GridUi {
     friend class WidgetState;
@@ -143,7 +147,6 @@ public:
         return *newWidget<builder::Select>(x, y, w, h, uuid, tab);
     }
 
-private:
     template <typename T>
     T* newWidget(float x, float y, float w, float h, uint16_t uuid, uint16_t tab) {
         static_assert(std::is_base_of<builder::Widget, T>::value, "T must inherit from builder::Widget.");
@@ -161,6 +164,7 @@ private:
         return widget;
     }
 
+private:
     inline WidgetState* stateByUuidLocked(uint16_t uuid) const {
         for (auto& itr : m_states) {
             if (itr->uuid() == uuid) {

@@ -20,6 +20,11 @@ public:
         return *this;
     }
 
+    Button& text(const std::string& text) {
+        extra().set("text", text);
+        return *this;
+    }
+
     Button& fontSize(float fontSize) {
         extra().set("fontSize", fontSize);
         return *this;

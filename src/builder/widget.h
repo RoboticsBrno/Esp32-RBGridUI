@@ -79,6 +79,8 @@ public:
     Widget(Widget&& o) noexcept;
     virtual ~Widget();
 
+    const char *widgetTypeName() const { return m_type; }
+
 protected:
     Widget(const char* type, WidgetState& state);
 
