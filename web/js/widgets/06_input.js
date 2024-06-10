@@ -96,4 +96,7 @@ Widget.createSubclass(Input, {
       this.input.disabled = !!val
     }
   )
+},
+{
+  "changed": "onChanged",
 })

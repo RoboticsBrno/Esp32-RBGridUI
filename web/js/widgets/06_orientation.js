@@ -37,6 +37,9 @@ function Orientation(grid, uuid) {
 }
 Widget.createSubclass(Orientation, {
   color: new Prop(String).setIsColor()
+},
+{
+  "pos": "onPositionChanged",
 })
 
 Orientation.prototype.MIN_LIBRARY_VERSION = 0x040200

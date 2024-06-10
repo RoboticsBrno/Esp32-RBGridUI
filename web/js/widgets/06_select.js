@@ -75,6 +75,9 @@ Widget.createSubclass(Select, {
       this.el.selectedIndex = val
     }
   ),
+},
+{
+  "changed": "onChanged",
 })
 
 Select.prototype.MIN_LIBRARY_VERSION = 0x040800

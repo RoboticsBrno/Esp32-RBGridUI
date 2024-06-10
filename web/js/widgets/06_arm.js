@@ -241,6 +241,10 @@ Widget.createSubclass(Arm, {
       }
     }
   ).disableEdit()
+},
+{
+  "grab": "onGrab",
+  "pos": "onPositionChanged"
 })
 
 Arm.prototype.applyState = function (state) {

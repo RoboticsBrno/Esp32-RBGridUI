@@ -76,6 +76,9 @@ Widget.createSubclass(Switcher, {
   value: new Prop(Number),
   min: new Prop(Number),
   max: new Prop(Number)
+},
+{
+  "changed": "onChanged",
 })
 
 Switcher.prototype.MIN_LIBRARY_VERSION = 0x041000

@@ -34,6 +34,9 @@ Widget.createSubclass(SpinEdit, {
   value: new Prop(Number),
   step: new Prop(Number),
   precision: new Prop(Number)
+},
+{
+  "changed": "onChanged",
 })
 
 SpinEdit.prototype.MIN_LIBRARY_VERSION = 0x040600

@@ -24,6 +24,9 @@ Widget.createSubclass(Checkbox, {
   checked: new Prop(Boolean),
   color: new Prop(String).setIsColor(),
   text: new Prop(String)
+},
+{
+  "checked": "onChanged",
 })
 
 Checkbox.prototype.applyState = function (state) {

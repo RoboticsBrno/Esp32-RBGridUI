@@ -26,7 +26,7 @@ function Button(grid, uuid) {
     el.addEventListener(
       'mousedown',
       function (ev) {
-        this.sendEvent('press')
+        this.sendEvent('press', { pressed: true })
         this.pressed = true
       }.bind(this)
     )
@@ -35,7 +35,7 @@ function Button(grid, uuid) {
       'mouseup',
       function (ev) {
         if (!this.pressed) return
-        this.sendEvent('release')
+        this.sendEvent('release', { pressed: false })
         this.pressed = false
       }.bind(this)
     )
@@ -98,4 +98,8 @@ Widget.createSubclass(Button, {
       this.el.disabled = !!val
     }
   )
+},
+{
+  "press": "onPress",
+  "release": "onRelease"
 })

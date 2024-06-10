@@ -34,6 +34,13 @@ public:
         extra().set("max", max);
         return *this;
     }
+
+    /** @ingroup event
+     */
+    Switcher& onChanged(callback_t cb) {
+        addCallback("changed", cb);
+        return *this;
+    }
 };
 
 };

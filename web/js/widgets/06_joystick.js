@@ -27,6 +27,10 @@ Widget.createSubclass(Joystick, {
   color: new Prop(String).setIsColor(),
   keys: new Prop(String),
   text: new Prop(String)
+},
+{
+  "click": "onClick",
+  "pos": "onPositionChanged",
 })
 
 Joystick.prototype.applyState = function (state) {

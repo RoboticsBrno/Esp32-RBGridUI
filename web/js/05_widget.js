@@ -93,7 +93,7 @@ Widget.prototype.PROPERTIES = {
   )
 }
 
-Widget.createSubclass = function (cls, properties) {
+Widget.createSubclass = function (cls, properties, events) {
   cls.prototype = Object.create(Widget.prototype)
   Object.defineProperty(cls.prototype, 'constructor', {
     value: cls,
@@ -107,6 +107,11 @@ Widget.createSubclass = function (cls, properties) {
   Object.assign(cls.prototype.PROPERTIES, Widget.prototype.PROPERTIES)
   if (properties) {
     Object.assign(cls.prototype.PROPERTIES, properties)
+  }
+
+  cls.prototype.EVENTS = {}
+  if (events) {
+    Object.assign(cls.prototype.EVENTS, events)
   }
 }
 
