@@ -11,8 +11,11 @@ idf_component_register(
     EMBED_FILES ${CMAKE_CURRENT_BINARY_DIR}/combined.js.gz ${CMAKE_CURRENT_BINARY_DIR}/index.html.gz
 )
 
+file(GLOB_RECURSE gridui_web_sources ${COMPONENT_DIR}/web/*)
+
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/combined.js.gz ${CMAKE_CURRENT_BINARY_DIR}/index.html.gz
+    DEPENDS ${gridui_web_sources}
     COMMAND ${COMPONENT_DIR}/rbgridui_post_extra_script.py generate -o ${CMAKE_CURRENT_BINARY_DIR}
 )
 
