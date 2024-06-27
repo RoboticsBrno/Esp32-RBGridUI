@@ -1,3 +1,3 @@
 #pragma once
 
-#define RB_GRIDUI_VERSION 0x050203
+#define RB_GRIDUI_VERSION 0x050204
