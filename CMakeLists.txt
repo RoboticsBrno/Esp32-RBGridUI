@@ -13,11 +13,12 @@ idf_component_register(
 
 file(GLOB_RECURSE gridui_web_sources ${COMPONENT_DIR}/web/*)
 
+find_package (Python3 COMPONENTS Interpreter Development)
+
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/combined.js.gz ${CMAKE_CURRENT_BINARY_DIR}/index.html.gz
     DEPENDS ${gridui_web_sources}
-    COMMAND ${COMPONENT_DIR}/rbgridui_post_extra_script.py generate -o ${CMAKE_CURRENT_BINARY_DIR}
+    COMMAND ${Python3_EXECUTABLE} ${COMPONENT_DIR}/rbgridui_post_extra_script.py generate -o ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 target_compile_options(${COMPONENT_LIB} PRIVATE -DRBGRIDUI_USING_ESP_IDF=1)
-
