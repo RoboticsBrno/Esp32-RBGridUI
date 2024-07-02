@@ -84,6 +84,10 @@ public:
 
     void markChanged(const std::string& key);
 
+    bool hasRegisteredCallbacks() const {
+        return bool(m_cb_holder);
+    }
+
 private:
     // Each mutex is ~100 bytes of heap allocation. Let's keep just one for this.
     static std::mutex m_mutex;
@@ -148,6 +152,10 @@ public:
     Widget& operator=(const Widget&& o) {
         m_state = o.m_state;
         return *this;
+    }
+
+    bool hasRegisteredCallbacks() const {
+        return m_state->hasRegisteredCallbacks();
     }
 
     uint16_t uuid() const {
