@@ -2,7 +2,7 @@ var searchData=
 [
   ['select_0',['select',['../classgridui_1_1__GridUi.html#a2de2ffc8f4320a68952e23395b8e5262',1,'gridui::_GridUi']]],
   ['selectedindex_1',['selectedindex',['../classgridui_1_1builder_1_1Select.html#ad516bd154a4cf5c256058a71d7bfe929',1,'gridui::builder::Select::selectedIndex()'],['../classgridui_1_1Select.html#a36b6f306eb9caa74d0258a177eab5bef',1,'gridui::Select::selectedIndex()']]],
-  ['serialize_2',['serialize',['../classgridui_1_1builder_1_1Arm.html#a12894567c579b7a69cccc1e9a0b070b4',1,'gridui::builder::Arm::serialize()'],['../classgridui_1_1builder_1_1Widget.html#a4db9d012b38380ac6c7f934aa09bd7ae',1,'gridui::builder::Widget::serialize()']]],
+  ['serialize_2',['serialize',['../classgridui_1_1builder_1_1Arm.html#a53ef59073593aa149d5fdd52805edec8',1,'gridui::builder::Arm::serialize()'],['../classgridui_1_1builder_1_1Widget.html#aaf00ff51f8dab4c657695dddc6bf0fe6',1,'gridui::builder::Widget::serialize()']]],
   ['set_3',['set',['../classgridui_1_1WidgetState.html#a21683123d2425b15ba97d77a9f41df27',1,'gridui::WidgetState']]],
   ['setalign_4',['setalign',['../classgridui_1_1Button.html#a5a1f6ee24e3f105c7f273f9112b0ee5a',1,'gridui::Button::setAlign()'],['../classgridui_1_1Text.html#a415f90a267851814f2a999d25ddc8616',1,'gridui::Text::setAlign()']]],
   ['setbackground_5',['setbackground',['../classgridui_1_1Select.html#a3249e12dfb3ac9e7450c1447539ee8ab',1,'gridui::Select::setBackground()'],['../classgridui_1_1Text.html#ac7167c4ea91d7b0d3387de4eabe60788',1,'gridui::Text::setBackground()'],['../classgridui_1_1Button.html#a16e79fc5bb46971dd2d2fd92f6a4eac1',1,'gridui::Button::setBackground()']]],
