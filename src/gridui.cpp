@@ -195,6 +195,9 @@ void _GridUi::commit() {
 
             auto& w = m_widgets[i];
             w->serialize(stream);
+            if(strcmp(w->m_type, "Arm") == 0) {
+                w->extra().remove("info");
+            }
             w.reset();
         }
         m_widgets.clear();

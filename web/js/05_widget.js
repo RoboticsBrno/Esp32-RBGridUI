@@ -127,15 +127,26 @@ Widget.prototype.applyState = function (state) {
   var proto = Object.getPrototypeOf(this)
   var pos = false
   for (var k in state) {
+    var v = state[k]
+
+    if(k === "p") {
+      this.x = (v & 0xFF)/10;
+      this.y = ((v >> 8) & 0xFF)/10;
+      this.w = ((v >> 16) & 0xFF)/10;
+      this.h = ((v >> 24) & 0xFF)/10;
+      pos = true
+      continue;
+    }
+
     if (!state.hasOwnProperty(k) || !proto.PROPERTIES.hasOwnProperty(k)) {
       continue
     }
 
     var prop = proto.PROPERTIES[k]
     if (prop.set === undefined) {
-      this[k] = prop.type(state[k])
+      this[k] = prop.type(v)
     } else {
-      prop.set.call(this, state[k])
+      prop.set.call(this, v)
     }
 
     if (k.length === 1 && 'xywh'.indexOf(k) !== -1) {
