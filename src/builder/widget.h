@@ -25,6 +25,8 @@ namespace gridui {
 
 class _GridUi;
 
+extern _GridUi UI;
+
 namespace builder {
 
 template <typename Self, typename Constructed>
@@ -49,7 +51,7 @@ public:
     }
 
 protected:
-    void addCallback(const std::string& name, callback_t cb) {
+    void addCallback(const std::string& name, const callback_t& cb) {
         auto* cbHeap = static_cast<void*>(new callback_t(cb)); // fuj
         self().m_state.addCallback(&callbackTrampoline, &callbackDeleter, name, cbHeap);
     }
@@ -77,14 +79,13 @@ class Widget {
 
 public:
     Widget(Widget&& o) noexcept;
-    virtual ~Widget();
 
     const char *widgetTypeName() const { return m_type; }
 
 protected:
     Widget(const char* type, WidgetState& state);
 
-    virtual void serialize(std::ostream& ss);
+    void serialize(std::ostream& ss);
 
     rbjson::Object& extra();
     rbjson::Object& style();

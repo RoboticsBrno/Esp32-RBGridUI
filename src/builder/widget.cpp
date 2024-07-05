@@ -13,9 +13,6 @@ Widget::Widget(const char* type, WidgetState& state)
     , m_type(type) {
 }
 
-Widget::~Widget() {
-}
-
 rbjson::Object& Widget::extra() {
     return m_state.data();
 }
@@ -30,6 +27,8 @@ rbjson::Object& Widget::style() {
 }
 
 void Widget::serialize(std::ostream& ss) {
+    extra().shrink_to_fit();
+
     ss << "{";
     {
         ss << "\"uuid\":" << m_state.uuid() << ",";

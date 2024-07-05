@@ -31,12 +31,6 @@ public:
         addCallback("grab", cb);
         return *this;
     }
-
-protected:
-    virtual void serialize(std::ostream& ss) {
-        Widget::serialize(ss);
-        extra().remove("info");
-    }
 };
 
 };

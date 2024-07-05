@@ -15,10 +15,7 @@ WidgetState::WidgetState(uint16_t uuid, float x, float y, float w, float h, uint
     , m_bloom_global(0)
     , m_bloom_tick(0) {
 
-    m_data.set("x", x);
-    m_data.set("y", y);
-    m_data.set("w", w);
-    m_data.set("h", h);
+    m_data.set("p", WidgetPos(x, y, w, h).encoded());
     if(tab != 0) {
         m_data.set("tab", tab);
     }
@@ -71,8 +68,8 @@ bool WidgetState::popChanges(rbjson::Object& state) {
 
     const auto& m = m_data.members();
     for (auto itr = m.begin(); itr != m.end(); ++itr) {
-        if (wasChangedInTickLocked(itr->first)) {
-            state.set(itr->first, itr->second->copy());
+        if (wasChangedInTickLocked(itr->name, itr->name_len)) {
+            state.set(std::string(itr->name, itr->name_len), itr->value->copy());
         }
     }
     m_bloom_tick = 0;
@@ -144,9 +141,9 @@ void WidgetState::markGlobalChangedLocked(const std::string& key) {
     }
 }
 
-bool WidgetState::wasChangedInTickLocked(const std::string& key) const {
+bool WidgetState::wasChangedInTickLocked(const char *key, size_t key_len) const {
     for (int i = 0; i < hash_count; ++i) {
-        const auto bit = murmur3_32((uint8_t*)key.c_str(), key.size(), i) % 16;
+        const auto bit = murmur3_32((uint8_t*)key, key_len, i) % 16;
         if ((m_bloom_tick & (1 << bit)) == 0)
             return false;
     }
