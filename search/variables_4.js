@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ui_0',['UI',['../namespacegridui.html#a38286e5b01086fe0cece14b61e1f2609',1,'gridui']]]
+  ['m_5fstate_0',['m_state',['../classgridui_1_1builder_1_1Widget.html#a378f1cc70d2dbb2a5269ae0c6897a122',1,'gridui::builder::Widget::m_state'],['../classgridui_1_1Widget.html#a412bd0c9edc617484397391bebb0f025',1,'gridui::Widget::m_state']]]
 ];

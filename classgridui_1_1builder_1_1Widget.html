@@ -112,8 +112,6 @@ Inheritance diagram for gridui::builder::Widget:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa212d59db20cbdb59ab2dd77096a664a" id="r_aa212d59db20cbdb59ab2dd77096a664a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1builder_1_1Widget.html#aa212d59db20cbdb59ab2dd77096a664a">Widget</a> (<a class="el" href="classgridui_1_1builder_1_1Widget.html">Widget</a> &amp;&amp;o) noexcept</td></tr>
 <tr class="separator:aa212d59db20cbdb59ab2dd77096a664a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49f95dee7da707adf3df209fc01d3a00" id="r_a49f95dee7da707adf3df209fc01d3a00"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1builder_1_1Widget.html#a49f95dee7da707adf3df209fc01d3a00">~Widget</a> ()</td></tr>
-<tr class="separator:a49f95dee7da707adf3df209fc01d3a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdb6373fd0da3ff1d468c933fdc4ba4a" id="r_acdb6373fd0da3ff1d468c933fdc4ba4a"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1builder_1_1Widget.html#acdb6373fd0da3ff1d468c933fdc4ba4a">widgetTypeName</a> () const</td></tr>
 <tr class="separator:acdb6373fd0da3ff1d468c933fdc4ba4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -121,7 +119,7 @@ Public Member Functions</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:af6482e3317d96cb25eb025b7e2c15cb1" id="r_af6482e3317d96cb25eb025b7e2c15cb1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1builder_1_1Widget.html#af6482e3317d96cb25eb025b7e2c15cb1">Widget</a> (const char *type, <a class="el" href="classgridui_1_1WidgetState.html">WidgetState</a> &amp;state)</td></tr>
 <tr class="separator:af6482e3317d96cb25eb025b7e2c15cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf00ff51f8dab4c657695dddc6bf0fe6" id="r_aaf00ff51f8dab4c657695dddc6bf0fe6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1builder_1_1Widget.html#aaf00ff51f8dab4c657695dddc6bf0fe6">serialize</a> (std::ostream &amp;ss)</td></tr>
+<tr class="memitem:aaf00ff51f8dab4c657695dddc6bf0fe6" id="r_aaf00ff51f8dab4c657695dddc6bf0fe6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1builder_1_1Widget.html#aaf00ff51f8dab4c657695dddc6bf0fe6">serialize</a> (std::ostream &amp;ss)</td></tr>
 <tr class="separator:aaf00ff51f8dab4c657695dddc6bf0fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22f9a9eee9f45b5b6cd4c16687118fdd" id="r_a22f9a9eee9f45b5b6cd4c16687118fdd"><td class="memItemLeft" align="right" valign="top">rbjson::Object &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgridui_1_1builder_1_1Widget.html#a22f9a9eee9f45b5b6cd4c16687118fdd">extra</a> ()</td></tr>
 <tr class="separator:a22f9a9eee9f45b5b6cd4c16687118fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,7 +141,7 @@ Friends</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="builder_2widget_8h_source.html#l00072">72</a> of file <a class="el" href="builder_2widget_8h_source.html">widget.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="builder_2widget_8h_source.html#l00074">74</a> of file <a class="el" href="builder_2widget_8h_source.html">widget.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa212d59db20cbdb59ab2dd77096a664a" name="aa212d59db20cbdb59ab2dd77096a664a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa212d59db20cbdb59ab2dd77096a664a">&#9670;&#160;</a></span>Widget() <span class="overload">[1/2]</span></h2>
@@ -168,33 +166,6 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a49f95dee7da707adf3df209fc01d3a00" name="a49f95dee7da707adf3df209fc01d3a00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49f95dee7da707adf3df209fc01d3a00">&#9670;&#160;</a></span>~Widget()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">gridui::builder::Widget::~Widget </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="builder_2widget_8cpp_source.html#l00016">16</a> of file <a class="el" href="builder_2widget_8cpp_source.html">widget.cpp</a>.</p>
 
 </div>
 </div>
@@ -260,7 +231,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="builder_2widget_8cpp_source.html#l00019">19</a> of file <a class="el" href="builder_2widget_8cpp_source.html">widget.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="builder_2widget_8cpp_source.html#l00016">16</a> of file <a class="el" href="builder_2widget_8cpp_source.html">widget.cpp</a>.</p>
 
 </div>
 </div>
@@ -283,14 +254,12 @@ Friends</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classgridui_1_1builder_1_1Arm.html#a53ef59073593aa149d5fdd52805edec8">gridui::builder::Arm</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="builder_2widget_8cpp_source.html#l00032">32</a> of file <a class="el" href="builder_2widget_8cpp_source.html">widget.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="builder_2widget_8cpp_source.html#l00029">29</a> of file <a class="el" href="builder_2widget_8cpp_source.html">widget.cpp</a>.</p>
 
 </div>
 </div>
@@ -317,7 +286,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="builder_2widget_8cpp_source.html#l00023">23</a> of file <a class="el" href="builder_2widget_8cpp_source.html">widget.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="builder_2widget_8cpp_source.html#l00020">20</a> of file <a class="el" href="builder_2widget_8cpp_source.html">widget.cpp</a>.</p>
 
 </div>
 </div>
@@ -344,7 +313,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="builder_2widget_8h_source.html#l00082">82</a> of file <a class="el" href="builder_2widget_8h_source.html">widget.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="builder_2widget_8h_source.html#l00083">83</a> of file <a class="el" href="builder_2widget_8h_source.html">widget.h</a>.</p>
 
 </div>
 </div>
@@ -371,7 +340,7 @@ template&lt;typename Self , typename Finished &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="builder_2widget_8h_source.html#l00076">76</a> of file <a class="el" href="builder_2widget_8h_source.html">widget.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="builder_2widget_8h_source.html#l00078">78</a> of file <a class="el" href="builder_2widget_8h_source.html">widget.h</a>.</p>
 
 </div>
 </div>
@@ -395,7 +364,7 @@ template&lt;typename Self , typename Finished &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="builder_2widget_8h_source.html#l00073">73</a> of file <a class="el" href="builder_2widget_8h_source.html">widget.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="builder_2widget_8h_source.html#l00075">75</a> of file <a class="el" href="builder_2widget_8h_source.html">widget.h</a>.</p>
 
 </div>
 </div>
@@ -420,7 +389,7 @@ template&lt;typename Self , typename Finished &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="builder_2widget_8h_source.html#l00092">92</a> of file <a class="el" href="builder_2widget_8h_source.html">widget.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="builder_2widget_8h_source.html#l00093">93</a> of file <a class="el" href="builder_2widget_8h_source.html">widget.h</a>.</p>
 
 </div>
 </div>
@@ -431,7 +400,7 @@ template&lt;typename Self , typename Finished &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 2 2024 20:30:06 for Esp32-RBGridUI by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Fri Jul 5 2024 14:35:45 for Esp32-RBGridUI by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>
