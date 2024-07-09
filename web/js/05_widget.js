@@ -130,6 +130,10 @@ Widget.prototype.applyState = function (state) {
     var v = state[k]
 
     if(k === "p") {
+      if(typeof v === "string") {
+        v = parseInt(v, 16);
+      }
+
       this.x = (v & 0xFF)/10;
       this.y = ((v >> 8) & 0xFF)/10;
       this.w = ((v >> 16) & 0xFF)/10;

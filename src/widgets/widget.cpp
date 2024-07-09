@@ -15,7 +15,10 @@ WidgetState::WidgetState(uint16_t uuid, float x, float y, float w, float h, uint
     , m_bloom_global(0)
     , m_bloom_tick(0) {
 
-    m_data.set("p", WidgetPos(x, y, w, h).encoded());
+    char buf[9];
+    snprintf(buf, sizeof(buf), "%lx", WidgetPos(x, y, w, h).encoded());
+    m_data.set("p", new rbjson::String(buf));
+
     if(tab != 0) {
         m_data.set("tab", tab);
     }
