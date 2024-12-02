@@ -238,7 +238,7 @@ Grid.prototype.clear = function () {
     var w = this.widgets[i]
     this.tabs[w.tab].removeChild(w.el)
   }
-  this.widgets = []
+  this.widgets.length = 0
   this.setTabCount(1)
 }
 
