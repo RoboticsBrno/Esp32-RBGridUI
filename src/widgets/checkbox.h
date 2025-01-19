@@ -18,7 +18,7 @@ public:
     }
 
     float fontSize() const {
-        return data().getDouble("fontSize");
+        return m_state->getDouble("fontSize");
     }
 
     void setChecked(bool checked) {
@@ -26,7 +26,7 @@ public:
     }
 
     bool checked() const {
-        return data().getBool("checked");
+        return m_state->getBool("checked");
     }
 
     void setColor(const std::string& color) {
@@ -34,7 +34,7 @@ public:
     }
 
     std::string color() const {
-        return data().getString("color");
+        return m_state->getString("color");
     }
 
     void setText(const std::string& text) {
@@ -42,7 +42,7 @@ public:
     }
 
     std::string text() const {
-        return data().getString("text");
+        return m_state->getString("text");
     }
 };
 

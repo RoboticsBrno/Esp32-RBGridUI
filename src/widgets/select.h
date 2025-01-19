@@ -23,7 +23,7 @@ public:
     }
 
     std::string color() const {
-        return data().getString("color");
+        return m_state->getString("color");
     }
 
     void setBackground(const std::string& background) {
@@ -31,7 +31,7 @@ public:
     }
 
     std::string background() const {
-        return data().getString("background");
+        return m_state->getString("background");
     }
 
     void setOptions(const std::vector<std::string>& options) {
@@ -48,7 +48,7 @@ public:
 
     std::vector<std::string> options() const {
         std::vector<std::string> out;
-        std::string str = data().getString("options");
+        std::string str = m_state->getString("options");
         std::string::size_type lastDelim = 0;
         std::string::size_type delim = 0;
 
@@ -66,7 +66,7 @@ public:
     }
 
     int selectedIndex() const {
-        return data().getInt("selectedIndex");
+        return m_state->getInt("selectedIndex");
     }
 
     void setDisabled(bool disabled) {
@@ -74,7 +74,7 @@ public:
     }
 
     bool disabled() const {
-        return data().getBool("disabled");
+        return m_state->getBool("disabled");
     }
 };
 

@@ -23,7 +23,7 @@ public:
     }
 
     float rotation() const {
-        return data().getDouble("rotation");
+        return m_state->getDouble("rotation");
     }
 
     void setClip(bool clip) {
@@ -31,21 +31,23 @@ public:
     }
 
     bool clip() const {
-        return data().getBool("clip");
+        return m_state->getBool("clip");
     }
 
     void addTag(const Tag& t) {
-        auto* tagsArray = data().getArray("tags");
+        auto lock = m_state->uniqueStateLock();
+
+        auto* tagsArray = m_state->dataLocked().getArray("tags");
         const bool existedBefore = tagsArray != NULL;
         if (!existedBefore) {
             tagsArray = new rbjson::Array;
         }
         tagsArray->push_back(buildTagObject(t));
 
+        lock.unlock();
+
         if (!existedBefore) {
             m_state->set("tags", tagsArray);
-        }
-        {
             m_state->markChanged("tags");
         }
     }

@@ -18,7 +18,7 @@ public:
     }
 
     std::string color() const {
-        return data().getString("color");
+        return m_state->getString("color");
     }
 
     void setKeys(const std::string& keys) {
@@ -26,7 +26,7 @@ public:
     }
 
     std::string keys() const {
-        return data().getString("keys");
+        return m_state->getString("keys");
     }
 
     void setText(const std::string& text) {
@@ -34,15 +34,15 @@ public:
     }
 
     std::string text() const {
-        return data().getString("text");
+        return m_state->getString("text");
     }
 
     int32_t x() const {
-        return data().getInt("jx");
+        return m_state->getInt("jx");
     }
 
     int32_t y() const {
-        return data().getInt("jy");
+        return m_state->getInt("jy");
     }
 };
 
