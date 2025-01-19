@@ -24,11 +24,31 @@ WidgetState::WidgetState(uint16_t uuid, float x, float y, float w, float h, uint
     }
 }
 
+std::string WidgetState::getString(const std::string& key, std::string def) const {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    return m_data.getString(key, def);
+}
+
+int64_t WidgetState::getInt(const std::string& key, int64_t def) const {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    return m_data.getInt(key, def);
+}
+
+double WidgetState::getDouble(const std::string& key, double def) const {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    return m_data.getDouble(key, def);
+}
+
+bool WidgetState::getBool(const std::string& key, bool def) const {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    return m_data.getBool(key, def);
+}
+
 bool WidgetState::set(const std::string& key, rbjson::Value* value) {
     if (m_uuid == 0)
         return false;
 
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
 
     const auto* old = m_data.get(key);
     if (old != nullptr && old->equals(*value)) {
@@ -45,7 +65,7 @@ bool WidgetState::setInnerObjectProp(const std::string& objectName, const std::s
     if (m_uuid == 0)
         return false;
 
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
 
     auto* obj = m_data.getObject(objectName);
     if (obj == nullptr) {
@@ -65,7 +85,7 @@ bool WidgetState::setInnerObjectProp(const std::string& objectName, const std::s
 }
 
 bool WidgetState::popChanges(rbjson::Object& state) {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
     if (m_bloom_tick == 0)
         return false;
 
@@ -123,7 +143,7 @@ void WidgetState::markChanged(const std::string& key) {
     if (m_uuid == 0)
         return;
 
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
     markChangedLocked(key);
 }
 
@@ -154,7 +174,7 @@ bool WidgetState::wasChangedInTickLocked(const char *key, size_t key_len) const 
 }
 
 bool WidgetState::remarkAllChanges() {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
     if (m_bloom_global == 0)
         return false;
     m_bloom_tick = m_bloom_global;

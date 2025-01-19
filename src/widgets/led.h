@@ -18,7 +18,7 @@ public:
     }
 
     std::string color() const {
-        return data().getString("color");
+        return m_state->getString("color");
     }
 
     void setOn(bool on) {
@@ -26,7 +26,7 @@ public:
     }
 
     bool on() const {
-        return data().getBool("on");
+        return m_state->getBool("on");
     }
 };
 

@@ -18,7 +18,7 @@ public:
     }
 
     float fontSize() const {
-        return data().getDouble("fontSize");
+        return m_state->getDouble("fontSize");
     }
 
     void setColor(const std::string& color) {
@@ -26,7 +26,7 @@ public:
     }
 
     std::string color() const {
-        return data().getString("color");
+        return m_state->getString("color");
     }
 
     void setValue(float value) {
@@ -34,7 +34,7 @@ public:
     }
 
     float value() const {
-        return data().getDouble("value");
+        return m_state->getDouble("value");
     }
 
     void setStep(float step) {
@@ -42,7 +42,7 @@ public:
     }
 
     float step() const {
-        return data().getDouble("step");
+        return m_state->getDouble("step");
     }
 
     void setPrecision(float precision) {
@@ -50,7 +50,7 @@ public:
     }
 
     float precision() const {
-        return data().getDouble("precision");
+        return m_state->getDouble("precision");
     }
 };
 

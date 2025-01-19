@@ -18,7 +18,7 @@ public:
     }
 
     std::string text() const {
-        return data().getString("text");
+        return m_state->getString("text");
     }
 
     void setColor(const std::string& color) {
@@ -26,7 +26,7 @@ public:
     }
 
     std::string color() const {
-        return data().getString("color");
+        return m_state->getString("color");
     }
 
     void setType(const std::string& type) {
@@ -34,7 +34,7 @@ public:
     }
 
     std::string type() const {
-        return data().getString("type");
+        return m_state->getString("type");
     }
 
     void setDisabled(bool disabled) {
@@ -42,7 +42,7 @@ public:
     }
 
     bool disabled() const {
-        return data().getBool("disabled");
+        return m_state->getBool("disabled");
     }
 };
 

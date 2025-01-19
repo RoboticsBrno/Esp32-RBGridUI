@@ -18,7 +18,7 @@ public:
     }
 
     std::string color() const {
-        return data().getString("color");
+        return m_state->getString("color");
     }
 
     void setFontSize(float fontSize) {
@@ -26,7 +26,7 @@ public:
     }
 
     float fontSize() const {
-        return data().getDouble("fontSize");
+        return m_state->getDouble("fontSize");
     }
 
     void setMin(float min) {
@@ -34,7 +34,7 @@ public:
     }
 
     float min() const {
-        return data().getDouble("min");
+        return m_state->getDouble("min");
     }
 
     void setMax(float max) {
@@ -42,7 +42,7 @@ public:
     }
 
     float max() const {
-        return data().getDouble("max");
+        return m_state->getDouble("max");
     }
 
     void setValue(float value) {
@@ -50,7 +50,7 @@ public:
     }
 
     float value() const {
-        return data().getDouble("value");
+        return m_state->getDouble("value");
     }
 
     void setShowValue(bool showValue) {
@@ -58,7 +58,7 @@ public:
     }
 
     bool showValue() const {
-        return data().getBool("showValue");
+        return m_state->getBool("showValue");
     }
 };
 

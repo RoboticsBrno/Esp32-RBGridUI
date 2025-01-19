@@ -20,19 +20,19 @@ public:
     }
 
     std::string color() const {
-        return data().getString("color");
+        return m_state->getString("color");
     }
 
     float yaw() const {
-        return data().getDouble("oy");
+        return m_state->getDouble("oy");
     }
 
     float pitch() const {
-        return data().getDouble("op");
+        return m_state->getDouble("op");
     }
 
     float roll() const {
-        return data().getDouble("or");
+        return m_state->getDouble("or");
     }
 
     int32_t joystickX() {

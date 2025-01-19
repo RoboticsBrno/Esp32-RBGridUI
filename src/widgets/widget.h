@@ -107,7 +107,11 @@ public:
     WidgetState(uint16_t uuid, float x, float y, float w, float h, uint16_t tab);
 
     uint16_t uuid() const { return m_uuid; }
-    const rbjson::Object& data() const { return m_data; }
+
+    std::string getString(const std::string& key, std::string def = "") const;
+    int64_t getInt(const std::string& key, int64_t def = 0) const;
+    double getDouble(const std::string& key, double def = 0.0) const;
+    bool getBool(const std::string& key, bool def = false) const;
 
     bool set(const std::string& key, rbjson::Value* value);
     bool setInnerObjectProp(const std::string& objectName, const std::string& propertyName,
@@ -120,12 +124,19 @@ public:
     }
 
     WidgetPos pos() const {
-        return WidgetPos(m_data.getInt("p"));
+        return WidgetPos(getInt("p"));
     }
 
     void setPos(const WidgetPos& p) {
-        m_data.set("p", p.encoded());
+        set("p", new rbjson::Number(p.encoded()));
     }
+
+    // Use dataLocked only with sharedStateLock or uniqueStateLock locked.
+    // shared is for reads, unique for writes.
+    std::unique_lock<std::mutex> uniqueStateLock() {
+        return std::unique_lock<std::mutex>(m_mutex);
+    }
+    const rbjson::Object& dataLocked() const { return m_data; }
 
 private:
     // Each mutex is ~100 bytes of heap allocation. Let's keep just one for this.
@@ -239,7 +250,7 @@ public:
     }
 
     uint16_t widgetTab() const {
-        return data().getInt("tab");
+        return m_state->getInt("tab");
     }
 
     void setCss(const std::string& propertyName, const std::string& value) {
@@ -247,7 +258,8 @@ public:
     }
 
     std::string css(const std::string& propertyName) const {
-        auto* css = data().getObject("css");
+        auto lock = m_state->uniqueStateLock();
+        auto* css = m_state->dataLocked().getObject("css");
         if (css == nullptr)
             return "";
         return css->getString(propertyName);
@@ -259,8 +271,6 @@ protected:
     }
 
     Widget& operator=(const Widget&) = delete;
-
-    const rbjson::Object& data() const { return static_cast<const WidgetState*>(m_state)->data(); }
 
     WidgetState* m_state;
 

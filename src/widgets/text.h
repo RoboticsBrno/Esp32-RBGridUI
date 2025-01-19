@@ -18,7 +18,7 @@ public:
     }
 
     std::string text() const {
-        return data().getString("text");
+        return m_state->getString("text");
     }
 
     void setFontSize(float fontSize) {
@@ -26,7 +26,7 @@ public:
     }
 
     float fontSize() const {
-        return data().getDouble("fontSize");
+        return m_state->getDouble("fontSize");
     }
 
     void setColor(const std::string& color) {
@@ -34,7 +34,7 @@ public:
     }
 
     std::string color() const {
-        return data().getString("color");
+        return m_state->getString("color");
     }
 
     void setBackground(const std::string& background) {
@@ -42,7 +42,7 @@ public:
     }
 
     std::string background() const {
-        return data().getString("background");
+        return m_state->getString("background");
     }
 
     void setAlign(const std::string& align) {
@@ -50,7 +50,7 @@ public:
     }
 
     std::string align() const {
-        return data().getString("align");
+        return m_state->getString("align");
     }
 
     void setValign(const std::string& valign) {
@@ -58,7 +58,7 @@ public:
     }
 
     std::string valign() const {
-        return data().getString("valign");
+        return m_state->getString("valign");
     }
 
     void setPrefix(const std::string& prefix) {
@@ -66,7 +66,7 @@ public:
     }
 
     std::string prefix() const {
-        return data().getString("prefix");
+        return m_state->getString("prefix");
     }
 
     void setSuffix(const std::string& suffix) {
@@ -74,7 +74,7 @@ public:
     }
 
     std::string suffix() const {
-        return data().getString("suffix");
+        return m_state->getString("suffix");
     }
 
     void setNumber(float number) {
