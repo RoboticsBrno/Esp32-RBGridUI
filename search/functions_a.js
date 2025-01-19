@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['keys_0',['keys',['../classgridui_1_1builder_1_1Joystick.html#ab500d0c2853d7bd9aff736d3f824c485',1,'gridui::builder::Joystick::keys(const std::string &amp;keys)'],['../classgridui_1_1builder_1_1Joystick.html#ad0a026555b3c74c0a75f030c2efcbc3f',1,'gridui::builder::Joystick::keys(char forward, char left, char backwards, char right, char click=0)'],['../classgridui_1_1Joystick.html#a107a923827cf378c82ef966a6c3eb212',1,'gridui::Joystick::keys()']]]
+  ['joystick_0',['joystick',['../classgridui_1_1__GridUi.html#af50ea0a829b50b8f0dd5e7b572b40614',1,'gridui::_GridUi']]],
+  ['joystickx_1',['joystickX',['../classgridui_1_1Orientation.html#aa105030925e1cb02c7d03132d1570949',1,'gridui::Orientation']]],
+  ['joysticky_2',['joystickY',['../classgridui_1_1Orientation.html#afb333731967d821ce89d3842338fa9a9',1,'gridui::Orientation']]]
 ];

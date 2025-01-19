@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['led_0',['led',['../classgridui_1_1__GridUi.html#a18bba94123aa76c8c5484561115c4848',1,'gridui::_GridUi']]],
-  ['linewidth_1',['linewidth',['../classgridui_1_1builder_1_1Circle.html#af10f18eaa8937372809e1df1f4692ae8',1,'gridui::builder::Circle::lineWidth()'],['../classgridui_1_1Circle.html#ae939e32586680589c0816b76c253e229',1,'gridui::Circle::lineWidth()']]]
+  ['keys_0',['keys',['../classgridui_1_1builder_1_1Joystick.html#ab500d0c2853d7bd9aff736d3f824c485',1,'gridui::builder::Joystick::keys(const std::string &amp;keys)'],['../classgridui_1_1builder_1_1Joystick.html#ad0a026555b3c74c0a75f030c2efcbc3f',1,'gridui::builder::Joystick::keys(char forward, char left, char backwards, char right, char click=0)'],['../classgridui_1_1Joystick.html#a107a923827cf378c82ef966a6c3eb212',1,'gridui::Joystick::keys()']]]
 ];
