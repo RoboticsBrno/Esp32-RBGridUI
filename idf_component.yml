@@ -1,5 +1,5 @@
 dependencies:
   idf: ">=5.1"
-  RB3201-RBProtocol-library:
+  roboticsbrno/rb3201-rbprotocol-library:
     git: https://github.com/RoboticsBrno/RB3201-RBProtocol-library.git
-    version: v14.0.3
+    version: v14.0.4

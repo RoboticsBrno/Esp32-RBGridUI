@@ -7,7 +7,7 @@ set(SRCS
 idf_component_register(
     SRCS ${SRCS}
     INCLUDE_DIRS "./src"
-    REQUIRES esp_timer RB3201-RBProtocol-library
+    REQUIRES esp_timer rb3201-rbprotocol-library
     EMBED_FILES ${CMAKE_CURRENT_BINARY_DIR}/combined.js.gz ${CMAKE_CURRENT_BINARY_DIR}/index.html.gz
 )
 
